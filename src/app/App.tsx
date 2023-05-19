@@ -18,7 +18,11 @@ const App = () => (
   <MainLayout>
     <Sidebar linksArray={linksArray} />
     <Routes>
-      <Route path='/vacancies' element={<BasicLayout />} />
+      <Route path='/vacancies' element={<BasicLayout title='Вакансии' />} />
+      <Route path='/candidats' element={<BasicLayout title='Кандидаты' />} />
+      <Route path='/structure' element={<BasicLayout title='Структура' />} />
+      <Route path='/analitics' element={<BasicLayout title='Аналитика' />} />
+      <Route path='/settings' element={<BasicLayout title='Настройки' />} />
     </Routes>
   </MainLayout>
 

@@ -2,14 +2,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { TSidebar } from '../types/components-types';
 import {
-    BagIcon, ProfileIcon, EditIcon, ChartIcon, StructureIcon,
+  BagIcon, ProfileIcon, EditIcon, ChartIcon, StructureIcon,
 } from './icons';
 
-import Logo from '../assets/images/Logo.png'
+import Logo from '../assets/images/Logo.png';
 import { tabletBreakpoint } from '../services/constants/screen-sizes';
-import { useNavigate } from 'react-router';
+
 const SidebarNav = styled.aside`
     position: fixed;
     left: 0;
@@ -64,33 +65,28 @@ const ItemName = styled.p<{ isActive: boolean }>`
 const LogoMain = styled.img`
     width: 150px;
     height: 20px;
- `
-
+ `;
 
 const Sidebar: FC<TSidebar> = ({ linksArray }) => {
-    const navigate = useNavigate()
-    return (
-        <SidebarNav>
-            <LogoMain src={Logo} />
+  const location = useLocation();
 
-            <SidebarItemsList>
-                <SideBarList>
-                    {linksArray.map((el) => (
-                        <SideBarItem onClick={() => navigate(el.path)} >
-                            <el.icon isActive={false} />
-                            <ItemName isActive={false}>{el.title}</ItemName>
-                        </SideBarItem>
-                    ))}
-                </SideBarList>
-            </SidebarItemsList>
-        </SidebarNav>
-    )
+  const navigate = useNavigate();
+  return (
+    <SidebarNav>
+      <LogoMain src={Logo} />
 
-
-
-
-
-
+      <SidebarItemsList>
+        <SideBarList>
+          {linksArray.map((el) => (
+            <SideBarItem key={el.title} onClick={() => navigate(el.path)}>
+              <el.icon isActive={location.pathname === el.urlName} />
+              <ItemName isActive={location.pathname === el.urlName}>{el.title}</ItemName>
+            </SideBarItem>
+          ))}
+        </SideBarList>
+      </SidebarItemsList>
+    </SidebarNav>
+  );
 };
 
 export default Sidebar;

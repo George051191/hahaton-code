@@ -16,11 +16,11 @@ font-size: 40px;
 line-height: 125%;
 margin: 0;
 color: ${({ theme: { headerH1 } }) => headerH1};
- `
+ `;
 
-const BasicLayout = () => (
+const BasicLayout: FC<{ title: string }> = ({ title }) => (
     <Layout>
-        <SectionTitle>Кандидаты</SectionTitle>
+        <SectionTitle>{title}</SectionTitle>
     </Layout>
 );
 
