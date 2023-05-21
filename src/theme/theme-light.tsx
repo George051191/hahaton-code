@@ -9,7 +9,8 @@ import {
     secondaryButtonsColor,
     bgColor,
     actionButtonsColor,
-    sidebarColor
+    sidebarColor,
+    inputBg
 } from '../services/constants/colors';
 
 import { TTheme } from '../types/theme-types';
@@ -23,7 +24,8 @@ const themeLight: TTheme = {
     secondaryButtonsColor: secondaryButtonsColor,
     bgColor: bgColor,
     actionButtonsColor: actionButtonsColor,
-    sidebarColor: sidebarColor
+    sidebarColor: sidebarColor,
+    inputBg: inputBg
 }
 
 export default themeLight;

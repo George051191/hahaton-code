@@ -30,12 +30,13 @@ module.exports = {
             "jsx": true,
             impliedStrict: 'true'
         },
-        "ecmaVersion": 12, // Версия стандарта JavaScript. Последний 12 (2021).
-        "sourceType": "module", // Позволяет использовать import/export
+        "ecmaVersion": 12,
+        "sourceType": "module",
         project: './tsconfig.json'
     },
     ignorePatterns: ['*.cjs', 'src/reportWebVitals.js', 'src/reportWebVitals.ts'],
     rules: {
+        "linebreak-style": 0,
         'no-underscore-dangle': ['error', {
             allow: ['_id', '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'],
             enforceInMethodNames: true,

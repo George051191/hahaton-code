@@ -7,6 +7,7 @@ import Sidebar from '../components/SideBar';
 import BasicLayout from '../components/BasicLayout';
 import { linksArray } from '../services/constants/utils';
 
+
 const MainLayout = styled.main`
   width: 100%;
   height: 100vh;

@@ -9,3 +9,21 @@ export type TSidebar = {
     path: string
   }[];
 };
+
+
+export type TBasicInput = {
+  onChange: () => void;
+  title: string;
+  type: string;
+  error?: string;
+}
+
+export type TInputWithSelect = {
+  title: string;
+  onChange: () => void;
+  onOptionClick: (e: any) => void;
+  propertiesArray: string[];
+  value: string;
+  isDataOpen: boolean;
+  dataArray: string[];
+}

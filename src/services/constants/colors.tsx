@@ -7,6 +7,7 @@ const secondaryButtonsColor = 'rgba(255, 78, 88, 1)';
 const bgColor = 'rgba(255, 255, 255, 1)';
 const actionButtonsColor = 'rgba(0, 143, 250, 1)';
 const sidebarColor = 'rgba(243, 245, 249, 1)';
+const inputBg = 'rgba(240, 244, 246, 1)';
 export {
   headerH1,
   navItemsColor,
@@ -17,4 +18,5 @@ export {
   bgColor,
   actionButtonsColor,
   sidebarColor,
+  inputBg
 };
