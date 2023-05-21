@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
-import { BasicInput, InputWithSelect } from './inputs';
+import { BasicInput, InputWithSelect, TextArea } from './inputs';
 
 const Layout = styled.section`
         margin-left: 294px;
@@ -20,33 +20,39 @@ color: ${({ theme: { headerH1 } }) => headerH1};
  `;
 
 const BasicLayout: FC<{ title: string }> = ({ title }) => {
-    const [division, setDivision] = useState<string[]>([]);
-    const [isDivisionOpen, openDivisions] = useState(false);
+  const [division, setDivision] = useState<string[]>([]);
+  const [isDivisionOpen, openDivisions] = useState(false);
 
-    /// с сервера приходят имена сотрудников и названия подразделений
-    const dataArray = ['Георгий Александрович', 'Гevorg Александрович'];
+  /// с сервера приходят имена сотрудников и названия подразделений
+  const dataArray = ['Георгий Александрович', 'Гevorg Александрович'];
 
-
-    const checkStatus = (e: any) => {
-        if (division.includes(e.target.value)) {
-            return
-        }
-        setDivision([...division, e.target.value])
+  const checkStatus = (e: any) => {
+    if (division.includes(e.target.value)) {
+      return;
     }
+    setDivision([...division, e.target.value]);
+  };
 
-    return (
-        <Layout>
-            <SectionTitle>{title}</SectionTitle>
-            <InputWithSelect
+  const deleteItem = (item: string) => {
+    const arr = division.filter((el) => el !== item);
+    setDivision(arr);
+  };
+
+  return (
+    <Layout>
+      <SectionTitle>{title}</SectionTitle>
+      <TextArea onChange={() => console.log(123)} title='Обязанности кандидата' />
+      {/*  <InputWithSelect
                 dataArray={division}
                 isDataOpen={isDivisionOpen}
                 value={`Выбрано ${division.length}`}
                 title='Должность'
                 onChange={() => openDivisions(!isDivisionOpen)}
                 onOptionClick={(e) => { checkStatus(e); openDivisions(false); }}
-                propertiesArray={dataArray} />
-        </Layout>
-    );
+                propertiesArray={dataArray}
+                deleteItem={deleteItem} /> */}
+    </Layout>
+  );
 };
 
 export default BasicLayout;

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Sidebar from '../components/SideBar';
 import BasicLayout from '../components/BasicLayout';
 import { linksArray } from '../services/constants/utils';
-
+import LayoutForCreateVacancy from '../components/LayoutForCreateVacancy';
 
 const MainLayout = styled.main`
   width: 100%;
@@ -23,7 +23,7 @@ const App = () => (
       <Route path='/candidats' element={<BasicLayout title='Кандидаты' />} />
       <Route path='/structure' element={<BasicLayout title='Структура' />} />
       <Route path='/analitics' element={<BasicLayout title='Аналитика' />} />
-      <Route path='/settings' element={<BasicLayout title='Настройки' />} />
+      <Route path='/create' element={<LayoutForCreateVacancy />} />
     </Routes>
   </MainLayout>
 

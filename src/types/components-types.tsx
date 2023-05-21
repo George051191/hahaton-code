@@ -12,11 +12,14 @@ export type TSidebar = {
 
 
 export type TBasicInput = {
-  onChange: () => void;
+  onChange: (e: any) => void;
   title: string;
   type: string;
   error?: string;
-}
+  name: string;
+};
+
+export type TBasicTextArea = Omit<TBasicInput, 'type' | 'error'>
 
 export type TInputWithSelect = {
   title: string;
@@ -26,4 +29,18 @@ export type TInputWithSelect = {
   value: string;
   isDataOpen: boolean;
   dataArray: string[];
-}
+  deleteItem: (el: string) => void;
+};
+
+export type TInputForAmount = {
+  onIncrease: () => void;
+  onDecrease: () => void;
+  value: number;
+  title: string;
+};
+
+export type TInputWithDate = {
+  onClick: () => void;
+  value: string;
+  title: string;
+};

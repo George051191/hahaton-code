@@ -33,7 +33,14 @@ const SidebarItemsList = styled.nav`
     display: flex;
     flex: auto;
     padding-top: 100px;
-  
+    flex-direction: column;
+    gap: 354px;
+    @media screen and (max-height: 785px) {
+      gap: 200px;
+    }
+    @media screen and (max-height: 680px) {
+      gap: 50px;
+    }
 `;
 const SideBarList = styled.ul`
     display: flex;
@@ -67,6 +74,26 @@ const LogoMain = styled.img`
     height: 20px;
  `;
 
+const AddButton = styled.button`
+  width: 150px;
+  height: 33px;
+  display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 8px 14px;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+background-color: ${({ theme: { mainButtonsColor } }) => mainButtonsColor};
+color: ${({ theme: { bgColor } }) => bgColor};
+cursor: pointer;
+border: none;
+outline: none;
+`;
+
 const Sidebar: FC<TSidebar> = ({ linksArray }) => {
   const location = useLocation();
 
@@ -84,7 +111,9 @@ const Sidebar: FC<TSidebar> = ({ linksArray }) => {
             </SideBarItem>
           ))}
         </SideBarList>
+        <AddButton onClick={() => navigate('/create')}>+ Добавить</AddButton>
       </SidebarItemsList>
+
     </SidebarNav>
   );
 };

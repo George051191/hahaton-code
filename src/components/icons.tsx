@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable ternary/no-unreachable */
 import React, { FC } from 'react';
 import styled from 'styled-components';
@@ -8,7 +9,10 @@ import { ReactComponent as ProfilePic } from '../assets/images/profile.svg';
 import { ReactComponent as ChartPic } from '../assets/images/chart.svg';
 import { ReactComponent as StructurePic } from '../assets/images/structure.svg';
 import { ReactComponent as ArrowPic } from '../assets/images/arrow.svg';
-import { ReactComponent as DeletePic } from '../assets/images/deletepng.png';
+import { ReactComponent as DeletePic } from '../assets/images/deleteIcon.svg';
+import { ReactComponent as MinusPic } from '../assets/images/minus.svg';
+import { ReactComponent as PlusPic } from '../assets/images/plus.svg';
+import { ReactComponent as ClockPic } from '../assets/images/clock.svg';
 
 export const BagIcon = styled(BagPic) <{ isActive: boolean }>`
   width: 17px;
@@ -66,3 +70,47 @@ export const ArrowIcon = styled(ArrowPic) <{ isActive: boolean }>`
   transform: ${({ isActive }) => (isActive ? 'rotate(180deg)' : 'rotate(360deg)')};
 `;
 
+export const DeleteIcon = styled(DeletePic) <{ top: number, right: number }>`
+     width: 12px;
+    height: 14px;
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    top:${({ top }) => top}px;
+    right: ${({ right }) => right}px;
+
+  
+`;
+
+export const MinusIcon = styled(MinusPic)`
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  position: absolute;
+    top: 35px;
+    left: 10px;
+`;
+
+export const PlusIcon = styled(PlusPic)`
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  position: absolute;
+  top: 35px;
+    right: 10px;
+`;
+
+export const ClockIcon = styled(ClockPic)`
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  position: absolute;
+  width: 14px;
+    height: 14px;
+    cursor: pointer;
+    position: absolute;
+    top: 37px;
+    right: 10px;
+    z-index: 500;
+
+`;
