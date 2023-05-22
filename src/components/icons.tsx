@@ -13,6 +13,8 @@ import { ReactComponent as DeletePic } from '../assets/images/deleteIcon.svg';
 import { ReactComponent as MinusPic } from '../assets/images/minus.svg';
 import { ReactComponent as PlusPic } from '../assets/images/plus.svg';
 import { ReactComponent as ClockPic } from '../assets/images/clock.svg';
+import { ReactComponent as EditVacancyPic } from '../assets/images/editicon.svg';
+import { ReactComponent as LinkPic } from '../assets/images/link.svg';
 
 export const BagIcon = styled(BagPic) <{ isActive: boolean }>`
   width: 17px;
@@ -114,3 +116,15 @@ export const ClockIcon = styled(ClockPic)`
     z-index: 500;
 
 `;
+
+export const EditVacancyIcon = styled(EditVacancyPic)`
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+`;
+
+export const LinkIcon = styled(LinkPic)`
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+`

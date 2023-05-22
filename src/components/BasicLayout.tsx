@@ -41,16 +41,7 @@ const BasicLayout: FC<{ title: string }> = ({ title }) => {
   return (
     <Layout>
       <SectionTitle>{title}</SectionTitle>
-      <TextArea onChange={() => console.log(123)} title='Обязанности кандидата' />
-      {/*  <InputWithSelect
-                dataArray={division}
-                isDataOpen={isDivisionOpen}
-                value={`Выбрано ${division.length}`}
-                title='Должность'
-                onChange={() => openDivisions(!isDivisionOpen)}
-                onOptionClick={(e) => { checkStatus(e); openDivisions(false); }}
-                propertiesArray={dataArray}
-                deleteItem={deleteItem} /> */}
+
     </Layout>
   );
 };

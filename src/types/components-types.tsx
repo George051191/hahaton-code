@@ -17,6 +17,7 @@ export type TBasicInput = {
   type: string;
   error?: string;
   name: string;
+  salary?: boolean;
 };
 
 export type TBasicTextArea = Omit<TBasicInput, 'type' | 'error'>
@@ -40,7 +41,7 @@ export type TInputForAmount = {
 };
 
 export type TInputWithDate = {
-  onClick: () => void;
+  onClick: (e: any) => void;
   value: string;
   title: string;
 };

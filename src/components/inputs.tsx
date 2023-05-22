@@ -230,6 +230,22 @@ color: ${({ pos, theme: { bgColor } }) => (pos === 4 ? 'rgba(27, 43, 65, 0.69)' 
 cursor: pointer;
 `;
 
+const CheckBoxContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+const CheckBox = styled.input<{ isChecked: boolean }>`
+  position: relative;
+  ::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    background:${({ isChecked }) => (isChecked ? 'transparent' : 'rgba(0, 143, 250, 1)')}; ;
+  }
+`;
+
 const InputWithSelect: FC<TInputWithSelect> = ({
   value, title, onChange, onOptionClick, propertiesArray, isDataOpen, dataArray, deleteItem,
 }) => {
@@ -247,47 +263,47 @@ const InputWithSelect: FC<TInputWithSelect> = ({
       <InputTitle htmlFor='list'>{title}</InputTitle>
       <Input id='list' value={value} onChange={onChange} />
       {dataArray.length >= 1
-              && (
-              <DeleteIcon
-                top={36}
-                right={38}
-                onClick={() => { openDeleteList(!isDeleteListOpen); }} />
-              )}
+        && (
+          <DeleteIcon
+            top={36}
+            right={38}
+            onClick={() => { openDeleteList(!isDeleteListOpen); }} />
+        )}
       <ArrowIcon isActive={isDataOpen} onClick={() => { onChange(); openDeleteList(false); }} />
       {isDeleteListOpen && dataArray.length >= 1
-                && (
-                <DeleteList>
-                  {dataArray.map((el) => (
-                    <DeleteListItem>
-                      {el}
-                      <DeleteIcon top={5} right={44} onClick={() => deleteItem(el)} />
-                    </DeleteListItem>
-                  ))}
-                </DeleteList>
-                )}
+        && (
+          <DeleteList>
+            {dataArray.map((el) => (
+              <DeleteListItem>
+                {el}
+                <DeleteIcon top={5} right={44} onClick={() => deleteItem(el)} />
+              </DeleteListItem>
+            ))}
+          </DeleteList>
+        )}
       {!isDataOpen && !isDeleteListOpen
-                && (
-                <List>
-                  {dataArray.slice(0, 5).map((el, index) => (
-                    <ListItem
-                      onClick={() => { openDeleteList(!isDeleteListOpen); }}
-                      key={el}
-                      pos={index}>
-                      {getNumberOfRest(index, dataArray)}
-                    </ListItem>
-                  ))}
-                </List>
-                )}
+        && (
+          <List>
+            {dataArray.slice(0, 5).map((el, index) => (
+              <ListItem
+                onClick={() => { openDeleteList(!isDeleteListOpen); }}
+                key={el}
+                pos={index}>
+                {getNumberOfRest(index, dataArray)}
+              </ListItem>
+            ))}
+          </List>
+        )}
       {isDataOpen && !isDeleteListOpen
-                && (
-                <Datalist>
-                  {propertiesArray.map((el) => (
-                    <DataListItem key={el} onClick={onOptionClick}>
-                      {el}
-                    </DataListItem>
-                  ))}
-                </Datalist>
-                )}
+        && (
+          <Datalist>
+            {propertiesArray.map((el) => (
+              <DataListItem key={el} onClick={onOptionClick}>
+                {el}
+              </DataListItem>
+            ))}
+          </Datalist>
+        )}
     </InputWrapper>
   );
 };
@@ -305,12 +321,19 @@ const InputForPositionSelect: FC<TInputForAmount> = ({
 );
 
 const BasicInput: FC<TBasicInput> = ({
-  onChange, title, type, error, name,
+  onChange, title, type, error, name, salary,
 }) => (
   <InputWrapper>
     <InputTitle htmlFor='base'>{title}</InputTitle>
     <Input name={name} id='base' type={type} onChange={onChange} />
     <Error>{error}</Error>
+    {salary
+      && (
+        <CheckBoxContainer>
+          <CheckBox type='checkbox' id='check' />
+          <InputTitle htmlFor='check'>Включая налоги</InputTitle>
+        </CheckBoxContainer>
+      )}
   </InputWrapper>
 );
 
