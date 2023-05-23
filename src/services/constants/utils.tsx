@@ -10,3 +10,13 @@ export const linksArray = [
     { icon: EditIcon, urlName: '/settings', title: 'Настройки', path: '/settings' },
 
 ];
+
+export const getNumberOfRest = (index: number, array: string[]) => {
+    if (index === 4) {
+        return `+${array.length - 4}`;
+    }
+    const Tab = array[index].indexOf(' ');
+    return array[index][0] + array[index][Tab + 1];
+};
+
+

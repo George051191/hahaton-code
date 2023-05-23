@@ -9,6 +9,7 @@ import {
 import {
   ArrowIcon, DeleteIcon, PlusIcon, MinusIcon, ClockIcon, ClearArrowIcon
 } from './icons';
+import { getNumberOfRest } from '../services/constants/utils';
 
 const Input = styled.input`
 border: none;
@@ -251,13 +252,7 @@ const InputWithSelect: FC<TInputWithSelect> = ({
 }) => {
   const [isDeleteListOpen, openDeleteList] = useState(false);
 
-  const getNumberOfRest = (index: number, array: string[]) => {
-    if (index === 4) {
-      return `+${array.length - 4}`;
-    }
-    const Tab = array[index].indexOf(' ');
-    return array[index][0] + array[index][Tab + 1];
-  };
+
   return (
     <InputWrapper>
       <InputTitle htmlFor='list'>{title}</InputTitle>
@@ -380,7 +375,7 @@ const DropdownButton = styled.button`
 const DropdownList = styled.ul`
   padding: 0;
   margin: 0;
-  background: rgba(26, 56, 96, 0.1);
+  background: rgb(243, 245, 249);
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -388,6 +383,7 @@ const DropdownList = styled.ul`
     width: 100%;
     top: 41px;
     left: 0;
+    z-index: 500;
 `;
 
 const DropdownListPlaceItem = styled.li`

@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { LinkIcon, EditVacancyIcon, GarbageIcon } from './icons';
 import { TRequestVacancyPlate, StatusEnum } from '../types/components-types';
 import { useNavigate } from 'react-router';
+import { getNumberOfRest } from '../services/constants/utils';
 
 const Wrapper = styled.div`
     max-width: 1025px;
@@ -157,13 +158,7 @@ const RequestVacancyPlate: FC<TRequestVacancyPlate> = ({
   title, salary, amount, coordinators, divisions, stats, date,
 }) => {
   const navigate = useNavigate();
-  const getNumberOfRest = (index: number, array: string[]) => {
-    if (index === 4) {
-      return `+${array.length - 4}`;
-    }
-    const Tab = array[index].indexOf(' ');
-    return array[index][0] + array[index][Tab + 1];
-  };
+
   return (
     <Wrapper>
       <VacancCell>

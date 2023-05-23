@@ -162,6 +162,17 @@ const OptionButton = styled.button<{ direction: string }>`
 const PublishingLayout: FC = () => {
     const [stage, setStage] = useState<number>(1);
     const arr = ['Главный офис', 'Офис на Красной 125', 'Офис город Москва'];
+    const levelsArray = [
+        { title: 'Новое', bgColor: '#F3F5F9', border: '#B0B0B0' },
+        { title: 'Отправка письма', bgColor: '#7B61FF1A', border: '#7B61FF' },
+        { title: 'Интервью с HR', bgColor: '#00389A1A', border: '#00389A' },
+        { title: 'Интервью с заказчиком', bgColor: '#008FFA1A', border: '#008FFA' },
+        { title: 'Интервью с командой', bgColor: '#E75AD91A', border: '#E75AD9' },
+        { title: 'Оффер', bgColor: '#FFDA151A', border: '#FFDA15' },
+        { title: 'Вышел на работу', bgColor: '#0788361A', border: '#078836' },
+        { title: 'Отказ', bgColor: '#FF4E580D', border: '#FF4E58' }
+    ]
+    const approvers = ['Павел Павел', 'Гена Гена', 'Ира Ира'];
     return (
         <Layout>
             <NavigateConatainer>
@@ -275,7 +286,7 @@ const PublishingLayout: FC = () => {
 
                 </Form>
             </FormContainer>}
-            <Constructor />
+            <Constructor levelsArray={levelsArray} approvers={approvers} />
             {/*  <ButtonsContainer>
                 <OptionButton onClick={() => setStage(1)} disabled={stage === 1} type='button' direction={stage === 1 ? '' : 'Back'}>Назад</OptionButton>
                 <OptionButton onClick={() => setStage(2)} type='button' direction='Next'>Продолжить</OptionButton>

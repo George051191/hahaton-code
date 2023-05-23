@@ -67,3 +67,11 @@ export type TRequestVacancyPlate = {
   date: string;
 };
 
+export type TConstructor = {
+  levelsArray: {
+    title: string,
+    bgColor: string,
+    border: string
+  }[];
+  approvers: string[];
+}

@@ -17,6 +17,7 @@ import { ReactComponent as EditVacancyPic } from '../assets/images/editicon.svg'
 import { ReactComponent as LinkPic } from '../assets/images/link.svg';
 import { ReactComponent as GarbagePic } from '../assets/images/garbage.svg';
 import { ReactComponent as PencilPic } from '../assets/images/pencil.svg';
+import { ReactComponent as ThreePic } from '../assets/images/three.svg';
 
 export const BagIcon = styled(BagPic) <{ isActive: boolean }>`
   width: 17px;
@@ -157,6 +158,12 @@ export const GarbageIcon = styled(GarbagePic)`
 
 export const PencilIcon = styled(PencilPic)`
    width: 15px;
+  height: 15px;
+  cursor: pointer;
+`;
+
+export const ThreeIcon = styled(ThreePic)`
+  width: 15px;
   height: 15px;
   cursor: pointer;
 `;
