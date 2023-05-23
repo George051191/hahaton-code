@@ -7,7 +7,7 @@ import {
   TBasicInput, TInputWithSelect, TBasicTextArea, TInputForAmount, TInputWithDate,
 } from '../types/components-types';
 import {
-  ArrowIcon, DeleteIcon, PlusIcon, MinusIcon, ClockIcon,
+  ArrowIcon, DeleteIcon, PlusIcon, MinusIcon, ClockIcon, ClearArrowIcon
 } from './icons';
 
 const Input = styled.input`
@@ -321,11 +321,11 @@ const InputForPositionSelect: FC<TInputForAmount> = ({
 );
 
 const BasicInput: FC<TBasicInput> = ({
-  onChange, title, type, error, name, salary,
+  onChange, title, type, error, name, salary, placeholder,
 }) => (
   <InputWrapper>
     <InputTitle htmlFor='base'>{title}</InputTitle>
-    <Input name={name} id='base' type={type} onChange={onChange} />
+    <Input placeholder={placeholder} name={name} id='base' type={type} onChange={onChange} />
     <Error>{error}</Error>
     {salary
       && (
@@ -356,6 +356,89 @@ const InputWithDate: FC<TInputWithDate> = ({ title, value, onClick }) => {
   );
 };
 
+const DropdownBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+const DropdownButton = styled.button`
+  border: none;
+  outline: none;
+  height: 36px;
+  position: relative;
+  background-color:  rgba(26, 56, 96, 0.1);
+  color: ${({ theme: { inputValuesColor } }) => inputValuesColor};
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  width: 100%;
+  text-align: inherit;
+`;
+
+const DropdownList = styled.ul`
+  padding: 0;
+  margin: 0;
+  background: rgba(26, 56, 96, 0.1);
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  position: absolute;
+    width: 100%;
+    top: 41px;
+    left: 0;
+`;
+
+const DropdownListPlaceItem = styled.li`
+   color: ${({ theme: { inputValuesColor } }) => inputValuesColor};
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  cursor: pointer;
+  text-align: initial;
+    margin-left: 7px;
+    :hover {
+      color: ${({ theme: { mainButtonsColor } }) => mainButtonsColor};
+    }
+`;
+const BoxesHeader = styled.h3`
+ margin: 0;
+ margin-bottom: 7px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    display: flex;
+    align-items: center;
+    color: ${({ theme: { labelColor } }) => labelColor};
+`;
+
+const Dropdown: FC<{ items: string[], withTitle: boolean }> = ({ items, withTitle }) => {
+  const [isOpen, setOpen] = useState(false);
+  const [division, setDivision] = useState('');
+  return (
+    <DropdownBox>
+      {withTitle && <BoxesHeader>Место работы</BoxesHeader>}
+      <DropdownButton type='button'>
+        <ClearArrowIcon isActive={isOpen} onClick={() => setOpen(!isOpen)} />
+        {division}
+        {isOpen
+          && (
+            <DropdownList>
+              {items.map((el) => (
+                <DropdownListPlaceItem onClick={() => setDivision(el)}>{el}</DropdownListPlaceItem>
+              ))}
+            </DropdownList>
+          )}
+      </DropdownButton>
+    </DropdownBox>
+  );
+};
+
 export {
-  BasicInput, InputWithSelect, TextArea, InputForPositionSelect, InputWithDate,
+  BasicInput, InputWithSelect, TextArea, InputForPositionSelect, InputWithDate, Dropdown
 };

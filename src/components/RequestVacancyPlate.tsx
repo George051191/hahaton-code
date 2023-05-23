@@ -4,10 +4,12 @@
 /* eslint-disable ternary/nesting */
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
-import { LinkIcon, EditVacancyIcon } from './icons';
+import { LinkIcon, EditVacancyIcon, GarbageIcon } from './icons';
+import { TRequestVacancyPlate, StatusEnum } from '../types/components-types';
+import { useNavigate } from 'react-router';
 
 const Wrapper = styled.div`
-    max-width: 1000px;
+    max-width: 1025px;
     width: 100%;
     height: 72px;
     display: flex;
@@ -17,9 +19,16 @@ const Wrapper = styled.div`
     gap: 10px;
 `;
 
-const IconWrapper = styled.div`
-    width: 15px;
-    height: 15px;
+const IconWrapper = styled.div<{ stats: 'red' | 'grey' | 'blue' }>`
+    width: 30px;
+    height: 23px;
+    background: ${({ stats }) => (stats === 'red' ? 'rgba(255, 78, 88, 0.05)'
+    : stats === 'grey' ? 'rgba(243, 245, 249, 1)'
+      : 'rgba(25, 59, 103, 0.05)')
+  };
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const VacancCell = styled.div`
@@ -61,32 +70,31 @@ const List = styled.ul`
     margin-bottom: 5px;
     
 `;
-const enum StatusEnum {
-  send = 'send',
-  cancel = 'cancel',
-  agreed = 'agreed',
-  inprocess = 'inprocess',
-}
 
-const VacancyStatus = styled.div<{ status: string }>`
+const VacancyStatus = styled.div<{ status: StatusEnum }>`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     padding: 5px;
     gap: 10px;
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 134%;
     background-color: ${({ status }) => (status === StatusEnum.send
     ? 'rgba(244, 244, 244, 1)'
     : status === StatusEnum.cancel ? 'rgba(255, 239, 240, 1)'
       : status === StatusEnum.agreed ? 'rgba(240, 255, 246, 1)'
         : 'rgba(232, 245, 255, 1)')
-};
+  };
     color: ${({ status }) => (status === StatusEnum.send
     ? 'rgba(28, 28, 28, 1)'
     : status === StatusEnum.cancel ? 'rgba(255, 78, 88, 1)'
       : status === StatusEnum.agreed ? 'rgba(53, 160, 96, 1)'
         : 'rgba(0, 56, 154, 1)')
 
-};  
+  };  
     width: 127px;
 
 `;
@@ -119,31 +127,36 @@ const ListItem = styled.li<{ pos: number }>`
     cursor: pointer;
 `;
 
-const CloseButton = styled.button`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 8px 14px;
-    gap: 4px;
-  
-    width: 88px;
-    height: 33px;
-    background: rgba(25, 59, 103, 0.05);
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
-    color: ${({ theme: { secondaryButtonsColor } }) => secondaryButtonsColor};
-    cursor: pointer;
-    border: none;
-    outline: none;
+const PublishButton = styled.button`
+  display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 8px 14px;
+gap: 4px;
+border: none;
+outline: none;
+margin-top: 5px;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+display: flex;
+align-items: center;
+text-align: center;
+color: ${({ theme: { bgColor } }) => bgColor};
+width: 198px;
+height: 33px;
+background:${({ theme: { mainButtonsColor } }) => mainButtonsColor};
+cursor: pointer;
 `;
 
-const RequestVacancyPlate: FC = () => {
-  /// / from backend
-  const namesArray = ['Георгий Александрович', 'Гevorg Александрович', 'Георгий Александрович', 'Гevorg Александрович', 'Георгий Александрович', 'Гevorg Александрович'];
-  const stats = 'agreed';
+
+const RequestVacancyPlate: FC<TRequestVacancyPlate> = ({
+  title, salary, amount, coordinators, divisions, stats, date,
+}) => {
+  const navigate = useNavigate();
   const getNumberOfRest = (index: number, array: string[]) => {
     if (index === 4) {
       return `+${array.length - 4}`;
@@ -154,40 +167,43 @@ const RequestVacancyPlate: FC = () => {
   return (
     <Wrapper>
       <VacancCell>
-        <Vacancy>Секретарь главного директора</Vacancy>
-        <Span>14.07.2023</Span>
+        <Vacancy>{title}</Vacancy>
+        <Span>{date}</Span>
+        {stats === StatusEnum.agreed && <PublishButton onClick={() => navigate('/publish')}>Опубликовать вакансию</PublishButton>}
       </VacancCell>
       <List>
-        {namesArray.slice(0, 5).map((el, index) => (
+        {divisions.slice(0, 5).map((el, index) => (
           <ListItem
             key={el}
             pos={index}>
-            {getNumberOfRest(index, namesArray)}
+            {getNumberOfRest(index, divisions)}
           </ListItem>
         ))}
       </List>
       <List>
-        {namesArray.slice(0, 5).map((el, index) => (
+        {coordinators.slice(0, 5).map((el, index) => (
           <ListItem
             key={el}
             pos={index}>
-            {getNumberOfRest(index, namesArray)}
+            {getNumberOfRest(index, coordinators)}
           </ListItem>
         ))}
       </List>
-      <Span>1</Span>
-      <Span>45000</Span>
+      <Span>{amount}</Span>
+      <Span>{salary}</Span>
       <VacancyStatus status={stats}>
         {stats === StatusEnum.agreed ? 'Согласована' : stats === StatusEnum.cancel ? 'Отклонена' : stats === StatusEnum.send ? 'Отправлена' : 'На согласование'}
       </VacancyStatus>
-      <IconWrapper>
+      <IconWrapper stats='grey'>
         <LinkIcon />
       </IconWrapper>
 
-      <IconWrapper>
+      <IconWrapper stats='blue'>
         <EditVacancyIcon />
       </IconWrapper>
-      <CloseButton>Закрыть</CloseButton>
+      <IconWrapper stats='red'>
+        <GarbageIcon />
+      </IconWrapper>
     </Wrapper>
   );
 };

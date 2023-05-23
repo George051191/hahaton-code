@@ -18,6 +18,7 @@ export type TBasicInput = {
   error?: string;
   name: string;
   salary?: boolean;
+  placeholder?: string;
 };
 
 export type TBasicTextArea = Omit<TBasicInput, 'type' | 'error'>
@@ -26,11 +27,11 @@ export type TInputWithSelect = {
   title: string;
   onChange: () => void;
   onOptionClick: (e: any) => void;
-  propertiesArray: string[];
+  propertiesArray?: string[];
   value: string;
-  isDataOpen: boolean;
-  dataArray: string[];
-  deleteItem: (el: string) => void;
+  isDataOpen?: boolean;
+  dataArray?: string[];
+  deleteItem?: (el: string) => void;
 };
 
 export type TInputForAmount = {
@@ -45,3 +46,24 @@ export type TInputWithDate = {
   value: string;
   title: string;
 };
+
+
+
+
+export const enum StatusEnum {
+  send = 'send',
+  cancel = 'cancel',
+  agreed = 'agreed',
+  inprocess = 'inprocess',
+};
+
+export type TRequestVacancyPlate = {
+  title: string;
+  divisions: string[];
+  coordinators: string[];
+  amount: number;
+  salary: number;
+  stats: StatusEnum;
+  date: string;
+};
+

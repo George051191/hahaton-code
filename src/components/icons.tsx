@@ -15,6 +15,8 @@ import { ReactComponent as PlusPic } from '../assets/images/plus.svg';
 import { ReactComponent as ClockPic } from '../assets/images/clock.svg';
 import { ReactComponent as EditVacancyPic } from '../assets/images/editicon.svg';
 import { ReactComponent as LinkPic } from '../assets/images/link.svg';
+import { ReactComponent as GarbagePic } from '../assets/images/garbage.svg';
+import { ReactComponent as PencilPic } from '../assets/images/pencil.svg';
 
 export const BagIcon = styled(BagPic) <{ isActive: boolean }>`
   width: 17px;
@@ -72,6 +74,17 @@ export const ArrowIcon = styled(ArrowPic) <{ isActive: boolean }>`
   transform: ${({ isActive }) => (isActive ? 'rotate(180deg)' : 'rotate(360deg)')};
 `;
 
+export const ClearArrowIcon = styled(ArrowPic) <{ isActive: boolean }>`
+   width: 14px;
+  height:14px;
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  transform: ${({ isActive }) => (isActive ? 'rotate(180deg)' : 'rotate(360deg)')};
+`
+
 export const DeleteIcon = styled(DeletePic) <{ top: number, right: number }>`
      width: 12px;
     height: 14px;
@@ -102,6 +115,13 @@ export const PlusIcon = styled(PlusPic)`
     right: 10px;
 `;
 
+export const ClearPlusIcon = styled(PlusPic)`
+   width: 14px;
+  height: 14px;
+  cursor: pointer;
+  position: absolute;
+`
+
 export const ClockIcon = styled(ClockPic)`
   width: 14px;
   height: 14px;
@@ -127,4 +147,16 @@ export const LinkIcon = styled(LinkPic)`
   width: 15px;
   height: 15px;
   cursor: pointer;
-`
+`;
+
+export const GarbageIcon = styled(GarbagePic)`
+    width: 15px;
+  height: 15px;
+  cursor: pointer;
+`;
+
+export const PencilIcon = styled(PencilPic)`
+   width: 15px;
+  height: 15px;
+  cursor: pointer;
+`;
