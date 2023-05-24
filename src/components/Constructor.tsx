@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable ternary/nesting */
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 import {
-    ClearPlusIcon, PencilIcon, GarbageIcon, ThreeIcon,
+  ClearPlusIcon, PencilIcon, GarbageIcon, ThreeIcon,
 } from './icons';
 import { Dropdown } from './inputs';
 import { TConstructor } from '../types/components-types';
@@ -117,9 +118,9 @@ const IconWrapper = styled.div<{ stats: 'red' | 'grey' | 'blue' }>`
     width: 30px;
     height: 23px;
     background: ${({ stats }) => (stats === 'red' ? 'rgba(255, 78, 88, 0.05)'
-        : stats === 'grey' ? 'rgba(243, 245, 249, 1)'
-            : 'rgba(25, 59, 103, 0.05)')
-    };
+    : stats === 'grey' ? 'rgba(243, 245, 249, 1)'
+      : 'rgba(25, 59, 103, 0.05)')
+};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -162,13 +163,13 @@ const ListItem = styled.li<{ pos: number }>`
     width: 32px;
     height: 32px;
     background-color:${({ pos }) => (
-        pos === 0 ? '#FF4E58'
-            : pos === 1 ? '#DF0B92'
-                : pos === 2
-                    ? '#650ACC'
-                    : pos === 3
-                        ? '#097FAA'
-                        : 'rgba(26, 56, 96, 0.1)')} ;
+    pos === 0 ? '#FF4E58'
+      : pos === 1 ? '#DF0B92'
+        : pos === 2
+          ? '#650ACC'
+          : pos === 3
+            ? '#097FAA'
+            : 'rgba(26, 56, 96, 0.1)')} ;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -208,76 +209,81 @@ const OptionButton = styled.button`
 `;
 
 const Constructor: FC<TConstructor> = ({ levelsArray, approvers }) => {
-    const [isOpen, open] = useState(false);
-    const [approveArr, pushToArr] = useState([]);
-    const [current, setCurrent] = useState('');
-    const actions = ['Звонок', 'Письмо', 'Письмо с датой'];
-    const templates = ['Стартовое', 'Анкетирование', 'Певичное инет..', 'Оффер', 'ОнБординг', 'Отказ'];
+  const [isOpen, open] = useState(false);
+  const [approveArr, pushToArr] = useState<string[] | never>([]);
+  const [current, setCurrent] = useState('');
+  const actions = ['Звонок', 'Письмо', 'Письмо с датой'];
+  const templates = ['Стартовое', 'Анкетирование', 'Певичное инет..', 'Оффер', 'ОнБординг', 'Отказ'];
 
-    const pushAndCheckToArr = (arr: string[], elem: string, curTitle: string) => {
-        if (arr.includes(elem)) { return }
-        if (curTitle === current) {
-            pushToArr([...arr, elem])
-        }
+  const pushAndCheckToArr = (arr: string[], elem: string, curTitle: string) => {
+    if (arr.includes(elem)) { return; }
+    if (curTitle === current) {
+      pushToArr([...arr, elem]);
     }
+  };
 
-    return (
-        <Layout>
-            <SectionTitle>Этапы согласования кандидатов</SectionTitle>
-            <TableHeader>
-                <span />
-                <TableHeaderItem>Участники</TableHeaderItem>
-                <TableHeaderItem>Действие</TableHeaderItem>
-                <TableHeaderItem>Шаблон</TableHeaderItem>
-                <span />
-            </TableHeader>
-            {levelsArray.map((el) => (
-                <Grid border={el.border} bgColor={el.bgColor}>
-                    <Input>
-                        <ThreeIcon />
-                        {el.title}
+  return (
+    <Layout>
+      <SectionTitle>Этапы согласования кандидатов</SectionTitle>
+      <TableHeader>
+        <span />
+        <TableHeaderItem>Участники</TableHeaderItem>
+        <TableHeaderItem>Действие</TableHeaderItem>
+        <TableHeaderItem>Шаблон</TableHeaderItem>
+        <span />
+      </TableHeader>
+      {levelsArray.map((el) => (
+        <Grid border={el.border} bgColor={el.bgColor}>
+          <Input>
+            <ThreeIcon />
+            {el.title}
 
-                    </Input>
-                    <Contributors>
-                        {/* это массив с бека */}                  {approveArr.slice(0, 5).map((item, index) => (
-                            <ListItem
-                                key={item}
-                                pos={index}>
-                                {getNumberOfRest(index, approveArr)}
-                            </ListItem>
-                        ))}
-                        <AddButton onClick={() => { setCurrent(el.title); open(!isOpen); }}>
-                            <ClearPlusIcon />
-                        </AddButton>
-                        {isOpen && current === el.title && (
-                            <CoardinatngsList>
-                                {approvers.map((elem) => (
-                                    <CoardinatingsListItem onClick={() => pushAndCheckToArr(approveArr, elem, el.title)}>{elem}</CoardinatingsListItem>
-                                ))}
-                            </CoardinatngsList>
-                        )}
-                    </Contributors>
-                    <DropdownWrapper>
-                        <Dropdown withTitle={false} items={actions} />
-                    </DropdownWrapper>
-                    <DropdownWrapper>
-                        <Dropdown withTitle={false} items={templates} />
-                    </DropdownWrapper>
-
-                    <IconContainer>
-                        <IconWrapper stats='blue'>
-                            <PencilIcon />
-                        </IconWrapper>
-                        <IconWrapper stats='red'>
-                            <GarbageIcon />
-                        </IconWrapper>
-                    </IconContainer>
-                </Grid>
-
+          </Input>
+          <Contributors>
+            {/* это массив с бека */}
+            {' '}
+            {approveArr.slice(0, 5).map((item, index) => (
+              <ListItem
+                key={item}
+                pos={index}>
+                {getNumberOfRest(index, approveArr)}
+              </ListItem>
             ))}
-            <OptionButton >Добавить этап</OptionButton>
-        </Layout>
-    );
+            <AddButton onClick={() => { setCurrent(el.title); open(!isOpen); }}>
+              <ClearPlusIcon />
+            </AddButton>
+            {isOpen && current === el.title && (
+            <CoardinatngsList>
+              {approvers.map((elem) => (
+                <CoardinatingsListItem
+                  onClick={() => pushAndCheckToArr(approveArr, elem, el.title)}>
+                  {elem}
+                </CoardinatingsListItem>
+              ))}
+            </CoardinatngsList>
+            )}
+          </Contributors>
+          <DropdownWrapper>
+            <Dropdown withTitle={false} items={actions} />
+          </DropdownWrapper>
+          <DropdownWrapper>
+            <Dropdown withTitle={false} items={templates} />
+          </DropdownWrapper>
+
+          <IconContainer>
+            <IconWrapper stats='blue'>
+              <PencilIcon />
+            </IconWrapper>
+            <IconWrapper stats='red'>
+              <GarbageIcon />
+            </IconWrapper>
+          </IconContainer>
+        </Grid>
+
+      ))}
+      <OptionButton>Добавить этап</OptionButton>
+    </Layout>
+  );
 };
 
 export default Constructor;

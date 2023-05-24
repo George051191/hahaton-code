@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/semi */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable ternary/no-unreachable */
 /* eslint-disable ternary/nesting */
 /* eslint-disable no-nested-ternary */
@@ -200,7 +202,7 @@ const LayoutForCreateVacancy: FC = () => {
             <BasicInput name='position' type='text' title='Должность' onChange={(e) => addToVacancy(e)} />
             <Wrapper>
               <InputForPositionSelect value={amount} onDecrease={onDecrease} onIncrease={onIncrease} title='Количество позиций' />
-              <InputWithDate title='Дата закрытия вакансии' value={date} onClick={(e) => setDate(e.target.value)} />
+              <InputWithDate title='Дата закрытия вакансии' value={date!} onClick={(e) => setDate(e.target.value)} />
             </Wrapper>
             <InputWithSelect
               title='Подразделения'
@@ -251,8 +253,8 @@ const LayoutForCreateVacancy: FC = () => {
               <TextArea onChange={(e) => addToVacancy(e)} name='requirement' title='Требования к кандидату' />
               <TextArea onChange={(e) => addToVacancy(e)} name='comments' title='Комментарии' />
               <ButtonsContainer>
-                <OptionButton onClick={() => setStage(1)} disabled={stage === 1} type='button' direction={stage === 1 ? '' : 'Back'}>Назад</OptionButton>
-                <OptionButton onClick={() => { gotTOPublish() }} type='button' direction='Next'>{stage === 1 ? 'Продолжить' : 'Отправить на согласование'}</OptionButton>
+                <OptionButton onClick={() => setStage(1)} disabled={stage <= 1} type='button' direction={stage <= 1 ? '' : 'Back'}>Назад</OptionButton>
+                <OptionButton onClick={() => { gotTOPublish() }} type='button' direction='Next'>{stage <= 1 ? 'Продолжить' : 'Отправить на согласование'}</OptionButton>
                 <OptionButton type='button' direction='Cancel'>Отмена</OptionButton>
               </ButtonsContainer>
             </Form>

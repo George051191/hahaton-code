@@ -3,6 +3,7 @@ import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 import { BasicInput, InputWithSelect, TextArea } from './inputs';
 import Modal from './Modal';
+
 const Layout = styled.section`
         margin-left: 294px;
         margin-top: 80px;
@@ -19,16 +20,10 @@ margin: 0;
 color: ${({ theme: { headerH1 } }) => headerH1};
  `;
 
-const BasicLayout: FC<{ title: string }> = ({ title }) => {
+const BasicLayout: FC<{ title: string }> = ({ title }) => (
 
+  <Modal />
 
-
-  return (
-
-    <Modal />
-
-
-  );
-};
+);
 
 export default BasicLayout;

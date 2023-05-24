@@ -10,13 +10,12 @@ export type TSidebar = {
   }[];
 };
 
-
 export type TBasicInput = {
-  onChange: (e: any) => void;
-  title: string;
-  type: string;
+  onChange?: (e: any) => void;
+  title?: string;
+  type?: string;
   error?: string;
-  name: string;
+  name?: string;
   salary?: boolean;
   placeholder?: string;
   value?: string;
@@ -34,7 +33,7 @@ export type TDropdownWithDelete = {
   divisionArr?: string[];
 };
 
-export type TBasicTextArea = Omit<TBasicInput, 'type' | 'error'>
+export type TBasicTextArea = Omit<TBasicInput, 'type' | 'error'>;
 
 export type TInputWithSelect = {
   title: string;
@@ -44,7 +43,7 @@ export type TInputWithSelect = {
   value: string;
   isDataOpen?: boolean;
   dataArray?: string[];
-  deleteItem?: (el: string) => void;
+  deleteItem: (el: string) => void;
 };
 
 export type TInputForAmount = {
@@ -60,15 +59,12 @@ export type TInputWithDate = {
   title: string;
 };
 
-
-
-
 export const enum StatusEnum {
   send = 'send',
   cancel = 'cancel',
   agreed = 'agreed',
   inprocess = 'inprocess',
-};
+}
 
 export type TRequestVacancyPlate = {
   title: string;
@@ -87,4 +83,4 @@ export type TConstructor = {
     border: string
   }[];
   approvers: string[];
-}
+};

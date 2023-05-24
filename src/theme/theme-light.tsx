@@ -10,7 +10,7 @@ import {
     bgColor,
     actionButtonsColor,
     sidebarColor,
-    inputBg
+    inputBg,
 } from '../services/constants/colors';
 
 import { TTheme } from '../types/theme-types';
@@ -25,7 +25,7 @@ const themeLight: TTheme = {
     bgColor: bgColor,
     actionButtonsColor: actionButtonsColor,
     sidebarColor: sidebarColor,
-    inputBg: inputBg
-}
+    inputBg: inputBg,
+};
 
 export default themeLight;

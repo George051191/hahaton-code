@@ -84,7 +84,7 @@ export const ClearArrowIcon = styled(ArrowPic) <{ isActive: boolean }>`
   top: 12px;
   right: 10px;
   transform: ${({ isActive }) => (isActive ? 'rotate(180deg)' : 'rotate(360deg)')};
-`
+`;
 
 export const DeleteIcon = styled(DeletePic) <{ top: number, right: number }>`
      width: 12px;
@@ -121,7 +121,7 @@ export const ClearPlusIcon = styled(PlusPic)`
   height: 14px;
   cursor: pointer;
   position: absolute;
-`
+`;
 
 export const ClockIcon = styled(ClockPic)`
   width: 14px;

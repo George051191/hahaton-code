@@ -1,3 +1,5 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -7,7 +9,12 @@
 import React, { FC, useState, useRef } from 'react';
 import styled from 'styled-components';
 import {
-  TBasicInput, TInputWithSelect, TBasicTextArea, TInputForAmount, TInputWithDate, TDropdownWithDelete,
+  TBasicInput,
+  TInputWithSelect,
+  TBasicTextArea,
+  TInputForAmount,
+  TInputWithDate,
+  TDropdownWithDelete,
 } from '../types/components-types';
 import {
   ArrowIcon, DeleteIcon, PlusIcon, MinusIcon, ClockIcon, ClearArrowIcon,
@@ -259,7 +266,7 @@ const InputWithSelect: FC<TInputWithSelect> = ({
     <InputWrapper>
       <InputTitle htmlFor='list'>{title}</InputTitle>
       <Input id='list' value={value} onChange={onChange} />
-      {dataArray.length >= 1
+      {dataArray!.length >= 1
         && (
           <DeleteIcon
             top={36}
@@ -267,10 +274,10 @@ const InputWithSelect: FC<TInputWithSelect> = ({
             onClick={() => { openDeleteList(!isDeleteListOpen); }} />
         )}
       <ArrowIcon isActive={isDataOpen} onClick={() => { onChange(); openDeleteList(false); }} />
-      {isDeleteListOpen && dataArray.length >= 1
+      {isDeleteListOpen && dataArray!.length >= 1
         && (
           <DeleteList>
-            {dataArray.map((el) => (
+            {dataArray && dataArray.map((el) => (
               <DeleteListItem>
                 {el}
                 <DeleteIcon top={5} right={44} onClick={() => deleteItem(el)} />
@@ -281,12 +288,12 @@ const InputWithSelect: FC<TInputWithSelect> = ({
       {!isDataOpen && !isDeleteListOpen
         && (
           <List>
-            {dataArray.slice(0, 5).map((el, index) => (
+            {dataArray!.slice(0, 5).map((el, index) => (
               <ListItem
                 onClick={() => { openDeleteList(!isDeleteListOpen); }}
                 key={el}
                 pos={index}>
-                {getNumberOfRest(index, dataArray)}
+                {getNumberOfRest(index, dataArray!)}
               </ListItem>
             ))}
           </List>
@@ -294,7 +301,7 @@ const InputWithSelect: FC<TInputWithSelect> = ({
       {isDataOpen && !isDeleteListOpen
         && (
           <Datalist>
-            {propertiesArray.map((el) => (
+            {propertiesArray?.map((el) => (
               <DataListItem key={el} onClick={onOptionClick}>
                 {el}
               </DataListItem>
@@ -327,7 +334,7 @@ const BasicInput: FC<TBasicInput> = ({
     {salary
       && (
         <CheckBoxContainer>
-          <CheckBox type='checkbox' id='check' />
+          <CheckBox isChecked type='checkbox' id='check' />
           <InputTitle htmlFor='check'>Включая налоги</InputTitle>
         </CheckBoxContainer>
       )}
@@ -346,8 +353,8 @@ const InputWithDate: FC<TInputWithDate> = ({ title, value, onClick }) => {
   return (
     <InputWrapper>
       <InputTitle htmlFor='base'>{title}</InputTitle>
-      <ClockIcon onClick={() => inputRef.current.click()} />
-      <InputCalendar ref={inputRef} value={value} placeholder='' type='date' onChange={onClick} />
+      <ClockIcon />
+      <InputCalendar value={value} placeholder='' type='date' onChange={onClick} />
 
     </InputWrapper>
   );
@@ -540,7 +547,11 @@ const ColorDropdown: FC<{ colorsArray: string[] }> = ({ colorsArray }) => {
   );
 };
 
-const Dropdown: FC<{ items: string[], withTitle: boolean, title: string }> = ({ items, withTitle, title }) => {
+const Dropdown: FC<{
+  items: string[],
+  withTitle: boolean,
+  title?: string
+}> = ({ items, withTitle, title }) => {
   const [isOpen, setOpen] = useState(false);
   const [division, setDivision] = useState('');
   return (
@@ -563,5 +574,12 @@ const Dropdown: FC<{ items: string[], withTitle: boolean, title: string }> = ({ 
 };
 
 export {
-  BasicInput, InputWithSelect, TextArea, InputForPositionSelect, InputWithDate, Dropdown, ColorDropdown, DropdownWithDelete,
+  BasicInput,
+  InputWithSelect,
+  TextArea,
+  InputForPositionSelect,
+  InputWithDate,
+  Dropdown,
+  ColorDropdown,
+  DropdownWithDelete,
 };

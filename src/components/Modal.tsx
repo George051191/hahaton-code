@@ -1,7 +1,11 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable ternary/no-unreachable */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+import React, { FC } from 'react';
 import styled from 'styled-components';
-import { BasicInput, TextArea, Dropdown, ColorDropdown } from './inputs';
-
+import {
+  BasicInput, TextArea, Dropdown, ColorDropdown,
+} from './inputs';
 
 const ModalOverlay = styled.section`
     width: 100vw;
@@ -104,17 +108,17 @@ const OptionButton = styled.button<{ name: string }>`
     padding: 8px 14px;
   
     height: 33px;
-    background-color ${({ name, theme: { mainButtonsColor } }) => name === 'save' ? mainButtonsColor : '#193B670D'}  ;  
-    color: ${({ name, theme: { mainButtonsColor } }) => name === 'save' ? '#FFFFFF' : '#00389A'}  ;    
+    background-color ${({ name, theme: { mainButtonsColor } }) => (name === 'save' ? mainButtonsColor : '#193B670D')}  ;  
+    color: ${({ name, theme: { mainButtonsColor } }) => (name === 'save' ? '#FFFFFF' : '#00389A')}  ;    
     margin-top: 28px;
 `;
 
 const Modal: FC = () => {
-    const actions = ['Звонок', 'Письмо', 'Письмо с датой'];
-    const templates = ['Стартовое', 'Анкетирование', 'Певичное инет..', 'Оффер', 'ОнБординг', 'Отказ'];
-    const colorShema = ['#7B61FF', '#7B61FF1A', '#008FFA1A', '#FFDA151A', '#0788361A', '#FF4E580D'];
-    const value = `Уважаемый  [Имя Фамилия] приглашаем на нашу вакансию [Название вакансии]`;
-    const modalValue = `Приглашаем на вакансию [Название вакансии]
+  const actions = ['Звонок', 'Письмо', 'Письмо с датой'];
+  const templates = ['Стартовое', 'Анкетирование', 'Певичное инет..', 'Оффер', 'ОнБординг', 'Отказ'];
+  const colorShema = ['#7B61FF', '#7B61FF1A', '#008FFA1A', '#FFDA151A', '#0788361A', '#FF4E580D'];
+  const value = 'Уважаемый  [Имя Фамилия] приглашаем на нашу вакансию [Название вакансии]';
+  const modalValue = `Приглашаем на вакансию [Название вакансии]
 
     О вакансии
     [Описание вакансии]
@@ -122,27 +126,27 @@ const Modal: FC = () => {
     Опишите, был ли у вас подобный опыт работы над проектами в данной тематике?
     Когда вам было бы удобно пообщаться с руководителем проекта?
     Какие у вас зарплатные ожидания?`;
-    return (
-        <ModalOverlay>
-            <ModalContainer>
-                <LeftBox>
-                    <BoxHeader>Создание этапа</BoxHeader>
-                    <BasicInput title='Название' />
-                    <ColorDropdown colorsArray={colorShema} />
-                    <Dropdown withTitle title='Действие' items={actions} />
-                </LeftBox>
-                <RightBox>
-                    <Dropdown withTitle title='Шаблон' items={templates} />
-                    <BasicInput value={value} title='Тема письма' />
-                    <TextArea value={modalValue} />
-                    <ButtonWrapper>
-                        <OptionButton type='button' name='cancel'>Отмена</OptionButton>
-                        <OptionButton name='save'>Сохранить</OptionButton>
-                    </ButtonWrapper>
-                </RightBox>
-            </ModalContainer>
-        </ModalOverlay >
-    )
-}
+  return (
+    <ModalOverlay>
+      <ModalContainer>
+        <LeftBox>
+          <BoxHeader>Создание этапа</BoxHeader>
+          <BasicInput title='Название' />
+          <ColorDropdown colorsArray={colorShema} />
+          <Dropdown withTitle title='Действие' items={actions} />
+        </LeftBox>
+        <RightBox>
+          <Dropdown withTitle title='Шаблон' items={templates} />
+          <BasicInput value={value} title='Тема письма' />
+          <TextArea value={modalValue} />
+          <ButtonWrapper>
+            <OptionButton type='button' name='cancel'>Отмена</OptionButton>
+            <OptionButton name='save'>Сохранить</OptionButton>
+          </ButtonWrapper>
+        </RightBox>
+      </ModalContainer>
+    </ModalOverlay>
+  );
+};
 
 export default Modal;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable ternary/no-unreachable */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { FC } from 'react';

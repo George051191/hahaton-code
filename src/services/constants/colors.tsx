@@ -18,5 +18,5 @@ export {
   bgColor,
   actionButtonsColor,
   sidebarColor,
-  inputBg
+  inputBg,
 };
