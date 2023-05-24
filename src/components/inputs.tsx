@@ -401,7 +401,7 @@ const DropdownListPlaceItem = styled.li`
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  gap: 121px;
+  gap: 105px;
   display: flex;
   align-items: center;
   line-height: 22px;
