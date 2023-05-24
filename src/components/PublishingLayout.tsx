@@ -5,13 +5,16 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 import {
-    BasicInput, InputWithSelect, Dropdown, TextArea,
+    BasicInput, InputWithSelect, Dropdown, TextArea, DropdownWithDelete,
 } from './inputs';
 import Constructor from './Constructor';
+import Modal from './Modal';
+import SidebarWithSettings from './SedebarWithSettings';
 
 const Layout = styled.section`
     margin-left: 294px;
     margin-top: 80px;
+    margin-right: 220px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,13 +68,14 @@ const FormContainer = styled.div`
     padding-bottom: 50px;
     display: flex;
     flex-direction: column;
+    align-items: center;
 `;
 
 const Form = styled.form`
     display: flex;
     max-width: 665px;
     width: 100%;
-    margin: 0 auto;
+   
     flex-direction: column;
     gap: 38px;
     position: relative;
@@ -170,11 +174,13 @@ const PublishingLayout: FC = () => {
         { title: 'Интервью с командой', bgColor: '#E75AD91A', border: '#E75AD9' },
         { title: 'Оффер', bgColor: '#FFDA151A', border: '#FFDA15' },
         { title: 'Вышел на работу', bgColor: '#0788361A', border: '#078836' },
-        { title: 'Отказ', bgColor: '#FF4E580D', border: '#FF4E58' }
-    ]
+        { title: 'Отказ', bgColor: '#FF4E580D', border: '#FF4E58' },
+    ];
     const approvers = ['Павел Павел', 'Гена Гена', 'Ира Ира'];
     return (
+
         <Layout>
+            <SidebarWithSettings />
             <NavigateConatainer>
                 <ButtonContainer>
                     <NavigateButton onClick={() => setStage(1)} isClicked={stage === 1}>
@@ -191,107 +197,110 @@ const PublishingLayout: FC = () => {
                     </NavigateButton>
                 </ButtonContainer>
             </NavigateConatainer>
-            {stage === 3 && <FormContainer>
-                <Form>
-                    <BasicInput title='Должность' />
-                    <BasicInput placeholder='Разделить - точка запятая ;' title='Ключевые навыки' />
-                    <BasicCheckBoxesConatiner>
-                        <BoxesHeader>Опыт работы</BoxesHeader>
-                        <ChecksPanel>
-                            <CheckBoxContainer>
-                                <CheckBox name='work' id='base1' type='radio' />
-                                <InputTitle htmlFor='base1'>Начало карьеры</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='work' id='base2' type='radio' />
-                                <InputTitle htmlFor='base2'>1-3 года</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='work' id='base3' type='radio' />
-                                <InputTitle htmlFor='base3'>3-6 лет</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='work' id='base4' type='radio' />
-                                <InputTitle htmlFor='base4'>больше 6 лет</InputTitle>
-                            </CheckBoxContainer>
-                        </ChecksPanel>
-                    </BasicCheckBoxesConatiner>
-                    <BasicCheckBoxesConatiner>
-                        <BoxesHeader>Занятость</BoxesHeader>
-                        <ChecksPanel>
-                            <CheckBoxContainer>
-                                <CheckBox name='full' id='base1' type='checkbox' />
-                                <InputTitle htmlFor='base1'>Полная занятость</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='partial' id='base2' type='checkbox' />
-                                <InputTitle htmlFor='base2'>Частичная занятость</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='permanent' id='base3' type='checkbox' />
-                                <InputTitle htmlFor='base3'>Проектная  / временная работа</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='volont' id='base4' type='checkbox' />
-                                <InputTitle htmlFor='base4'>Волонтерство</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='intern' id='base5' type='checkbox' />
-                                <InputTitle htmlFor='base5'>Стажировка</InputTitle>
-                            </CheckBoxContainer>
-                        </ChecksPanel>
-                    </BasicCheckBoxesConatiner>
-                    <BasicCheckBoxesConatiner>
-                        <BoxesHeader>График работы</BoxesHeader>
-                        <ChecksPanel>
-                            <CheckBoxContainer>
-                                <CheckBox name='fullday' id='base1' type='checkbox' />
-                                <InputTitle htmlFor='base1'>Полный день</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='parts' id='base2' type='checkbox' />
-                                <InputTitle htmlFor='base2'>Сменный график</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='flex' id='base3' type='checkbox' />
-                                <InputTitle htmlFor='base3'>Гибкий график</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='distance' id='base4' type='checkbox' />
-                                <InputTitle htmlFor='base4'>Удаленная работа</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='tour' id='base5' type='checkbox' />
-                                <InputTitle htmlFor='base5'>Вахтовый метод</InputTitle>
-                            </CheckBoxContainer>
-                        </ChecksPanel>
-                    </BasicCheckBoxesConatiner>
-                    <Dropdown items={arr} withTitle />
-                    <BasicCheckBoxesConatiner>
-                        <BoxesHeader>Контактная информация</BoxesHeader>
-                        <ChecksPanel>
-                            <CheckBoxContainer>
-                                <CheckBox name='set' id='base1' type='radio' />
-                                <InputTitle htmlFor='base1'>Не указывать</InputTitle>
-                            </CheckBoxContainer>
-                            <CheckBoxContainer>
-                                <CheckBox name='set' id='base2' type='radio' />
-                                <InputTitle htmlFor='base2'>Указывать</InputTitle>
-                            </CheckBoxContainer>
-                        </ChecksPanel>
-                    </BasicCheckBoxesConatiner>
-                    <TextArea name='responsibilities ' title='Обязанности кандидата' />
-                    <TextArea name='requirement' title='Требования к кандидату' />
-                    <TextArea name='comments' title='Комментарии' />
+            {stage === 1 && (
+                <FormContainer>
+                    <Form>
+                        <BasicInput title='Должность' />
+                        <BasicInput placeholder='Разделить - точка запятая ;' title='Ключевые навыки' />
+                        <BasicCheckBoxesConatiner>
+                            <BoxesHeader>Опыт работы</BoxesHeader>
+                            <ChecksPanel>
+                                <CheckBoxContainer>
+                                    <CheckBox name='work' id='base1' type='radio' />
+                                    <InputTitle htmlFor='base1'>Начало карьеры</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='work' id='base2' type='radio' />
+                                    <InputTitle htmlFor='base2'>1-3 года</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='work' id='base3' type='radio' />
+                                    <InputTitle htmlFor='base3'>3-6 лет</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='work' id='base4' type='radio' />
+                                    <InputTitle htmlFor='base4'>больше 6 лет</InputTitle>
+                                </CheckBoxContainer>
+                            </ChecksPanel>
+                        </BasicCheckBoxesConatiner>
+                        <BasicCheckBoxesConatiner>
+                            <BoxesHeader>Занятость</BoxesHeader>
+                            <ChecksPanel>
+                                <CheckBoxContainer>
+                                    <CheckBox name='full' id='base1' type='checkbox' />
+                                    <InputTitle htmlFor='base1'>Полная занятость</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='partial' id='base2' type='checkbox' />
+                                    <InputTitle htmlFor='base2'>Частичная занятость</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='permanent' id='base3' type='checkbox' />
+                                    <InputTitle htmlFor='base3'>Проектная  / временная работа</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='volont' id='base4' type='checkbox' />
+                                    <InputTitle htmlFor='base4'>Волонтерство</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='intern' id='base5' type='checkbox' />
+                                    <InputTitle htmlFor='base5'>Стажировка</InputTitle>
+                                </CheckBoxContainer>
+                            </ChecksPanel>
+                        </BasicCheckBoxesConatiner>
+                        <BasicCheckBoxesConatiner>
+                            <BoxesHeader>График работы</BoxesHeader>
+                            <ChecksPanel>
+                                <CheckBoxContainer>
+                                    <CheckBox name='fullday' id='base1' type='checkbox' />
+                                    <InputTitle htmlFor='base1'>Полный день</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='parts' id='base2' type='checkbox' />
+                                    <InputTitle htmlFor='base2'>Сменный график</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='flex' id='base3' type='checkbox' />
+                                    <InputTitle htmlFor='base3'>Гибкий график</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='distance' id='base4' type='checkbox' />
+                                    <InputTitle htmlFor='base4'>Удаленная работа</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='tour' id='base5' type='checkbox' />
+                                    <InputTitle htmlFor='base5'>Вахтовый метод</InputTitle>
+                                </CheckBoxContainer>
+                            </ChecksPanel>
+                        </BasicCheckBoxesConatiner>
+                        <Dropdown title='Место работы' items={arr} withTitle />
+                        <BasicCheckBoxesConatiner>
+                            <BoxesHeader>Контактная информация</BoxesHeader>
+                            <ChecksPanel>
+                                <CheckBoxContainer>
+                                    <CheckBox name='set' id='base1' type='radio' />
+                                    <InputTitle htmlFor='base1'>Не указывать</InputTitle>
+                                </CheckBoxContainer>
+                                <CheckBoxContainer>
+                                    <CheckBox name='set' id='base2' type='radio' />
+                                    <InputTitle htmlFor='base2'>Указывать</InputTitle>
+                                </CheckBoxContainer>
+                            </ChecksPanel>
+                        </BasicCheckBoxesConatiner>
+                        <TextArea name='responsibilities ' title='Обязанности кандидата' />
+                        <TextArea name='requirement' title='Требования к кандидату' />
+                        <TextArea name='comments' title='Комментарии' />
 
-                </Form>
-            </FormContainer>}
-            <Constructor levelsArray={levelsArray} approvers={approvers} />
-            {/*  <ButtonsContainer>
+                    </Form>
+                </FormContainer>
+            )}
+
+            {stage === 2 && <Constructor levelsArray={levelsArray} approvers={approvers} />}
+            <ButtonsContainer>
                 <OptionButton onClick={() => setStage(1)} disabled={stage === 1} type='button' direction={stage === 1 ? '' : 'Back'}>Назад</OptionButton>
                 <OptionButton onClick={() => setStage(2)} type='button' direction='Next'>Продолжить</OptionButton>
                 <OptionButton type='button' direction='Cancel'>Отмена</OptionButton>
-            </ButtonsContainer> */}
+            </ButtonsContainer>
         </Layout>
     );
 };

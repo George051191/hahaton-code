@@ -19,6 +19,19 @@ export type TBasicInput = {
   name: string;
   salary?: boolean;
   placeholder?: string;
+  value?: string;
+};
+
+export type TDropdownWithDelete = {
+  title: string;
+  forDivision?: boolean;
+  forAprove?: boolean;
+  forClient?: boolean;
+  forMain?: boolean;
+  approversArr?: string[];
+  mainArr?: string[];
+  clientArr?: string[];
+  divisionArr?: string[];
 };
 
 export type TBasicTextArea = Omit<TBasicInput, 'type' | 'error'>

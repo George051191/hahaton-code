@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable consistent-return */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable ternary/nesting */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { FC, useState, useRef } from 'react';
 import styled from 'styled-components';
 import {
-  TBasicInput, TInputWithSelect, TBasicTextArea, TInputForAmount, TInputWithDate,
+  TBasicInput, TInputWithSelect, TBasicTextArea, TInputForAmount, TInputWithDate, TDropdownWithDelete,
 } from '../types/components-types';
 import {
-  ArrowIcon, DeleteIcon, PlusIcon, MinusIcon, ClockIcon, ClearArrowIcon
+  ArrowIcon, DeleteIcon, PlusIcon, MinusIcon, ClockIcon, ClearArrowIcon,
 } from './icons';
 import { getNumberOfRest } from '../services/constants/utils';
 
@@ -252,7 +255,6 @@ const InputWithSelect: FC<TInputWithSelect> = ({
 }) => {
   const [isDeleteListOpen, openDeleteList] = useState(false);
 
-
   return (
     <InputWrapper>
       <InputTitle htmlFor='list'>{title}</InputTitle>
@@ -316,11 +318,11 @@ const InputForPositionSelect: FC<TInputForAmount> = ({
 );
 
 const BasicInput: FC<TBasicInput> = ({
-  onChange, title, type, error, name, salary, placeholder,
+  onChange, title, type, error, name, salary, placeholder, value,
 }) => (
   <InputWrapper>
     <InputTitle htmlFor='base'>{title}</InputTitle>
-    <Input placeholder={placeholder} name={name} id='base' type={type} onChange={onChange} />
+    <Input value={value} placeholder={placeholder} name={name} id='base' type={type} onChange={onChange} />
     <Error>{error}</Error>
     {salary
       && (
@@ -332,10 +334,10 @@ const BasicInput: FC<TBasicInput> = ({
   </InputWrapper>
 );
 
-const TextArea: FC<TBasicTextArea> = ({ title, onChange }) => (
+const TextArea: FC<TBasicTextArea> = ({ title, onChange, value }) => (
   <InputWrapper>
-    <InputTitle htmlFor='area'>{title}</InputTitle>
-    <BasicTextArea id='area' onChange={onChange} />
+    {title && <InputTitle htmlFor='area'>{title}</InputTitle>}
+    <BasicTextArea value={value} id='area' onChange={onChange} />
   </InputWrapper>
 );
 
@@ -375,7 +377,7 @@ const DropdownButton = styled.button`
 const DropdownList = styled.ul`
   padding: 0;
   margin: 0;
-  background: rgb(243, 245, 249);
+  background: rgb(240, 244, 246);
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -392,6 +394,9 @@ const DropdownListPlaceItem = styled.li`
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
+  gap: 121px;
+  display: flex;
+  align-items: center;
   line-height: 22px;
   cursor: pointer;
   text-align: initial;
@@ -413,12 +418,134 @@ const BoxesHeader = styled.h3`
     color: ${({ theme: { labelColor } }) => labelColor};
 `;
 
-const Dropdown: FC<{ items: string[], withTitle: boolean }> = ({ items, withTitle }) => {
+const ColorListButton = styled.button`
+  border: none;
+  outline: none;
+  height: 36px;
+  position: relative;
+  background-color:  #1A38601A;
+  
+ height: 37px;
+  width: 67px;
+
+`;
+
+const ColorList = styled.ul`
+   padding: 0;
+  margin: 0;
+  background: rgb(243, 245, 249);
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  position: absolute;
+    width: 100%;
+    top: 41px;
+    left: 0;
+    z-index: 20500;
+    padding-left: 6px;
+    gap: 5px;
+`;
+
+const ColorStyleTemplate = styled.li<{ color: string }>`
+  width: 25px;
+height: 25px;
+background:${({ color }) => color};
+list-style: none;
+border-radius: 50%;
+cursor: pointer;
+`;
+
+const IconWrapper = styled.div`
+  width: 15px;
+  height: 15px;
+  position: relative;
+`;
+
+const DropdownWithDelete: FC<TDropdownWithDelete> = ({
+  title, forAprove, forClient, forDivision, forMain, mainArr, divisionArr, clientArr, approversArr,
+}) => {
+  const [isOpen, setOpen] = useState(false);
+  const [division, setDivision] = useState<null | never | string[]>(null);
+  const [client, setClient] = useState<null | never | string[]>(null);
+  const [approvers, setApprovers] = useState<null | never | string[]>(null);
+  const [main, setMain] = useState<null | never | string[]>(null);
+
+  const setCurrentArr = () => {
+    if (forAprove) { return approvers || approversArr; }
+    if (forClient) { return client || clientArr; }
+    if (forDivision) { return division || divisionArr; }
+    if (forMain) { return main || mainArr; }
+  };
+
+  const setProperty = (el: string) => {
+    if (forAprove) { setApprovers([...approversArr!, el]); }
+    if (forClient) { setClient([...clientArr!, el]); }
+    if (forDivision) { setDivision([...divisionArr!, el]); }
+    if (forMain) { setMain([...mainArr!, el]); }
+  };
+
+  const deleteItem = (el: string) => {
+    const newArr = setCurrentArr()?.filter((elem) => el !== elem);
+    if (forAprove) { setApprovers(newArr!); }
+    if (forClient) { setClient(newArr!); }
+    if (forDivision) { setDivision(newArr!); }
+    if (forMain) { setMain(newArr!); }
+  };
+
+  return (
+    <DropdownBox>
+      <BoxesHeader>{title}</BoxesHeader>
+      <DropdownButton type='button'>
+        <ClearArrowIcon isActive={isOpen} onClick={() => setOpen(!isOpen)} />
+        {forDivision && division && `Выбрано ${division.length}`}
+        {forAprove && approvers && `Выбрано ${approvers.length}`}
+        {forClient && client && `Выбрано ${client.length}`}
+        {forMain && main && `Выбрано ${main.length}`}
+        {isOpen
+          && (
+            <DropdownList>
+              {setCurrentArr()!.map((el) => (
+                <DropdownListPlaceItem onClick={() => setProperty(el)}>
+                  {el}
+                  <IconWrapper onClick={(e) => { e.stopPropagation(); deleteItem(el); }}>
+                    <DeleteIcon top={0} right={0} />
+                  </IconWrapper>
+
+                </DropdownListPlaceItem>
+              ))}
+            </DropdownList>
+          )}
+      </DropdownButton>
+    </DropdownBox>
+  );
+};
+
+const ColorDropdown: FC<{ colorsArray: string[] }> = ({ colorsArray }) => {
+  const [currentColor, setColor] = useState('hsl(249.873417721519, 100%, 69.01960784313725%)');
+  const [isOpen, open] = useState(false);
+
+  return (
+    <ColorListButton type='button'>
+      <ColorStyleTemplate color={currentColor} />
+      <ClearArrowIcon isActive={isOpen} onClick={() => open(!isOpen)} />
+      {isOpen && (
+        <ColorList>
+          {colorsArray.map((item) => (
+            <ColorStyleTemplate color={item} onClick={() => setColor(item)} />
+          ))}
+        </ColorList>
+      )}
+    </ColorListButton>
+
+  );
+};
+
+const Dropdown: FC<{ items: string[], withTitle: boolean, title: string }> = ({ items, withTitle, title }) => {
   const [isOpen, setOpen] = useState(false);
   const [division, setDivision] = useState('');
   return (
     <DropdownBox>
-      {withTitle && <BoxesHeader>Место работы</BoxesHeader>}
+      {withTitle && <BoxesHeader>{title}</BoxesHeader>}
       <DropdownButton type='button'>
         <ClearArrowIcon isActive={isOpen} onClick={() => setOpen(!isOpen)} />
         {division}
@@ -436,5 +563,5 @@ const Dropdown: FC<{ items: string[], withTitle: boolean }> = ({ items, withTitl
 };
 
 export {
-  BasicInput, InputWithSelect, TextArea, InputForPositionSelect, InputWithDate, Dropdown
+  BasicInput, InputWithSelect, TextArea, InputForPositionSelect, InputWithDate, Dropdown, ColorDropdown, DropdownWithDelete,
 };

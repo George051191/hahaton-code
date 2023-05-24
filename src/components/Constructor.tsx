@@ -9,12 +9,12 @@ import { Dropdown } from './inputs';
 import { TConstructor } from '../types/components-types';
 import { getNumberOfRest } from '../services/constants/utils';
 
-const Layout = styled.section`
+const Layout = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     width: 100%;
-   
+    
     
  `;
 const SectionTitle = styled.h1`
@@ -136,7 +136,8 @@ const CoardinatngsList = styled.ul`
   width: 120px;
   z-index: 500;
   top: 0;
-    right: -126px;
+    right: 162px;
+    border: 1px solid black;
 
 `;
 const CoardinatingsListItem = styled.li`
@@ -181,11 +182,45 @@ const ListItem = styled.li<{ pos: number }>`
     cursor: pointer;
 `;
 
+const OptionButton = styled.button`
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    border: none;
+    outline: none;
+    display: flex;
+    cursor: pointer;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 14px;
+    width: 130px;
+    height: 33px;
+    background-color:rgba(25, 59, 103, 0.05);
+    color: ${({ theme: { mainButtonsColor } }) => mainButtonsColor}  ;    
+    margin-top: 28px;
+    margin-bottom:28px;
+    position: relative;
+    left: -311px;
+
+`;
+
 const Constructor: FC<TConstructor> = ({ levelsArray, approvers }) => {
     const [isOpen, open] = useState(false);
     const [approveArr, pushToArr] = useState([]);
+    const [current, setCurrent] = useState('');
     const actions = ['Звонок', 'Письмо', 'Письмо с датой'];
     const templates = ['Стартовое', 'Анкетирование', 'Певичное инет..', 'Оффер', 'ОнБординг', 'Отказ'];
+
+    const pushAndCheckToArr = (arr: string[], elem: string, curTitle: string) => {
+        if (arr.includes(elem)) { return }
+        if (curTitle === current) {
+            pushToArr([...arr, elem])
+        }
+    }
+
     return (
         <Layout>
             <SectionTitle>Этапы согласования кандидатов</SectionTitle>
@@ -204,20 +239,20 @@ const Constructor: FC<TConstructor> = ({ levelsArray, approvers }) => {
 
                     </Input>
                     <Contributors>
-                        {approveArr.slice(0, 5).map((item, index) => (
+                        {/* это массив с бека */}                  {approveArr.slice(0, 5).map((item, index) => (
                             <ListItem
                                 key={item}
                                 pos={index}>
                                 {getNumberOfRest(index, approveArr)}
                             </ListItem>
                         ))}
-                        <AddButton onClick={() => open(!isOpen)}>
+                        <AddButton onClick={() => { setCurrent(el.title); open(!isOpen); }}>
                             <ClearPlusIcon />
                         </AddButton>
-                        {isOpen && (
+                        {isOpen && current === el.title && (
                             <CoardinatngsList>
                                 {approvers.map((elem) => (
-                                    <CoardinatingsListItem onClick={() => pushToArr([...approveArr, elem])}>{elem}</CoardinatingsListItem>
+                                    <CoardinatingsListItem onClick={() => pushAndCheckToArr(approveArr, elem, el.title)}>{elem}</CoardinatingsListItem>
                                 ))}
                             </CoardinatngsList>
                         )}
@@ -240,6 +275,7 @@ const Constructor: FC<TConstructor> = ({ levelsArray, approvers }) => {
                 </Grid>
 
             ))}
+            <OptionButton >Добавить этап</OptionButton>
         </Layout>
     );
 };

@@ -24,9 +24,9 @@ const App = () => (
       <Route path='/vacancies' element={<BasicLayout title='Вакансии' />} />
       <Route path='/candidats' element={<BasicLayout title='Кандидаты' />} />
       <Route path='/structure' element={<BasicLayout title='Структура' />} />
-      <Route path='/analitics' element={<BasicLayout title='Аналитика' />} />
+
       <Route path='/create' element={<LayoutForCreateVacancy />} />
-      <Route path='/requests' element={<LayoutForVacanciesRequests title='Заявки на вакансию' />} />
+      <Route path='/analitics' element={<LayoutForVacanciesRequests title='Заявки на вакансию' />} />
       <Route path='/publish' element={<PublishingLayout />} />
     </Routes>
   </MainLayout>

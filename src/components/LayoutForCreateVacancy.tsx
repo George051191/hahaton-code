@@ -6,6 +6,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
 import {
   BasicInput, InputWithSelect, TextArea, InputForPositionSelect, InputWithDate,
 } from './inputs';
@@ -113,6 +114,7 @@ const OptionButton = styled.button<{ direction: string }>`
 `;
 
 const LayoutForCreateVacancy: FC = () => {
+  const navigate = useNavigate();
   const [division, setDivision] = useState<string[]>([]);
   const [names, setNames] = useState<string[]>([]);
   const [addedNames, setAddedNames] = useState<string[]>([]);
@@ -141,6 +143,13 @@ const LayoutForCreateVacancy: FC = () => {
     });
   };
 
+  const gotTOPublish = () => {
+    if (stage === 2) {
+      navigate('/analitics')
+      return
+    }
+    setStage(2)
+  }
   /// с сервера приходят имена сотрудников и названия подразделений
   const dataArray = ['Вахтеры', 'Монтажники', 'Шахтеры'];
   const namesArray = ['Георгий Александрович', 'Гevorg Александрович'];
@@ -234,20 +243,20 @@ const LayoutForCreateVacancy: FC = () => {
           </Form>
         )}
         {stage === 2
-                    && (
-                    <Form>
-                      <BasicInput onChange={(e) => addToVacancy(e)} name='template' type='text' title='Шаблон заявки(не обязательно)' />
-                      <BasicInput onChange={(e) => addToVacancy(e)} name='salary' salary type='number' title='Зарплата' />
-                      <TextArea onChange={(e) => addToVacancy(e)} name='responsibilities ' title='Обязанности кандидата' />
-                      <TextArea onChange={(e) => addToVacancy(e)} name='requirement' title='Требования к кандидату' />
-                      <TextArea onChange={(e) => addToVacancy(e)} name='comments' title='Комментарии' />
-                      <ButtonsContainer>
-                        <OptionButton onClick={() => setStage(1)} disabled={stage === 1} type='button' direction={stage === 1 ? '' : 'Back'}>Назад</OptionButton>
-                        <OptionButton onClick={() => setStage(2)} type='button' direction='Next'>{stage === 1 ? 'Продолжить' : 'Отправить на согласование'}</OptionButton>
-                        <OptionButton type='button' direction='Cancel'>Отмена</OptionButton>
-                      </ButtonsContainer>
-                    </Form>
-                    )}
+          && (
+            <Form>
+              <BasicInput onChange={(e) => addToVacancy(e)} name='template' type='text' title='Шаблон заявки(не обязательно)' />
+              <BasicInput onChange={(e) => addToVacancy(e)} name='salary' salary type='number' title='Зарплата' />
+              <TextArea onChange={(e) => addToVacancy(e)} name='responsibilities ' title='Обязанности кандидата' />
+              <TextArea onChange={(e) => addToVacancy(e)} name='requirement' title='Требования к кандидату' />
+              <TextArea onChange={(e) => addToVacancy(e)} name='comments' title='Комментарии' />
+              <ButtonsContainer>
+                <OptionButton onClick={() => setStage(1)} disabled={stage === 1} type='button' direction={stage === 1 ? '' : 'Back'}>Назад</OptionButton>
+                <OptionButton onClick={() => { gotTOPublish() }} type='button' direction='Next'>{stage === 1 ? 'Продолжить' : 'Отправить на согласование'}</OptionButton>
+                <OptionButton type='button' direction='Cancel'>Отмена</OptionButton>
+              </ButtonsContainer>
+            </Form>
+          )}
       </FormContainer>
 
     </Layout>
