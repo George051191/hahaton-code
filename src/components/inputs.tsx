@@ -6,7 +6,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable ternary/nesting */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import React, { FC, useState, useRef } from 'react';
+import React, { FC, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   TBasicInput,
@@ -262,6 +262,7 @@ const InputWithSelect: FC<TInputWithSelect> = ({
 }) => {
   const [isDeleteListOpen, openDeleteList] = useState(false);
 
+
   return (
     <InputWrapper>
       <InputTitle htmlFor='list'>{title}</InputTitle>
@@ -279,8 +280,8 @@ const InputWithSelect: FC<TInputWithSelect> = ({
           <DeleteList>
             {dataArray && dataArray.map((el) => (
               <DeleteListItem>
-                {el}
-                <DeleteIcon top={5} right={44} onClick={() => deleteItem(el)} />
+                {el.name}
+                <DeleteIcon top={5} right={44} onClick={() => deleteItem(el.name)} />
               </DeleteListItem>
             ))}
           </DeleteList>
@@ -291,7 +292,7 @@ const InputWithSelect: FC<TInputWithSelect> = ({
             {dataArray!.slice(0, 5).map((el, index) => (
               <ListItem
                 onClick={() => { openDeleteList(!isDeleteListOpen); }}
-                key={el}
+                key={el.id}
                 pos={index}>
                 {getNumberOfRest(index, dataArray!)}
               </ListItem>
@@ -301,9 +302,9 @@ const InputWithSelect: FC<TInputWithSelect> = ({
       {isDataOpen && !isDeleteListOpen
         && (
           <Datalist>
-            {propertiesArray?.map((el) => (
-              <DataListItem key={el} onClick={onOptionClick}>
-                {el}
+            {propertiesArray && propertiesArray?.map((el) => (
+              <DataListItem key={el.id} onClick={onOptionClick}>
+                {el.name}
               </DataListItem>
             ))}
           </Datalist>

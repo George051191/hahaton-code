@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   BagIcon, ProfileIcon, EditIcon, ChartIcon, StructureIcon,
 } from '../../components/icons';
@@ -21,10 +22,11 @@ export const linksArray = [
 
 ];
 
-export const getNumberOfRest = (index: number, array: string[]) => {
+export const getNumberOfRest = (index: number, array: any) => {
   if (index === 4) {
     return `+${array.length - 4}`;
   }
-  const Tab = array[index].indexOf(' ');
-  return array[index][0] + array[index][Tab + 1];
+  console.log(array[index].name)
+  const Tab = array[index].name.indexOf(' ');
+  return array[index].name[0] + array[index].name[Tab + 1];
 };

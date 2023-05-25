@@ -12,7 +12,7 @@ import { getNumberOfRest } from '../services/constants/utils';
 const Wrapper = styled.div`
     max-width: 1025px;
     width: 100%;
-    height: 72px;
+    min-height: 72px;
     display: flex;
     border-bottom: 1px solid rgba(0, 57, 145, 0.1);
     border-top: 1px solid rgba(0, 57, 145, 0.1);
@@ -26,7 +26,7 @@ const IconWrapper = styled.div<{ stats: 'red' | 'grey' | 'blue' }>`
     background: ${({ stats }) => (stats === 'red' ? 'rgba(255, 78, 88, 0.05)'
     : stats === 'grey' ? 'rgba(243, 245, 249, 1)'
       : 'rgba(25, 59, 103, 0.05)')
-};
+  };
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,14 +88,14 @@ line-height: 134%;
     : status === StatusEnum.cancel ? 'rgba(255, 239, 240, 1)'
       : status === StatusEnum.agreed ? 'rgba(240, 255, 246, 1)'
         : 'rgba(232, 245, 255, 1)')
-};
+  };
     color: ${({ status }) => (status === StatusEnum.send
     ? 'rgba(28, 28, 28, 1)'
     : status === StatusEnum.cancel ? 'rgba(255, 78, 88, 1)'
       : status === StatusEnum.agreed ? 'rgba(53, 160, 96, 1)'
         : 'rgba(0, 56, 154, 1)')
 
-};  
+  };  
     width: 127px;
 
 `;
@@ -166,18 +166,18 @@ const RequestVacancyPlate: FC<TRequestVacancyPlate> = ({
         {stats === StatusEnum.agreed && <PublishButton onClick={() => navigate('/publish')}>Опубликовать вакансию</PublishButton>}
       </VacancCell>
       <List>
-        {divisions.slice(0, 5).map((el, index) => (
+        {divisions?.slice(0, 5).map((el, index) => (
           <ListItem
-            key={el}
+            key={el.id}
             pos={index}>
             {getNumberOfRest(index, divisions)}
           </ListItem>
         ))}
       </List>
       <List>
-        {coordinators.slice(0, 5).map((el, index) => (
+        {coordinators?.slice(0, 5).map((el, index) => (
           <ListItem
-            key={el}
+            key={el.id}
             pos={index}>
             {getNumberOfRest(index, coordinators)}
           </ListItem>

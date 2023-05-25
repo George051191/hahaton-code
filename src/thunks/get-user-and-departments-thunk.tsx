@@ -22,9 +22,10 @@ const getAllThunk: AppThunk = () => async (dispatch) => {
                 Authorization: `Bearer ${token}`,
             },
         });
+
         batch(() => {
-            dispatch(setAllDepartments(allDepartments.data));
-            dispatch(setAllSystemsUsers(allUsers.data));
+            dispatch(setAllDepartments(allDepartments.data.departments));
+            dispatch(setAllSystemsUsers(allUsers.data.users));
             dispatch(setCurrentUser(user.data));
         });
     } catch (error) {

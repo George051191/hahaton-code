@@ -6,13 +6,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import {
   BasicInput, InputWithSelect, TextArea, InputForPositionSelect, InputWithDate,
 } from './inputs';
-
+import { useDispatch, useSelector } from '../store/store.type';
+import { TApprover, TDepartment, TRequestForPost } from '../types/apiTypes';
+import { setCurrentRequest } from '../store/vacancyRequestsSlice';
+import postRequestsThunk from '../thunks/post-request-thunk';
+import getAllRequestsThunk from '../thunks/get-request-thunk';
 const Layout = styled.section`
     margin-left: 212px;
     margin-top: 80px;
@@ -117,9 +121,11 @@ const OptionButton = styled.button<{ direction: string }>`
 
 const LayoutForCreateVacancy: FC = () => {
   const navigate = useNavigate();
-  const [division, setDivision] = useState<string[]>([]);
-  const [names, setNames] = useState<string[]>([]);
-  const [addedNames, setAddedNames] = useState<string[]>([]);
+
+  const { allDepartments, allSystemUsers, currentUser } = useSelector((state) => state.allBaseData)
+  const [division, setDivision] = useState<TDepartment[]>([]);
+  const [names, setNames] = useState<TApprover[]>([]);
+  const [addedNames, setAddedNames] = useState<TApprover[]>([]);
   const [isDivisionOpen, openDivisions] = useState(false);
   const [isNamesOpen, openNamesPanel] = useState(false);
   const [isAddedNamesOpen, openAddedNamesPanel] = useState(false);
@@ -127,14 +133,32 @@ const LayoutForCreateVacancy: FC = () => {
   const [amount, setAmount] = useState(0);
   const [date, setDate] = useState();
   const [stage, setStage] = useState<number>(1);
+  const dispatch = useDispatch();
+
   const onDecrease = () => {
     if (amount === 0) { return; }
     setAmount(amount - 1);
+    setVolume({
+      ...formValues,
+      positionCount: amount,
+    })
   };
 
   const onIncrease = () => {
     setAmount(amount + 1);
+    setVolume({
+      ...formValues,
+      positionCount: amount,
+    })
   };
+
+  const writeDate = (el: any) => {
+    setDate(el);
+    setVolume({
+      ...formValues,
+      deadline: el,
+    })
+  }
 
   const addToVacancy = (e: any) => {
     const { name } = e.target;
@@ -147,49 +171,87 @@ const LayoutForCreateVacancy: FC = () => {
 
   const gotTOPublish = () => {
     if (stage === 2) {
+      dispatch(setCurrentRequest({ ...formValues, customer: [currentUser] } as TRequestForPost))
+      dispatch(postRequestsThunk())
+
       navigate('/analitics')
       return
     }
     setStage(2)
+
   }
-  /// с сервера приходят имена сотрудников и названия подразделений
-  const dataArray = ['Вахтеры', 'Монтажники', 'Шахтеры'];
-  const namesArray = ['Георгий Александрович', 'Гevorg Александрович'];
+
 
   const checkStatus = (e: any) => {
-    if (division.includes(e.target.value)) {
+    if (division.find((elem) => {
+      return elem.name === e.target.value
+    })) {
       return;
     }
-    setDivision([...division, e.target.value]);
+    const findDivision = allDepartments?.find(div => div.name === e.target.value)
+    setDivision([...division, findDivision!]);
+    console.log(division)
+    setVolume({
+      ...formValues,
+      departments: [...division, findDivision]
+    })
   };
 
   const checkStatusNames = (e: any) => {
-    if (names.includes(e.target.value)) {
+    if (names.find((elem) => {
+      return elem.name === e.target.value
+    })) {
       return;
     }
-    setNames([...names, e.target.value]);
+    const findDivision = allSystemUsers?.find(div => div.name === e.target.value)
+    setNames([...names, findDivision!]);
+    setVolume({
+      ...formValues,
+      approvers: [...names, findDivision]
+    })
   };
 
   const checkAddedNames = (e: any) => {
-    if (addedNames.includes(e.target.value)) {
+    if (addedNames.find((elem) => {
+      return elem.name === e.target.value
+    })) {
       return;
     }
-    setAddedNames([...addedNames, e.target.value]);
+    const findDivision = allSystemUsers?.find(div => div.name === e.target.value)
+    setAddedNames([...addedNames, findDivision!]);
+    setVolume({
+      ...formValues,
+      addedApprovers: [...addedNames, findDivision]
+    })
   };
 
   const deleteItem = (item: string) => {
-    const arr = division.filter((el) => el !== item);
+    console.log(item)
+    const arr = division.filter((el) => el.name !== item);
+    console.log(arr)
     setDivision(arr);
+    setVolume({
+      ...formValues,
+      departments: arr
+    })
   };
 
   const deleteIteminNames = (item: string) => {
-    const arr = names.filter((el) => el !== item);
+    const arr = names.filter((el) => el.name !== item);
     setNames(arr);
+    setVolume({
+      ...formValues,
+      approvers: arr
+    })
   };
 
   const deleteAddedName = (item: string) => {
-    const arr = addedNames.filter((el) => el !== item);
+    const arr = addedNames.filter((el) => el.name !== item);
     setAddedNames(arr);
+    setVolume({
+      ...formValues,
+      addedApprovers: arr
+    })
   };
 
   return (
@@ -199,10 +261,10 @@ const LayoutForCreateVacancy: FC = () => {
         {stage === 1 && (
           <Form>
 
-            <BasicInput name='position' type='text' title='Должность' onChange={(e) => addToVacancy(e)} />
+            <BasicInput name=' positionName' type='text' title='Должность' onChange={(e) => addToVacancy(e)} />
             <Wrapper>
               <InputForPositionSelect value={amount} onDecrease={onDecrease} onIncrease={onIncrease} title='Количество позиций' />
-              <InputWithDate title='Дата закрытия вакансии' value={date!} onClick={(e) => setDate(e.target.value)} />
+              <InputWithDate title='Дата закрытия вакансии' value={date!} onClick={(e) => writeDate(e.target.value)} />
             </Wrapper>
             <InputWithSelect
               title='Подразделения'
@@ -211,7 +273,7 @@ const LayoutForCreateVacancy: FC = () => {
               value={`Выбрано ${division.length}`}
               onChange={() => openDivisions(!isDivisionOpen)}
               onOptionClick={(e) => { checkStatus(e); openDivisions(false); }}
-              propertiesArray={dataArray}
+              propertiesArray={allDepartments ?? []}
               deleteItem={deleteItem} />
             <Fieldset>
               <Legend>Согласующие лица</Legend>
@@ -222,7 +284,7 @@ const LayoutForCreateVacancy: FC = () => {
                 value={`Выбрано ${names.length}`}
                 onChange={() => openNamesPanel(!isNamesOpen)}
                 onOptionClick={(e) => { checkStatusNames(e); openNamesPanel(false); }}
-                propertiesArray={namesArray}
+                propertiesArray={allSystemUsers ?? []}
                 deleteItem={deleteIteminNames} />
             </Fieldset>
             <Fieldset>
@@ -234,7 +296,7 @@ const LayoutForCreateVacancy: FC = () => {
                 value={`Выбрано ${addedNames.length}`}
                 onChange={() => openAddedNamesPanel(!isAddedNamesOpen)}
                 onOptionClick={(e) => { checkAddedNames(e); openAddedNamesPanel(false); }}
-                propertiesArray={namesArray}
+                propertiesArray={allSystemUsers ?? []}
                 deleteItem={deleteAddedName} />
             </Fieldset>
             <ButtonsContainer>

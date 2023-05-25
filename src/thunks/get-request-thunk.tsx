@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import axios from 'axios';
 import { batch } from 'react-redux';
 import { AppThunk } from '../store/store.type';
 import { baseUrl, token } from '../services/constants/api-constants';
-import { setAllRequests } from '../store/vacancyRequestsSlice';
+import { setAllRequests, setCurrentRequesrArray } from '../store/vacancyRequestsSlice';
 
 const getAllRequestsThunk: AppThunk = () => async (dispatch) => {
   try {
@@ -12,7 +13,13 @@ const getAllRequestsThunk: AppThunk = () => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(setAllRequests(requests.data));
+    batch(() => {
+      dispatch(setAllRequests(requests.data.vacancyRequests));
+      dispatch(setCurrentRequesrArray(requests.data.vacancyRequests));
+      console.log(requests.data.vacancyRequests)
+    })
+
+
   } catch (error) {
     console.log(error);
   }

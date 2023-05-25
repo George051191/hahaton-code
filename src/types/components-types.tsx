@@ -1,4 +1,5 @@
 import { StyledComponent } from 'styled-components';
+import { TApprover, TDepartment } from './apiTypes';
 
 export type TSidebar = {
   linksArray:
@@ -39,10 +40,10 @@ export type TInputWithSelect = {
   title: string;
   onChange: () => void;
   onOptionClick: (e: any) => void;
-  propertiesArray?: string[];
+  propertiesArray?: TDepartment[] | TApprover[];
   value: string;
   isDataOpen?: boolean;
-  dataArray?: string[];
+  dataArray?: TDepartment[] | TApprover[];
   deleteItem: (el: string) => void;
 };
 
@@ -68,12 +69,12 @@ export const enum StatusEnum {
 
 export type TRequestVacancyPlate = {
   title: string;
-  divisions: string[];
-  coordinators: string[];
+  divisions: TDepartment[] | TApprover[];
+  coordinators: TDepartment[] | TApprover[];
   amount: number;
   salary: number;
   stats: StatusEnum;
-  date: string;
+  date: Date | string;
 };
 
 export type TConstructor = {

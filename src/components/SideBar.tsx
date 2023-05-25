@@ -8,9 +8,10 @@ import { TSidebar } from '../types/components-types';
 import {
   BagIcon, ProfileIcon, EditIcon, ChartIcon, StructureIcon,
 } from './icons';
-
+import NamePlate from './UserPlate';
 import Logo from '../assets/images/Logo.png';
 import { tabletBreakpoint } from '../services/constants/screen-sizes';
+import { useSelector } from '../store/store.type';
 
 const SidebarNav = styled.aside`
     position: fixed;
@@ -93,11 +94,12 @@ color: ${({ theme: { bgColor } }) => bgColor};
 cursor: pointer;
 border: none;
 outline: none;
+position: relative;
 `;
 
 const Sidebar: FC<TSidebar> = ({ linksArray }) => {
   const location = useLocation();
-
+  const { currentUser } = useSelector((state) => state.allBaseData);
   const navigate = useNavigate();
   return (
     <SidebarNav>
@@ -112,7 +114,11 @@ const Sidebar: FC<TSidebar> = ({ linksArray }) => {
             </SideBarItem>
           ))}
         </SideBarList>
-        <AddButton onClick={() => navigate('/create')}>+ Добавить</AddButton>
+        <AddButton onClick={() => navigate('/create')}>
+          + Добавить
+          <NamePlate name={currentUser?.name} role={currentUser?.role} />
+        </AddButton>
+
       </SidebarItemsList>
 
     </SidebarNav>
