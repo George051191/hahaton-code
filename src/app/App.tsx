@@ -14,6 +14,9 @@ import getAllThunk from '../thunks/get-user-and-departments-thunk';
 import getAllRequestsThunk from '../thunks/get-request-thunk';
 import Modal from '../components/Modal';
 import { openStagePopup } from '../store/userAndOrganizationSlice';
+import VacancyLayout from '../components/VacanciesLayout';
+import Candidats from '../components/Candidats';
+import { useLocation } from 'react-router-dom';
 
 const MainLayout = styled.main`
   width: 100%;
@@ -24,6 +27,8 @@ const MainLayout = styled.main`
 
 const App = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+
   const { stagePopupOpen } = useSelector((state) => state.allBaseData);
   useEffect(() => {
     dispatch(getAllThunk());
@@ -31,10 +36,10 @@ const App = () => {
   }, [dispatch]);
   return (
     <MainLayout>
-      <Sidebar linksArray={linksArray} />
+      {location.pathname !== '/candidats' && <Sidebar linksArray={linksArray} />}
       <Routes>
-        <Route path='/vacancies' element={<BasicLayout title='Вакансии' />} />
-        <Route path='/candidats' element={<BasicLayout title='Кандидаты' />} />
+        <Route path='/vacancies' element={<VacancyLayout title='Вакансии' />} />
+        <Route path='/candidats' element={<Candidats />} />
         <Route path='/structure' element={<BasicLayout title='Структура' />} />
 
         <Route path='/create' element={<LayoutForCreateVacancy />} />

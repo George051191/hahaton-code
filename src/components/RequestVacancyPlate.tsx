@@ -156,7 +156,7 @@ cursor: pointer;
 `;
 
 const RequestVacancyPlate: FC<TRequestVacancyPlate> = ({
-  title, salary, amount, coordinators, divisions, stats, date, id,
+  title, salary, amount, coordinators, divisions, stats, date, id, forVacancy,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -187,9 +187,12 @@ const RequestVacancyPlate: FC<TRequestVacancyPlate> = ({
       </List>
       <Span>{amount}</Span>
       <Span>{salary}</Span>
-      <VacancyStatus status={stats}>
+      {!forVacancy && <VacancyStatus status={stats}>
         {stats === StatusEnum.agreed ? 'Согласована' : stats === StatusEnum.cancel ? 'Отклонена' : stats === StatusEnum.send ? 'Отправлена' : 'На согласование'}
-      </VacancyStatus>
+      </VacancyStatus>}
+      {forVacancy && <VacancyStatus status={stats}>
+        {stats === StatusEnum.agreed ? 'В работе' : stats === StatusEnum.cancel ? 'Закрыта' : stats === StatusEnum.send ? 'Черновик' : 'На согласование'}
+      </VacancyStatus>}
       <IconWrapper stats='grey'>
         <LinkIcon />
       </IconWrapper>

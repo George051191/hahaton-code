@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -7,6 +8,7 @@
 /* eslint-disable ternary/no-unreachable */
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
 import {
   BasicInput, InputWithSelect, Dropdown, TextArea, DropdownWithDelete,
 } from './inputs';
@@ -15,6 +17,7 @@ import Modal from './Modal';
 import SidebarWithSettings from './SedebarWithSettings';
 import { useDispatch, useSelector } from '../store/store.type';
 import LogoHH from './logoHH';
+import { setCurrentVacancy } from '../store/vacancyRequestsSlice';
 
 const Layout = styled.section`
     margin-left: 294px;
@@ -175,12 +178,12 @@ const PublishingLayout: FC = () => {
   const [stage, setStage] = useState<number>(1);
   const { currentRequestData } = useSelector((state) => state.request);
   const [formValues, setVolume] = useState({});
-
+  const navigate = useNavigate();
   const [possValue, setPossValue] = useState(currentRequestData?.positionName);
   const [requrementValue, setReqValue] = useState(currentRequestData?.requirement);
   const [responsValue, setRespValue] = useState(currentRequestData?.responsibilities);
   const [commentValue, setComments] = useState(currentRequestData?.comments);
-
+  const dispatch = useDispatch();
   const [date, setDate] = useState(currentRequestData?.deadline!);
 
   const [amount, setAmount] = useState(currentRequestData?.positionCount!);
@@ -230,6 +233,12 @@ const PublishingLayout: FC = () => {
       ...formValues,
       [name]: value,
     });
+  };
+
+  const addAndGo = () => {
+    const name = formValues.positionName
+    dispatch(setCurrentVacancy(possValue));
+    navigate('/candidats');
   };
 
   return (
@@ -354,7 +363,7 @@ const PublishingLayout: FC = () => {
       {stage === 3 && <LogoHH />}
       <ButtonsContainer>
         <OptionButton onClick={() => setStage(1)} disabled={stage === 1} type='button' direction={stage === 1 ? '' : 'Back'}>Назад</OptionButton>
-        <OptionButton onClick={() => { stage === 2 ? setStage(3) : setStage(2); }} type='button' direction='Next'>Продолжить</OptionButton>
+        <OptionButton onClick={() => { stage === 2 ? setStage(3) : stage === 3 ? addAndGo() : setStage(2); }} type='button' direction='Next'>Продолжить</OptionButton>
         <OptionButton type='button' direction='Cancel'>Отмена</OptionButton>
       </ButtonsContainer>
     </Layout>

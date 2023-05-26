@@ -77,8 +77,8 @@ export type TVacancy = {
   responseMan: { id: number; name: string; };
   positionAmount: number;
   salary: number;
-  status: 'inWork' | 'draft' | 'close';
-  dateOfExpire: Date;
+  status: 'inWork' | 'draft' | 'close' | string;
+  dateOfExpire: Date | string;
   daysInProgressStatus: number;
   candidats: number;
 };

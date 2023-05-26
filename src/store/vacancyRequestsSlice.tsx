@@ -6,7 +6,9 @@ type TState = {
   currentVacanciesRequest: TVacancyRequest[] | null;
   approveStages: TApproveStage[] | null;
   vacansies: TVacancy[] | null;
+  currentVacanciesArr: TVacancy[] | null;
   currentRequestData: TRequestForPost | null;
+  currentVacancy: string | null;
 };
 
 const initialState: TState = {
@@ -15,6 +17,8 @@ const initialState: TState = {
   approveStages: null,
   vacansies: null,
   currentRequestData: null,
+  currentVacanciesArr: null,
+  currentVacancy: null,
 };
 
 const allRequests = createSlice({
@@ -35,7 +39,13 @@ const allRequests = createSlice({
     }),
     setCurrentRequesrArray: (state, action: PayloadAction<TVacancyRequest[]>) => ({
       ...state, currentVacanciesRequest: action.payload,
-    })
+    }),
+    setCurrentVacancyArray: (state, action: PayloadAction<TVacancy[]>) => ({
+      ...state, currentVacanciesArr: action.payload,
+    }),
+    setCurrentVacancy: (state, action: PayloadAction<string>) => ({
+      ...state, currentVacancy: action.payload,
+    }),
   },
 });
 
@@ -46,6 +56,8 @@ export const {
   setVacancies,
   setCurrentRequest,
   setCurrentRequesrArray,
+  setCurrentVacancyArray,
+  setCurrentVacancy,
 } = allRequests.actions;
 
 export default requestReducer;

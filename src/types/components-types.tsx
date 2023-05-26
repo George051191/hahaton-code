@@ -1,5 +1,5 @@
 import { StyledComponent } from 'styled-components';
-import { TApprover, TDepartment } from './apiTypes';
+import { TApprover, TCurrentUser, TDepartment } from './apiTypes';
 
 export type TSidebar = {
   linksArray:
@@ -76,7 +76,22 @@ export type TRequestVacancyPlate = {
   stats: StatusEnum;
   date: Date | string;
   id: number;
+  forVacancy: boolean;
 };
+
+export type TVacancyPlate = {
+  title: string;
+  approvers: TApprover[];
+  responseMan: TCurrentUser;
+  amount: number;
+  salary: number;
+  stats: StatusEnum;
+  dateOfExpire: string | Date,
+  daysInProgressStatus: number,
+  id: number;
+  forVacancy: boolean;
+  candidats: number;
+}
 
 export type TConstructor = {
   levelsArray: {

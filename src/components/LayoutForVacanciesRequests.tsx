@@ -154,6 +154,7 @@ const LayoutForVacanciesRequests: FC<{ title: string }> = ({ title }) => {
           stats={switchStatus(item.status)}
           date={new Date(item.deadline).toLocaleDateString()}
           id={item.id}
+          forVacancy={false}
         />
       ))}
 
