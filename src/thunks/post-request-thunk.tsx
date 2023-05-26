@@ -6,7 +6,8 @@ import { baseUrl, token } from '../services/constants/api-constants';
 const postRequestsThunk: AppThunk = () => async (dispatch, getState) => {
     try {
         const request = getState().request.currentRequestData ?? {};
-        await axios.post(`${baseUrl}/request/post`, request, {
+        console.log(request)
+        await axios.post(`${baseUrl}/api/vacancyrequest`, request, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

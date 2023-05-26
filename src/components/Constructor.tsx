@@ -9,6 +9,8 @@ import {
 import { Dropdown } from './inputs';
 import { TConstructor } from '../types/components-types';
 import { getNumberOfRest } from '../services/constants/utils';
+import { openStagePopup } from '../store/userAndOrganizationSlice';
+import { useDispatch } from '../store/store.type';
 
 const Layout = styled.div`
     display: flex;
@@ -120,7 +122,7 @@ const IconWrapper = styled.div<{ stats: 'red' | 'grey' | 'blue' }>`
     background: ${({ stats }) => (stats === 'red' ? 'rgba(255, 78, 88, 0.05)'
     : stats === 'grey' ? 'rgba(243, 245, 249, 1)'
       : 'rgba(25, 59, 103, 0.05)')
-};
+  };
     display: flex;
     align-items: center;
     justify-content: center;
@@ -209,6 +211,7 @@ const OptionButton = styled.button`
 `;
 
 const Constructor: FC<TConstructor> = ({ levelsArray, approvers }) => {
+  const dispatch = useDispatch();
   const [isOpen, open] = useState(false);
   const [approveArr, pushToArr] = useState<string[] | never>([]);
   const [current, setCurrent] = useState('');
@@ -253,14 +256,14 @@ const Constructor: FC<TConstructor> = ({ levelsArray, approvers }) => {
               <ClearPlusIcon />
             </AddButton>
             {isOpen && current === el.title && (
-            <CoardinatngsList>
-              {approvers.map((elem) => (
-                <CoardinatingsListItem
-                  onClick={() => pushAndCheckToArr(approveArr, elem, el.title)}>
-                  {elem}
-                </CoardinatingsListItem>
-              ))}
-            </CoardinatngsList>
+              <CoardinatngsList>
+                {approvers.map((elem) => (
+                  <CoardinatingsListItem
+                    onClick={() => pushAndCheckToArr(approveArr, elem, el.title)}>
+                    {elem}
+                  </CoardinatingsListItem>
+                ))}
+              </CoardinatngsList>
             )}
           </Contributors>
           <DropdownWrapper>
@@ -281,7 +284,7 @@ const Constructor: FC<TConstructor> = ({ levelsArray, approvers }) => {
         </Grid>
 
       ))}
-      <OptionButton>Добавить этап</OptionButton>
+      <OptionButton onClick={() => dispatch(openStagePopup(true))}>Добавить этап</OptionButton>
     </Layout>
   );
 };

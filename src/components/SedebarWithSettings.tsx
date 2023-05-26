@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
@@ -8,6 +9,7 @@ import styled from 'styled-components';
 import {
   DropdownWithDelete, InputWithDate, InputForPositionSelect, BasicInput,
 } from './inputs';
+import { useDispatch, useSelector } from '../store/store.type';
 
 const Sidebar = styled.aside`
     position: fixed;
@@ -34,30 +36,31 @@ const ContentWrapper = styled.div`
     min-height: 1000px;
     gap: 48px;
 `;
+type TSideBar = {
+  date: Date;
+  setDate: any;
+  amount: number;
+  setAmount: any;
+  salaryValue: number;
+  setValue: any;
+  onDecrease: () => void;
+  onIncrease: () => void;
+}
 
-const SidebarWithSettings: FC = () => {
-  const [date, setDate] = useState('');
-  const [amount, setAmount] = useState(0);
-  const [salaryValue, setValue] = useState();
-  const onDecrease = () => {
-    if (amount === 0) { return; }
-    setAmount(amount - 1);
-  };
+const SidebarWithSettings: FC<TSideBar> = ({ date, setDate, setAmount, setValue, amount, salaryValue, onDecrease, onIncrease }) => {
+  const { currentRequestData } = useSelector((state) => state.request)
 
-  const onIncrease = () => {
-    setAmount(amount + 1);
-  };
 
   return (
     <Sidebar>
       <ContentWrapper>
-        <DropdownWithDelete approversArr={['GOga Giga', 'Jajd fhrhhr']} title='Ответственные сотрудники ' forAprove />
+        <DropdownWithDelete approversArr={currentRequestData?.approvers} title='Ответственные сотрудники ' forAprove />
         <InputWithDate title='Дата закрытия вакансии' value={date} onClick={(e) => setDate(e.target.value)} />
-        <DropdownWithDelete divisionArr={['GOga Giga', 'Jajd fhrhhr']} title='Подразделение' forDivision />
-        <DropdownWithDelete clientArr={['GOga Giga', 'Jajd fhrhhr']} title='Заказчик' forClient />
+        <DropdownWithDelete divisionArr={currentRequestData?.departments} title='Подразделение' forDivision />
+        <DropdownWithDelete clientArr={currentRequestData?.customers} title='Заказчик' forClient />
         <InputForPositionSelect value={amount} onDecrease={onDecrease} onIncrease={onIncrease} title='Количество позиций' />
         <BasicInput type='number' name='salary' salary title='Зарплата' value={salaryValue} onChange={(e) => setValue(e.target.value)} />
-        <DropdownWithDelete mainArr={['GOga Giga', 'Jajd fhrhhr']} title='Согласующие лица' forMain />
+        <DropdownWithDelete mainArr={currentRequestData?.approvers} title='Согласующие лица' forMain />
       </ContentWrapper>
     </Sidebar>
   );

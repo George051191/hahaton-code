@@ -8,7 +8,9 @@ import { useNavigate } from 'react-router';
 import { LinkIcon, EditVacancyIcon, GarbageIcon } from './icons';
 import { TRequestVacancyPlate, StatusEnum } from '../types/components-types';
 import { getNumberOfRest } from '../services/constants/utils';
-
+import deleteRequestItemThunk from '../thunks/delete-requets-thunk';
+import { useDispatch } from '../store/store.type';
+import getCurrentRequestsThunk from '../thunks/get-current-request-thunk';
 const Wrapper = styled.div`
     max-width: 1025px;
     width: 100%;
@@ -154,16 +156,16 @@ cursor: pointer;
 `;
 
 const RequestVacancyPlate: FC<TRequestVacancyPlate> = ({
-  title, salary, amount, coordinators, divisions, stats, date,
+  title, salary, amount, coordinators, divisions, stats, date, id,
 }) => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   return (
     <Wrapper>
       <VacancCell>
         <Vacancy>{title}</Vacancy>
         <Span>{date}</Span>
-        {stats === StatusEnum.agreed && <PublishButton onClick={() => navigate('/publish')}>Опубликовать вакансию</PublishButton>}
+        {stats === StatusEnum.agreed && <PublishButton onClick={() => { dispatch(getCurrentRequestsThunk(id)); navigate('/publish') }}>Опубликовать вакансию</PublishButton>}
       </VacancCell>
       <List>
         {divisions?.slice(0, 5).map((el, index) => (
@@ -196,7 +198,7 @@ const RequestVacancyPlate: FC<TRequestVacancyPlate> = ({
         <EditVacancyIcon />
       </IconWrapper>
       <IconWrapper stats='red'>
-        <GarbageIcon />
+        <GarbageIcon onClick={() => dispatch(deleteRequestItemThunk(id))} />
       </IconWrapper>
     </Wrapper>
   );

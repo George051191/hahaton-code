@@ -20,6 +20,7 @@ import {
   ArrowIcon, DeleteIcon, PlusIcon, MinusIcon, ClockIcon, ClearArrowIcon,
 } from './icons';
 import { getNumberOfRest } from '../services/constants/utils';
+import { TApprover, TDepartment } from '../types/apiTypes';
 
 const Input = styled.input`
 border: none;
@@ -342,10 +343,10 @@ const BasicInput: FC<TBasicInput> = ({
   </InputWrapper>
 );
 
-const TextArea: FC<TBasicTextArea> = ({ title, onChange, value }) => (
+const TextArea: FC<TBasicTextArea> = ({ title, onChange, value, name }) => (
   <InputWrapper>
     {title && <InputTitle htmlFor='area'>{title}</InputTitle>}
-    <BasicTextArea value={value} id='area' onChange={onChange} />
+    <BasicTextArea name={name} value={value} id='area' onChange={onChange} />
   </InputWrapper>
 );
 
@@ -409,6 +410,7 @@ const DropdownListPlaceItem = styled.li`
   cursor: pointer;
   text-align: initial;
     margin-left: 7px;
+  
     :hover {
       color: ${({ theme: { mainButtonsColor } }) => mainButtonsColor};
     }
@@ -473,10 +475,10 @@ const DropdownWithDelete: FC<TDropdownWithDelete> = ({
   title, forAprove, forClient, forDivision, forMain, mainArr, divisionArr, clientArr, approversArr,
 }) => {
   const [isOpen, setOpen] = useState(false);
-  const [division, setDivision] = useState<null | never | string[]>(null);
-  const [client, setClient] = useState<null | never | string[]>(null);
-  const [approvers, setApprovers] = useState<null | never | string[]>(null);
-  const [main, setMain] = useState<null | never | string[]>(null);
+  const [division, setDivision] = useState<null | never | TDepartment[]>(divisionArr!);
+  const [client, setClient] = useState<null | never | TApprover[] | TDepartment[]>(clientArr!);
+  const [approvers, setApprovers] = useState<null | never | TApprover[] | TDepartment[]>(approversArr!);
+  const [main, setMain] = useState<null | never | TApprover[] | TDepartment[]>(mainArr!);
 
   const setCurrentArr = () => {
     if (forAprove) { return approvers || approversArr; }
@@ -485,15 +487,10 @@ const DropdownWithDelete: FC<TDropdownWithDelete> = ({
     if (forMain) { return main || mainArr; }
   };
 
-  const setProperty = (el: string) => {
-    if (forAprove) { setApprovers([...approversArr!, el]); }
-    if (forClient) { setClient([...clientArr!, el]); }
-    if (forDivision) { setDivision([...divisionArr!, el]); }
-    if (forMain) { setMain([...mainArr!, el]); }
-  };
+
 
   const deleteItem = (el: string) => {
-    const newArr = setCurrentArr()?.filter((elem) => el !== elem);
+    const newArr = setCurrentArr()?.filter((elem) => el !== elem.name);
     if (forAprove) { setApprovers(newArr!); }
     if (forClient) { setClient(newArr!); }
     if (forDivision) { setDivision(newArr!); }
@@ -513,9 +510,9 @@ const DropdownWithDelete: FC<TDropdownWithDelete> = ({
           && (
             <DropdownList>
               {setCurrentArr()!.map((el) => (
-                <DropdownListPlaceItem onClick={() => setProperty(el)}>
-                  {el}
-                  <IconWrapper onClick={(e) => { e.stopPropagation(); deleteItem(el); }}>
+                <DropdownListPlaceItem>
+                  {el.name}
+                  <IconWrapper onClick={(e) => { e.stopPropagation(); deleteItem(el.name); }}>
                     <DeleteIcon top={0} right={0} />
                   </IconWrapper>
 

@@ -3,7 +3,7 @@
 import React, { FC, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
-import { useDispatch } from '../store/store.type';
+import { useDispatch, useSelector } from '../store/store.type';
 import Sidebar from '../components/SideBar';
 import BasicLayout from '../components/BasicLayout';
 import { linksArray } from '../services/constants/utils';
@@ -12,6 +12,8 @@ import LayoutForVacanciesRequests from '../components/LayoutForVacanciesRequests
 import PublishingLayout from '../components/PublishingLayout';
 import getAllThunk from '../thunks/get-user-and-departments-thunk';
 import getAllRequestsThunk from '../thunks/get-request-thunk';
+import Modal from '../components/Modal';
+import { openStagePopup } from '../store/userAndOrganizationSlice';
 
 const MainLayout = styled.main`
   width: 100%;
@@ -22,7 +24,7 @@ const MainLayout = styled.main`
 
 const App = () => {
   const dispatch = useDispatch();
-
+  const { stagePopupOpen } = useSelector((state) => state.allBaseData);
   useEffect(() => {
     dispatch(getAllThunk());
     dispatch(getAllRequestsThunk())
@@ -39,6 +41,7 @@ const App = () => {
         <Route path='/analitics' element={<LayoutForVacanciesRequests title='Заявки на вакансию' />} />
         <Route path='/publish' element={<PublishingLayout />} />
       </Routes>
+      {stagePopupOpen && <Modal onClose={() => dispatch(openStagePopup(false))} />}
     </MainLayout>
   );
 };

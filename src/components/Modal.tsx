@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-closing-tag-location */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable ternary/no-unreachable */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import styled from 'styled-components';
+import ReactDOM from 'react-dom';
 import {
   BasicInput, TextArea, Dropdown, ColorDropdown,
 } from './inputs';
@@ -14,7 +16,8 @@ const ModalOverlay = styled.section`
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.4);
-    position: relative;
+    position: fixed;
+    top: 0;
     z-index: 9999999;
 `;
 
@@ -113,7 +116,8 @@ const OptionButton = styled.button<{ name: string }>`
     margin-top: 28px;
 `;
 
-const Modal: FC = () => {
+const Modal: FC<{ onClose: () => void }> = ({ onClose }) => {
+  const portalRoot = useMemo(() => document.getElementById('modal'), []) as Element;
   const actions = ['Звонок', 'Письмо', 'Письмо с датой'];
   const templates = ['Стартовое', 'Анкетирование', 'Певичное инет..', 'Оффер', 'ОнБординг', 'Отказ'];
   const colorShema = ['#7B61FF', '#7B61FF1A', '#008FFA1A', '#FFDA151A', '#0788361A', '#FF4E580D'];
@@ -126,27 +130,26 @@ const Modal: FC = () => {
     Опишите, был ли у вас подобный опыт работы над проектами в данной тематике?
     Когда вам было бы удобно пообщаться с руководителем проекта?
     Какие у вас зарплатные ожидания?`;
-  return (
-    <ModalOverlay>
-      <ModalContainer>
-        <LeftBox>
-          <BoxHeader>Создание этапа</BoxHeader>
-          <BasicInput title='Название' />
-          <ColorDropdown colorsArray={colorShema} />
-          <Dropdown withTitle title='Действие' items={actions} />
-        </LeftBox>
-        <RightBox>
-          <Dropdown withTitle title='Шаблон' items={templates} />
-          <BasicInput value={value} title='Тема письма' />
-          <TextArea value={modalValue} />
-          <ButtonWrapper>
-            <OptionButton type='button' name='cancel'>Отмена</OptionButton>
-            <OptionButton name='save'>Сохранить</OptionButton>
-          </ButtonWrapper>
-        </RightBox>
-      </ModalContainer>
-    </ModalOverlay>
-  );
+  return ReactDOM.createPortal((<ModalOverlay>
+    <ModalContainer>
+      <LeftBox>
+        <BoxHeader>Создание этапа</BoxHeader>
+        <BasicInput title='Название' />
+        <ColorDropdown colorsArray={colorShema} />
+        <Dropdown withTitle title='Действие' items={actions} />
+      </LeftBox>
+      <RightBox>
+        <Dropdown withTitle title='Шаблон' items={templates} />
+        <BasicInput value={value} title='Тема письма' />
+        <TextArea value={modalValue} />
+        <ButtonWrapper>
+          <OptionButton onClick={onClose} type='button' name='cancel'>Отмена</OptionButton>
+          <OptionButton name='save'>Сохранить</OptionButton>
+        </ButtonWrapper>
+      </RightBox>
+    </ModalContainer>
+  </ModalOverlay>
+  ), portalRoot);
 };
 
 export default Modal;

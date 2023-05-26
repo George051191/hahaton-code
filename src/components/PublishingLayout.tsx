@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable ternary/nesting */
 /* eslint-disable ternary/no-unreachable */
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   BasicInput, InputWithSelect, Dropdown, TextArea, DropdownWithDelete,
@@ -10,6 +13,8 @@ import {
 import Constructor from './Constructor';
 import Modal from './Modal';
 import SidebarWithSettings from './SedebarWithSettings';
+import { useDispatch, useSelector } from '../store/store.type';
+import LogoHH from './logoHH';
 
 const Layout = styled.section`
     margin-left: 294px;
@@ -36,10 +41,13 @@ const NavigateConatainer = styled.div`
     font-size: 16px;
     line-height: 22px;
     height: 51px;
+    justify-content: center;
 `;
 const ButtonContainer = styled.div`
-    margin: 0 auto;
+   
     display: flex;
+    position: relative;
+    left: -107px;
 `;
 
 const NavigateButton = styled.button<{ isClicked: boolean }>`
@@ -165,6 +173,19 @@ const OptionButton = styled.button<{ direction: string }>`
 
 const PublishingLayout: FC = () => {
   const [stage, setStage] = useState<number>(1);
+  const { currentRequestData } = useSelector((state) => state.request);
+  const [formValues, setVolume] = useState({});
+
+  const [possValue, setPossValue] = useState(currentRequestData?.positionName);
+  const [requrementValue, setReqValue] = useState(currentRequestData?.requirement);
+  const [responsValue, setRespValue] = useState(currentRequestData?.responsibilities);
+  const [commentValue, setComments] = useState(currentRequestData?.comments);
+
+  const [date, setDate] = useState(currentRequestData?.deadline!);
+
+  const [amount, setAmount] = useState(currentRequestData?.positionCount!);
+  const [salaryValue, setValue] = useState(`${currentRequestData?.salary!}`);
+
   const arr = ['Главный офис', 'Офис на Красной 125', 'Офис город Москва'];
   const levelsArray = [
     { title: 'Новое', bgColor: '#F3F5F9', border: '#B0B0B0' },
@@ -177,10 +198,44 @@ const PublishingLayout: FC = () => {
     { title: 'Отказ', bgColor: '#FF4E580D', border: '#FF4E58' },
   ];
   const approvers = ['Павел Павел', 'Гена Гена', 'Ира Ира'];
+  const onDecrease = () => {
+    if (amount === 0) { return; }
+    setAmount(amount - 1);
+    setVolume({
+      ...formValues,
+      positionCount: amount,
+    });
+  };
+
+  const onIncrease = () => {
+    setAmount(amount + 1);
+    setVolume({
+      ...formValues,
+      positionCount: amount,
+    });
+  };
+
+  const writeDate = (el: any) => {
+    setDate(el);
+    setVolume({
+      ...formValues,
+      deadline: el,
+    });
+  };
+
+  const addToVacancy = (e: any) => {
+    const { value, name } = e.target;
+
+    setVolume({
+      ...formValues,
+      [name]: value,
+    });
+  };
+
   return (
 
     <Layout>
-      <SidebarWithSettings />
+      <SidebarWithSettings date={date} setDate={setDate} amount={amount} setAmount={setAmount} salaryValue={salaryValue} setValue={setValue} onDecrease={onDecrease} onIncrease={onIncrease} />
       <NavigateConatainer>
         <ButtonContainer>
           <NavigateButton onClick={() => setStage(1)} isClicked={stage === 1}>
@@ -200,8 +255,8 @@ const PublishingLayout: FC = () => {
       {stage === 1 && (
         <FormContainer>
           <Form>
-            <BasicInput title='Должность' />
-            <BasicInput placeholder='Разделить - точка запятая ;' title='Ключевые навыки' />
+            <BasicInput name='positionName' onChange={(e) => { setPossValue(e.target.value); addToVacancy(e); }} value={possValue} title='Должность' />
+            <BasicInput name='abilities' onChange={(e) => { addToVacancy(e); }} placeholder='Разделить - точка запятая ;' title='Ключевые навыки' />
             <BasicCheckBoxesConatiner>
               <BoxesHeader>Опыт работы</BoxesHeader>
               <ChecksPanel>
@@ -287,18 +342,19 @@ const PublishingLayout: FC = () => {
                 </CheckBoxContainer>
               </ChecksPanel>
             </BasicCheckBoxesConatiner>
-            <TextArea name='responsibilities ' title='Обязанности кандидата' />
-            <TextArea name='requirement' title='Требования к кандидату' />
-            <TextArea name='comments' title='Комментарии' />
+            <TextArea onChange={(e) => setRespValue(e.target.value)} value={responsValue} name='responsibilities ' title='Обязанности кандидата' />
+            <TextArea onChange={(e) => setReqValue(e.target.value)} value={requrementValue} name='requirement' title='Требования к кандидату' />
+            <TextArea onChange={(e) => setComments(e.target.value)} value={commentValue} name='comments' title='Комментарии' />
 
           </Form>
         </FormContainer>
       )}
 
       {stage === 2 && <Constructor levelsArray={levelsArray} approvers={approvers} />}
+      {stage === 3 && <LogoHH />}
       <ButtonsContainer>
         <OptionButton onClick={() => setStage(1)} disabled={stage === 1} type='button' direction={stage === 1 ? '' : 'Back'}>Назад</OptionButton>
-        <OptionButton onClick={() => setStage(2)} type='button' direction='Next'>Продолжить</OptionButton>
+        <OptionButton onClick={() => { stage === 2 ? setStage(3) : setStage(2); }} type='button' direction='Next'>Продолжить</OptionButton>
         <OptionButton type='button' direction='Cancel'>Отмена</OptionButton>
       </ButtonsContainer>
     </Layout>

@@ -36,19 +36,30 @@ export type TVacancyRequest = {
   comments: string;
 };
 
+type ExtendApprover = TApprover & {
+
+  approved: Date;
+  rejected: Date;
+
+};
+
 export type TRequestForPost = {
   positionName: string;
   positionCount: number;
   deadline: Date;
-  department: TDepartment[];
-  approvers: TApprover[];
+  departments: TDepartment[];
+  approvers: TApprover[] | ExtendApprover[];
   salary: number;
+  salaryType?: string;
+  departmentId: 0;
   responsibilities: string;
   requirement: string;
   comments: string;
-  customer: TCurrentUser[];
-};
+  customers: TCurrentUser[];
+  templateId?: 0;
+  status: 1;
 
+};
 
 export type TApproveStage = {
   id: number;
@@ -86,5 +97,3 @@ export type TResumeData = {
   email: string;
   /// на усмотрение бэка, что и как сможете отдать
 };
-
-

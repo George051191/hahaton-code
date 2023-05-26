@@ -152,7 +152,9 @@ const LayoutForVacanciesRequests: FC<{ title: string }> = ({ title }) => {
           divisions={item.departments}
           coordinators={item.approvers}
           stats={switchStatus(item.status)}
-          date={new Date(item.deadline).toLocaleDateString()} />
+          date={new Date(item.deadline).toLocaleDateString()}
+          id={item.id}
+        />
       ))}
 
     </Layout>

@@ -161,17 +161,18 @@ const LayoutForCreateVacancy: FC = () => {
   }
 
   const addToVacancy = (e: any) => {
-    const { name } = e.target;
-    const { value } = e.target;
+
+    const { value, name } = e.target;
+
     setVolume({
       ...formValues,
-      name: value,
+      [name]: value,
     });
   };
 
   const gotTOPublish = () => {
     if (stage === 2) {
-      dispatch(setCurrentRequest({ ...formValues, customer: [currentUser] } as TRequestForPost))
+      dispatch(setCurrentRequest({ ...formValues, customers: [currentUser] } as TRequestForPost))
       dispatch(postRequestsThunk())
 
       navigate('/analitics')
@@ -190,7 +191,7 @@ const LayoutForCreateVacancy: FC = () => {
     }
     const findDivision = allDepartments?.find(div => div.name === e.target.value)
     setDivision([...division, findDivision!]);
-    console.log(division)
+
     setVolume({
       ...formValues,
       departments: [...division, findDivision]
@@ -228,7 +229,7 @@ const LayoutForCreateVacancy: FC = () => {
   const deleteItem = (item: string) => {
     console.log(item)
     const arr = division.filter((el) => el.name !== item);
-    console.log(arr)
+
     setDivision(arr);
     setVolume({
       ...formValues,
@@ -261,7 +262,7 @@ const LayoutForCreateVacancy: FC = () => {
         {stage === 1 && (
           <Form>
 
-            <BasicInput name=' positionName' type='text' title='Должность' onChange={(e) => addToVacancy(e)} />
+            <BasicInput name='positionName' type='text' title='Должность' onChange={(e) => addToVacancy(e)} />
             <Wrapper>
               <InputForPositionSelect value={amount} onDecrease={onDecrease} onIncrease={onIncrease} title='Количество позиций' />
               <InputWithDate title='Дата закрытия вакансии' value={date!} onClick={(e) => writeDate(e.target.value)} />

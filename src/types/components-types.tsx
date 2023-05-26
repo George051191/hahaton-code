@@ -28,10 +28,10 @@ export type TDropdownWithDelete = {
   forAprove?: boolean;
   forClient?: boolean;
   forMain?: boolean;
-  approversArr?: string[];
-  mainArr?: string[];
-  clientArr?: string[];
-  divisionArr?: string[];
+  approversArr?: TDepartment[] | TApprover[];
+  mainArr?: TDepartment[] | TApprover[];
+  clientArr?: TDepartment[] | TApprover[];
+  divisionArr?: TDepartment[] | TApprover[];
 };
 
 export type TBasicTextArea = Omit<TBasicInput, 'type' | 'error'>;
@@ -56,7 +56,7 @@ export type TInputForAmount = {
 
 export type TInputWithDate = {
   onClick: (e: any) => void;
-  value: string;
+  value: Date;
   title: string;
 };
 
@@ -75,6 +75,7 @@ export type TRequestVacancyPlate = {
   salary: number;
   stats: StatusEnum;
   date: Date | string;
+  id: number;
 };
 
 export type TConstructor = {
@@ -83,5 +84,5 @@ export type TConstructor = {
     bgColor: string,
     border: string
   }[];
-  approvers: string[];
+  approvers: TApprover[];
 };
