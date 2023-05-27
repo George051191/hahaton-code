@@ -172,7 +172,7 @@ const LayoutForCreateVacancy: FC = () => {
 
   const gotTOPublish = () => {
     if (stage === 2) {
-      dispatch(setCurrentRequest({ ...formValues, customers: [currentUser] } as TRequestForPost))
+      // dispatch(setCurrentRequest({ ...formValues, customers: [currentUser] } as TRequestForPost))
       dispatch(postRequestsThunk())
 
       navigate('/analitics')

@@ -2,12 +2,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable ternary/no-unreachable */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 import {
   BasicInput, TextArea, Dropdown, ColorDropdown,
 } from './inputs';
+import { useSelector, useDispatch } from '../store/store.type';
+import { setStages } from '../store/vacancyRequestsSlice';
 
 const ModalOverlay = styled.section`
     width: 100vw;
@@ -117,39 +119,63 @@ const OptionButton = styled.button<{ name: string }>`
 `;
 
 const Modal: FC<{ onClose: () => void }> = ({ onClose }) => {
+  const { approveStages } = useSelector((state) => state.request);
+  const dispatch = useDispatch();
   const portalRoot = useMemo(() => document.getElementById('modal'), []) as Element;
   const actions = ['Звонок', 'Письмо', 'Письмо с датой'];
+  const [actionForForm, setAction] = useState<string>('');
+  const [templateForForm, setTemplate] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [color, setColorFor] = useState<string>('');
+  const [value, setValue] = useState<string>('Уважаемый  [Имя Фамилия] приглашаем на нашу вакансию [Название вакансии]');
+  const [modalValue, setModalValue] = useState<string>(`Приглашаем на вакансию [Название вакансии]
+  
+  О вакансии
+  [Описание вакансии]
+  Просим ответить на несколько вопросов
+  Опишите, был ли у вас подобный опыт работы над проектами в данной тематике?
+  Когда вам было бы удобно пообщаться с руководителем проекта?
+  Какие у вас зарплатные ожидания?`);
   const templates = ['Стартовое', 'Анкетирование', 'Певичное инет..', 'Оффер', 'ОнБординг', 'Отказ'];
-  const colorShema = ['#7B61FF', '#7B61FF1A', '#008FFA1A', '#FFDA151A', '#0788361A', '#FF4E580D'];
-  const value = 'Уважаемый  [Имя Фамилия] приглашаем на нашу вакансию [Название вакансии]';
-  const modalValue = `Приглашаем на вакансию [Название вакансии]
+  const colorShema = ['#483f72', '#7B61FF1A', '#008FFA1A', '#FFDA151A', '#0788361A', '#FF4E580D'];
 
-    О вакансии
-    [Описание вакансии]
-    Просим ответить на несколько вопросов
-    Опишите, был ли у вас подобный опыт работы над проектами в данной тематике?
-    Когда вам было бы удобно пообщаться с руководителем проекта?
-    Какие у вас зарплатные ожидания?`;
-  return ReactDOM.createPortal((<ModalOverlay>
-    <ModalContainer>
-      <LeftBox>
-        <BoxHeader>Создание этапа</BoxHeader>
-        <BasicInput title='Название' />
-        <ColorDropdown colorsArray={colorShema} />
-        <Dropdown withTitle title='Действие' items={actions} />
-      </LeftBox>
-      <RightBox>
-        <Dropdown withTitle title='Шаблон' items={templates} />
-        <BasicInput value={value} title='Тема письма' />
-        <TextArea value={modalValue} />
-        <ButtonWrapper>
-          <OptionButton onClick={onClose} type='button' name='cancel'>Отмена</OptionButton>
-          <OptionButton name='save'>Сохранить</OptionButton>
-        </ButtonWrapper>
-      </RightBox>
-    </ModalContainer>
-  </ModalOverlay>
-  ), portalRoot);
+  const addStage = (e: any) => {
+    e.preventDefault();
+    const stageNew = {
+      id: Math.random(),
+      title: name,
+      approvers: [],
+      action: actionForForm,
+      template: templateForForm,
+      bgColor: color,
+      border: 'rgba(255, 231, 17, 1)',
+      isFinal: false,
+    };
+    dispatch(setStages([...approveStages, stageNew]));
+  };
+
+  return ReactDOM.createPortal(
+    (<ModalOverlay>
+      <ModalContainer>
+        <LeftBox>
+          <BoxHeader>Создание этапа</BoxHeader>
+          <BasicInput onChange={(e) => setName(e.target.value)} title='Название' />
+          <ColorDropdown globalSet={setColorFor} colorsArray={colorShema} />
+          <Dropdown globalSet={setAction} withTitle title='Действие' items={actions} />
+        </LeftBox>
+        <RightBox>
+          <Dropdown globalSet={setTemplate} withTitle title='Шаблон' items={templates} />
+          <BasicInput onChange={(e) => setValue(e.target.value)} value={value} title='Тема письма' />
+          <TextArea onChange={(e) => setModalValue(e.target.value)} value={modalValue} />
+          <ButtonWrapper>
+            <OptionButton onClick={onClose} type='button' name='cancel'>Отмена</OptionButton>
+            <OptionButton type='button' onClick={(e) => { onClose(); addStage(e); }} name='save'>Сохранить</OptionButton>
+          </ButtonWrapper>
+        </RightBox>
+      </ModalContainer>
+    </ModalOverlay>
+    ), portalRoot,
+  );
 };
 
 export default Modal;

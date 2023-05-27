@@ -3,18 +3,21 @@ import axios from 'axios';
 import { batch } from 'react-redux';
 import { AppThunk } from '../store/store.type';
 import { baseUrl, token } from '../services/constants/api-constants';
-import { setCurrentRequest } from '../store/vacancyRequestsSlice';
+import { setCurrentRequest, timer } from '../store/vacancyRequestsSlice';
 
 const getCurrentRequestsThunk: AppThunk = (id: number) => async (dispatch, getState) => {
+    dispatch(timer(false));
     try {
-        const currentRequest = await axios.get(`${baseUrl}/api/vacancyrequest/${id}`, {
+        const currentRequest = await axios.get(`${baseUrl}/api/vacancyrequest?id=${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
-        })
-        dispatch(setCurrentRequest(currentRequest.data.vacancyRequest))
+        });
+
+        dispatch(setCurrentRequest(currentRequest.data.vacancyRequest));
+        dispatch(timer(true));
     } catch (error) {
-        console.log(error);
+
     }
 };
 

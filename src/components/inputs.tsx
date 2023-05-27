@@ -134,12 +134,12 @@ const Datalist = styled.datalist`
     
     display: flex;
     width: 100%;
- 
+ z-index: 99999999;
     padding: 5px;
     overflow-y: auto;
     top: 70px;
     flex-direction: column;
-   
+    height: 50px;
     padding-left: 7px;
     transition: all ease .5s;
 `;
@@ -381,6 +381,9 @@ const DropdownButton = styled.button`
   line-height: 22px;
   width: 100%;
   text-align: inherit;
+  text-overflow: ellipsis;
+    white-space: nowrap;
+   
 `;
 
 const DropdownList = styled.ul`
@@ -511,7 +514,7 @@ const DropdownWithDelete: FC<TDropdownWithDelete> = ({
             <DropdownList>
               {setCurrentArr()!.map((el) => (
                 <DropdownListPlaceItem>
-                  {el.name}
+                  {`${el.name.slice(0, 8)}...`}
                   <IconWrapper onClick={(e) => { e.stopPropagation(); deleteItem(el.name); }}>
                     <DeleteIcon top={0} right={0} />
                   </IconWrapper>
@@ -525,7 +528,7 @@ const DropdownWithDelete: FC<TDropdownWithDelete> = ({
   );
 };
 
-const ColorDropdown: FC<{ colorsArray: string[] }> = ({ colorsArray }) => {
+const ColorDropdown: FC<{ colorsArray: string[], globalSet: React.Dispatch<React.SetStateAction<string>>, }> = ({ colorsArray, globalSet }) => {
   const [currentColor, setColor] = useState('hsl(249.873417721519, 100%, 69.01960784313725%)');
   const [isOpen, open] = useState(false);
 
@@ -536,7 +539,7 @@ const ColorDropdown: FC<{ colorsArray: string[] }> = ({ colorsArray }) => {
       {isOpen && (
         <ColorList>
           {colorsArray.map((item) => (
-            <ColorStyleTemplate color={item} onClick={() => setColor(item)} />
+            <ColorStyleTemplate color={item} onClick={() => { globalSet(item); setColor(item) }} />
           ))}
         </ColorList>
       )}
@@ -548,8 +551,10 @@ const ColorDropdown: FC<{ colorsArray: string[] }> = ({ colorsArray }) => {
 const Dropdown: FC<{
   items: string[],
   withTitle: boolean,
-  title?: string
-}> = ({ items, withTitle, title }) => {
+  title?: string,
+  value: string,
+  globalSet?: React.Dispatch<React.SetStateAction<string>>,
+}> = ({ items, withTitle, title, value, globalSet }) => {
   const [isOpen, setOpen] = useState(false);
   const [division, setDivision] = useState('');
   return (
@@ -557,12 +562,12 @@ const Dropdown: FC<{
       {withTitle && <BoxesHeader>{title}</BoxesHeader>}
       <DropdownButton type='button'>
         <ClearArrowIcon isActive={isOpen} onClick={() => setOpen(!isOpen)} />
-        {division}
+        {division || value}
         {isOpen
           && (
             <DropdownList>
               {items.map((el) => (
-                <DropdownListPlaceItem onClick={() => setDivision(el)}>{el}</DropdownListPlaceItem>
+                <DropdownListPlaceItem onClick={() => { globalSet(el); setDivision(el) }}>{el}</DropdownListPlaceItem>
               ))}
             </DropdownList>
           )}

@@ -44,7 +44,7 @@ const App = () => {
 
         <Route path='/create' element={<LayoutForCreateVacancy />} />
         <Route path='/analitics' element={<LayoutForVacanciesRequests title='Заявки на вакансию' />} />
-        <Route path='/publish' element={<PublishingLayout />} />
+        <Route path='/publish/:id' element={<PublishingLayout />} />
       </Routes>
       {stagePopupOpen && <Modal onClose={() => dispatch(openStagePopup(false))} />}
     </MainLayout>

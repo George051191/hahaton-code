@@ -95,9 +95,14 @@ export type TVacancyPlate = {
 
 export type TConstructor = {
   levelsArray: {
-    title: string,
-    bgColor: string,
-    border: string
+    action: string;
+    approvers: TApprover[];
+    bgColor: string;
+    border: string;
+    id: number;
+    isFinal: boolean;
+    template: string | null;
+    title: string;
   }[];
-  approvers: TApprover[];
+
 };

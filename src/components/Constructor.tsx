@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable ternary/nesting */
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   ClearPlusIcon, PencilIcon, GarbageIcon, ThreeIcon,
 } from './icons';
 import { Dropdown } from './inputs';
 import { TConstructor } from '../types/components-types';
-import { getNumberOfRest } from '../services/constants/utils';
+import { getNumberInArray, getNumberOfRest } from '../services/constants/utils';
 import { openStagePopup } from '../store/userAndOrganizationSlice';
-import { useDispatch } from '../store/store.type';
+import { useDispatch, useSelector } from '../store/store.type';
+import { TApprover } from '../types/apiTypes';
+import { setStages } from '../store/vacancyRequestsSlice';
 
 const Layout = styled.div`
     display: flex;
@@ -210,20 +212,49 @@ const OptionButton = styled.button`
 
 `;
 
-const Constructor: FC<TConstructor> = ({ levelsArray, approvers }) => {
+const Constructor: FC<TConstructor> = ({ levelsArray }) => {
   const dispatch = useDispatch();
   const [isOpen, open] = useState(false);
-  const [approveArr, pushToArr] = useState<string[] | never>([]);
+  const [approveArr, pushToArr] = useState([]);
   const [current, setCurrent] = useState('');
   const actions = ['Звонок', 'Письмо', 'Письмо с датой'];
   const templates = ['Стартовое', 'Анкетирование', 'Певичное инет..', 'Оффер', 'ОнБординг', 'Отказ'];
+  const { allSystemUsers } = useSelector((state) => state.allBaseData);
+  const { currentRequestData, approveStages } = useSelector((state) => state.request);
+  const pushAndCheckToArr = (elem: string, curTitle: string, index: number) => {
+    /*  const w = arr.find(elArr => { console.log(elArr, elem); elArr.name !== elem })
+     if (w) { console.log(elem, curTitle); return; } */
 
-  const pushAndCheckToArr = (arr: string[], elem: string, curTitle: string) => {
-    if (arr.includes(elem)) { return; }
     if (curTitle === current) {
-      pushToArr([...arr, elem]);
+      const approver = currentRequestData?.approvers?.find((user) => user.name === elem);
+
+      const copy = [...approveArr]
+      if (copy[index].find(w => w.name === elem)) { return }
+      if (approveArr.length === 0) {
+
+        copy[index] = [approver]
+        pushToArr(copy);
+      } else {
+
+        const modeArr = [...approveArr[index], approver]
+
+        copy[index] = modeArr
+
+        pushToArr(copy);
+
+      }
     }
   };
+
+  const deleteStage = (id: number) => {
+    const filteredStageArr = levelsArray.filter(arrStageEl => arrStageEl.id !== id)
+    dispatch(setStages(filteredStageArr));
+  }
+
+  useEffect(() => {
+    const newFilledArr = Array(20).fill([]);
+    pushToArr(newFilledArr)
+  }, [])
 
   return (
     <Layout>
@@ -235,7 +266,7 @@ const Constructor: FC<TConstructor> = ({ levelsArray, approvers }) => {
         <TableHeaderItem>Шаблон</TableHeaderItem>
         <span />
       </TableHeader>
-      {levelsArray.map((el) => (
+      {levelsArray.map((el, indx) => (
         <Grid border={el.border} bgColor={el.bgColor}>
           <Input>
             <ThreeIcon />
@@ -245,11 +276,11 @@ const Constructor: FC<TConstructor> = ({ levelsArray, approvers }) => {
           <Contributors>
             {/* это массив с бека */}
             {' '}
-            {approveArr.slice(0, 5).map((item, index) => (
+            {approveArr[indx] && approveArr[indx].concat(el.approvers) && approveArr[indx].slice(0, 5).map((item, index) => (
               <ListItem
                 key={item}
                 pos={index}>
-                {getNumberOfRest(index, approveArr)}
+                {getNumberInArray(indx, index, approveArr)}
               </ListItem>
             ))}
             <AddButton onClick={() => { setCurrent(el.title); open(!isOpen); }}>
@@ -257,28 +288,26 @@ const Constructor: FC<TConstructor> = ({ levelsArray, approvers }) => {
             </AddButton>
             {isOpen && current === el.title && (
               <CoardinatngsList>
-                {approvers.map((elem) => (
+                {currentRequestData?.approvers.map((elem) => (
                   <CoardinatingsListItem
-                    onClick={() => pushAndCheckToArr(approveArr, elem, el.title)}>
-                    {elem}
+                    onClick={() => pushAndCheckToArr(elem.name, el.title, indx)}>
+                    {elem.name}
                   </CoardinatingsListItem>
                 ))}
               </CoardinatngsList>
             )}
           </Contributors>
           <DropdownWrapper>
-            <Dropdown withTitle={false} items={actions} />
+            <Dropdown value={el.action} withTitle={false} items={actions} />
           </DropdownWrapper>
           <DropdownWrapper>
-            <Dropdown withTitle={false} items={templates} />
+            <Dropdown value={el.template} withTitle={false} items={templates} />
           </DropdownWrapper>
 
           <IconContainer>
-            <IconWrapper stats='blue'>
-              <PencilIcon />
-            </IconWrapper>
+
             <IconWrapper stats='red'>
-              <GarbageIcon />
+              <GarbageIcon onClick={() => deleteStage(el.id)} />
             </IconWrapper>
           </IconContainer>
         </Grid>

@@ -4,12 +4,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   DropdownWithDelete, InputWithDate, InputForPositionSelect, BasicInput,
 } from './inputs';
 import { useDispatch, useSelector } from '../store/store.type';
+import getCurrentRequestsThunk from '../thunks/get-current-request-thunk';
 
 const Sidebar = styled.aside`
     position: fixed;
@@ -48,11 +49,17 @@ type TSideBar = {
 }
 
 const SidebarWithSettings: FC<TSideBar> = ({ date, setDate, setAmount, setValue, amount, salaryValue, onDecrease, onIncrease }) => {
-  const { currentRequestData } = useSelector((state) => state.request)
+  const { currentRequestData, currentRequestId } = useSelector((state) => state.request)
+  const dispatch = useDispatch()
+  useEffect(() => {
+
+    console.log(currentRequestData)
+  }, [dispatch, currentRequestData])
 
 
   return (
-    <Sidebar>
+    currentRequestData &&
+    (<Sidebar>
       <ContentWrapper>
         <DropdownWithDelete approversArr={currentRequestData?.approvers} title='Ответственные сотрудники ' forAprove />
         <InputWithDate title='Дата закрытия вакансии' value={date} onClick={(e) => setDate(e.target.value)} />
@@ -62,7 +69,7 @@ const SidebarWithSettings: FC<TSideBar> = ({ date, setDate, setAmount, setValue,
         <BasicInput type='number' name='salary' salary title='Зарплата' value={salaryValue} onChange={(e) => setValue(e.target.value)} />
         <DropdownWithDelete mainArr={currentRequestData?.approvers} title='Согласующие лица' forMain />
       </ContentWrapper>
-    </Sidebar>
+    </Sidebar>)
   );
 };
 

@@ -23,10 +23,23 @@ export const linksArray = [
 ];
 
 export const getNumberOfRest = (index: number, array: any) => {
+  if (array.includes(undefined)) { return }
+  console.log(array)
   if (index === 4) {
     return `+${array.length - 4}`;
   }
-  console.log(array[index].name)
+
   const Tab = array[index].name.indexOf(' ');
   return array[index].name[0] + array[index].name[Tab + 1];
 };
+
+export const getNumberInArray = (ind: number, index: number, array: any) => {
+  if (array.includes(undefined)) { return }
+  console.log(array)
+  if (array[ind].length > 4 && index === 4) {
+    return `+${array[ind].length - 4}`;
+  }
+
+  const Tab = array[ind][index].name.indexOf(' ');
+  return array[ind][index].name[0] + array[ind][index].name[Tab + 1];
+}

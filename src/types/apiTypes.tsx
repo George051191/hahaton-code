@@ -44,6 +44,7 @@ type ExtendApprover = TApprover & {
 };
 
 export type TRequestForPost = {
+  id: number;
   positionName: string;
   positionCount: number;
   deadline: Date;

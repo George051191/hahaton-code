@@ -12,7 +12,7 @@ const getAllStagesThunk: AppThunk = () => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(setStages(stages.data));
+
   } catch (error) {
     console.log(error);
   }

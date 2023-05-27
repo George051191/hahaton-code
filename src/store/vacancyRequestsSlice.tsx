@@ -9,6 +9,8 @@ type TState = {
   currentVacanciesArr: TVacancy[] | null;
   currentRequestData: TRequestForPost | null;
   currentVacancy: string | null;
+  timer: boolean;
+  currentRequestId: number | null;
 };
 
 const initialState: TState = {
@@ -19,6 +21,8 @@ const initialState: TState = {
   currentRequestData: null,
   currentVacanciesArr: null,
   currentVacancy: null,
+  timer: false,
+  currentRequestId: null,
 };
 
 const allRequests = createSlice({
@@ -46,6 +50,12 @@ const allRequests = createSlice({
     setCurrentVacancy: (state, action: PayloadAction<string>) => ({
       ...state, currentVacancy: action.payload,
     }),
+    timer: (state, action: PayloadAction<boolean>) => ({
+      ...state, timer: action.payload,
+    }),
+    setId: (state, action: PayloadAction<number>) => ({
+      ...state, currentRequestId: action.payload,
+    }),
   },
 });
 
@@ -58,6 +68,8 @@ export const {
   setCurrentRequesrArray,
   setCurrentVacancyArray,
   setCurrentVacancy,
+  timer,
+  setId,
 } = allRequests.actions;
 
 export default requestReducer;

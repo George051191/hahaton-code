@@ -8,7 +8,7 @@
 /* eslint-disable ternary/no-unreachable */
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import {
   BasicInput, InputWithSelect, Dropdown, TextArea, DropdownWithDelete,
 } from './inputs';
@@ -18,6 +18,9 @@ import SidebarWithSettings from './SedebarWithSettings';
 import { useDispatch, useSelector } from '../store/store.type';
 import LogoHH from './logoHH';
 import { setCurrentVacancy } from '../store/vacancyRequestsSlice';
+import getCurrentRequestsThunk from '../thunks/get-current-request-thunk';
+import getAllStagesThunk from '../thunks/get-stages-thunk';
+import getStagesThunk from '../thunks/get-stages-for-vacancy-thunk';
 
 const Layout = styled.section`
     margin-left: 294px;
@@ -175,8 +178,9 @@ const OptionButton = styled.button<{ direction: string }>`
 `;
 
 const PublishingLayout: FC = () => {
+  const location = useLocation()
   const [stage, setStage] = useState<number>(1);
-  const { currentRequestData } = useSelector((state) => state.request);
+  const { currentRequestData, timer, currentRequestId, approveStages } = useSelector((state) => state.request);
   const [formValues, setVolume] = useState({});
   const navigate = useNavigate();
   const [possValue, setPossValue] = useState(currentRequestData?.positionName);
@@ -209,6 +213,21 @@ const PublishingLayout: FC = () => {
       positionCount: amount,
     });
   };
+  useEffect(() => {
+    console.log(approveStages)
+  }, [approveStages])
+
+  useEffect(() => {
+    dispatch(getCurrentRequestsThunk(currentRequestId))
+    dispatch(getStagesThunk(location.pathname.slice(9)))
+    setPossValue(currentRequestData?.positionName)
+    setReqValue(currentRequestData?.requirement);
+    setRespValue(currentRequestData?.responsibilities);
+    setComments(currentRequestData?.comments);
+    setDate(currentRequestData?.deadline!);
+    setAmount(currentRequestData?.positionCount!);
+    setValue(`${currentRequestData?.salary!}`);
+  }, [dispatch, currentRequestData]);
 
   const onIncrease = () => {
     setAmount(amount + 1);
@@ -236,7 +255,7 @@ const PublishingLayout: FC = () => {
   };
 
   const addAndGo = () => {
-    const name = formValues.positionName
+    const name = formValues.positionName;
     dispatch(setCurrentVacancy(possValue));
     navigate('/candidats');
   };
@@ -244,7 +263,7 @@ const PublishingLayout: FC = () => {
   return (
 
     <Layout>
-      <SidebarWithSettings date={date} setDate={setDate} amount={amount} setAmount={setAmount} salaryValue={salaryValue} setValue={setValue} onDecrease={onDecrease} onIncrease={onIncrease} />
+      <SidebarWithSettings date={date} setDate={writeDate} amount={amount} setAmount={setAmount} salaryValue={salaryValue} setValue={setValue} onDecrease={onDecrease} onIncrease={onIncrease} />
       <NavigateConatainer>
         <ButtonContainer>
           <NavigateButton onClick={() => setStage(1)} isClicked={stage === 1}>
@@ -261,7 +280,7 @@ const PublishingLayout: FC = () => {
           </NavigateButton>
         </ButtonContainer>
       </NavigateConatainer>
-      {stage === 1 && (
+      {stage === 1 && currentRequestData?.positionName && (
         <FormContainer>
           <Form>
             <BasicInput name='positionName' onChange={(e) => { setPossValue(e.target.value); addToVacancy(e); }} value={possValue} title='Должность' />
@@ -359,7 +378,7 @@ const PublishingLayout: FC = () => {
         </FormContainer>
       )}
 
-      {stage === 2 && <Constructor levelsArray={levelsArray} approvers={approvers} />}
+      {stage === 2 && <Constructor levelsArray={approveStages!} />}
       {stage === 3 && <LogoHH />}
       <ButtonsContainer>
         <OptionButton onClick={() => setStage(1)} disabled={stage === 1} type='button' direction={stage === 1 ? '' : 'Back'}>Назад</OptionButton>
@@ -367,6 +386,7 @@ const PublishingLayout: FC = () => {
         <OptionButton type='button' direction='Cancel'>Отмена</OptionButton>
       </ButtonsContainer>
     </Layout>
+
   );
 };
 
