@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { FC, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '../store/store.type';
 import Sidebar from '../components/SideBar';
@@ -16,7 +16,6 @@ import Modal from '../components/Modal';
 import { openStagePopup } from '../store/userAndOrganizationSlice';
 import VacancyLayout from '../components/VacanciesLayout';
 import Candidats from '../components/Candidats';
-import { useLocation } from 'react-router-dom';
 
 const MainLayout = styled.main`
   width: 100%;
@@ -32,7 +31,7 @@ const App = () => {
   const { stagePopupOpen } = useSelector((state) => state.allBaseData);
   useEffect(() => {
     dispatch(getAllThunk());
-    dispatch(getAllRequestsThunk())
+    dispatch(getAllRequestsThunk());
   }, [dispatch]);
   return (
     <MainLayout>

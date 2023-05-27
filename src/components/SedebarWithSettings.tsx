@@ -46,20 +46,21 @@ type TSideBar = {
   setValue: any;
   onDecrease: () => void;
   onIncrease: () => void;
-}
+};
 
-const SidebarWithSettings: FC<TSideBar> = ({ date, setDate, setAmount, setValue, amount, salaryValue, onDecrease, onIncrease }) => {
-  const { currentRequestData, currentRequestId } = useSelector((state) => state.request)
-  const dispatch = useDispatch()
+const SidebarWithSettings: FC<TSideBar> = ({
+  date, setDate, setAmount, setValue, amount, salaryValue, onDecrease, onIncrease,
+}) => {
+  const { currentRequestData, currentRequestId } = useSelector((state) => state.request);
+  const dispatch = useDispatch();
   useEffect(() => {
-
-    console.log(currentRequestData)
-  }, [dispatch, currentRequestData])
-
+    console.log(currentRequestData);
+  }, [dispatch, currentRequestData]);
 
   return (
-    currentRequestData &&
-    (<Sidebar>
+    currentRequestData
+    && (
+    <Sidebar>
       <ContentWrapper>
         <DropdownWithDelete approversArr={currentRequestData?.approvers} title='Ответственные сотрудники ' forAprove />
         <InputWithDate title='Дата закрытия вакансии' value={date} onClick={(e) => setDate(e.target.value)} />
@@ -69,7 +70,8 @@ const SidebarWithSettings: FC<TSideBar> = ({ date, setDate, setAmount, setValue,
         <BasicInput type='number' name='salary' salary title='Зарплата' value={salaryValue} onChange={(e) => setValue(e.target.value)} />
         <DropdownWithDelete mainArr={currentRequestData?.approvers} title='Согласующие лица' forMain />
       </ContentWrapper>
-    </Sidebar>)
+    </Sidebar>
+    )
   );
 };
 

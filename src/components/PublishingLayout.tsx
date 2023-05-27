@@ -1,3 +1,7 @@
+/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -178,9 +182,11 @@ const OptionButton = styled.button<{ direction: string }>`
 `;
 
 const PublishingLayout: FC = () => {
-  const location = useLocation()
+  const location = useLocation();
   const [stage, setStage] = useState<number>(1);
-  const { currentRequestData, timer, currentRequestId, approveStages } = useSelector((state) => state.request);
+  const {
+    currentRequestData, timer, currentRequestId, approveStages,
+  } = useSelector((state) => state.request);
   const [formValues, setVolume] = useState({});
   const navigate = useNavigate();
   const [possValue, setPossValue] = useState(currentRequestData?.positionName);
@@ -213,21 +219,18 @@ const PublishingLayout: FC = () => {
       positionCount: amount,
     });
   };
-  useEffect(() => {
-    console.log(approveStages)
-  }, [approveStages])
 
   useEffect(() => {
-    dispatch(getCurrentRequestsThunk(currentRequestId))
-    dispatch(getStagesThunk(location.pathname.slice(9)))
-    setPossValue(currentRequestData?.positionName)
+    dispatch(getCurrentRequestsThunk(location.pathname.slice(9)));
+    dispatch(getStagesThunk(location.pathname.slice(9)));
+    setPossValue(currentRequestData?.positionName);
     setReqValue(currentRequestData?.requirement);
     setRespValue(currentRequestData?.responsibilities);
     setComments(currentRequestData?.comments);
     setDate(currentRequestData?.deadline!);
     setAmount(currentRequestData?.positionCount!);
     setValue(`${currentRequestData?.salary!}`);
-  }, [dispatch, currentRequestData]);
+  }, [dispatch, currentRequestData?.positionName]);
 
   const onIncrease = () => {
     setAmount(amount + 1);
@@ -253,7 +256,7 @@ const PublishingLayout: FC = () => {
       [name]: value,
     });
   };
-
+  ///
   const addAndGo = () => {
     const name = formValues.positionName;
     dispatch(setCurrentVacancy(possValue));
@@ -280,7 +283,7 @@ const PublishingLayout: FC = () => {
           </NavigateButton>
         </ButtonContainer>
       </NavigateConatainer>
-      {stage === 1 && currentRequestData?.positionName && (
+      {stage === 1 && currentRequestData?.positionName !== '' && (
         <FormContainer>
           <Form>
             <BasicInput name='positionName' onChange={(e) => { setPossValue(e.target.value); addToVacancy(e); }} value={possValue} title='Должность' />
@@ -382,7 +385,7 @@ const PublishingLayout: FC = () => {
       {stage === 3 && <LogoHH />}
       <ButtonsContainer>
         <OptionButton onClick={() => setStage(1)} disabled={stage === 1} type='button' direction={stage === 1 ? '' : 'Back'}>Назад</OptionButton>
-        <OptionButton onClick={() => { stage === 2 ? setStage(3) : stage === 3 ? addAndGo() : setStage(2); }} type='button' direction='Next'>Продолжить</OptionButton>
+        <OptionButton onClick={() => { stage === 2 ? setStage(3) : stage === 3 ? addAndGo() : setStage(2); }} type='button' direction='Next'>{stage === 3 ? 'Сохранить' : 'Продолжить'}</OptionButton>
         <OptionButton type='button' direction='Cancel'>Отмена</OptionButton>
       </ButtonsContainer>
     </Layout>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/require-default-props */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -6,7 +7,9 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable ternary/nesting */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import React, { FC, useState, useRef, useEffect } from 'react';
+import React, {
+  FC, useState, useRef, useEffect,
+} from 'react';
 import styled from 'styled-components';
 import {
   TBasicInput,
@@ -263,7 +266,6 @@ const InputWithSelect: FC<TInputWithSelect> = ({
 }) => {
   const [isDeleteListOpen, openDeleteList] = useState(false);
 
-
   return (
     <InputWrapper>
       <InputTitle htmlFor='list'>{title}</InputTitle>
@@ -343,7 +345,9 @@ const BasicInput: FC<TBasicInput> = ({
   </InputWrapper>
 );
 
-const TextArea: FC<TBasicTextArea> = ({ title, onChange, value, name }) => (
+const TextArea: FC<TBasicTextArea> = ({
+  title, onChange, value, name,
+}) => (
   <InputWrapper>
     {title && <InputTitle htmlFor='area'>{title}</InputTitle>}
     <BasicTextArea name={name} value={value} id='area' onChange={onChange} />
@@ -490,8 +494,6 @@ const DropdownWithDelete: FC<TDropdownWithDelete> = ({
     if (forMain) { return main || mainArr; }
   };
 
-
-
   const deleteItem = (el: string) => {
     const newArr = setCurrentArr()?.filter((elem) => el !== elem.name);
     if (forAprove) { setApprovers(newArr!); }
@@ -539,7 +541,7 @@ const ColorDropdown: FC<{ colorsArray: string[], globalSet: React.Dispatch<React
       {isOpen && (
         <ColorList>
           {colorsArray.map((item) => (
-            <ColorStyleTemplate color={item} onClick={() => { globalSet(item); setColor(item) }} />
+            <ColorStyleTemplate color={item} onClick={() => { globalSet(item); setColor(item); }} />
           ))}
         </ColorList>
       )}
@@ -552,9 +554,11 @@ const Dropdown: FC<{
   items: string[],
   withTitle: boolean,
   title?: string,
-  value: string,
+  value: string | null,
   globalSet?: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ items, withTitle, title, value, globalSet }) => {
+}> = ({
+  items, withTitle, title, value, globalSet = () => console.log(123),
+}) => {
   const [isOpen, setOpen] = useState(false);
   const [division, setDivision] = useState('');
   return (
@@ -564,13 +568,13 @@ const Dropdown: FC<{
         <ClearArrowIcon isActive={isOpen} onClick={() => setOpen(!isOpen)} />
         {division || value}
         {isOpen
-          && (
-            <DropdownList>
-              {items.map((el) => (
-                <DropdownListPlaceItem onClick={() => { globalSet(el); setDivision(el) }}>{el}</DropdownListPlaceItem>
-              ))}
-            </DropdownList>
-          )}
+            && (
+              <DropdownList>
+                {items.map((el) => (
+                  <DropdownListPlaceItem onClick={() => { globalSet(el); setDivision(el); }}>{el}</DropdownListPlaceItem>
+                ))}
+              </DropdownList>
+            )}
       </DropdownButton>
     </DropdownBox>
   );

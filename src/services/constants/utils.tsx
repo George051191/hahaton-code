@@ -1,3 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable consistent-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   BagIcon, ProfileIcon, EditIcon, ChartIcon, StructureIcon,
@@ -23,8 +29,8 @@ export const linksArray = [
 ];
 
 export const getNumberOfRest = (index: number, array: any) => {
-  if (array.includes(undefined)) { return }
-  console.log(array)
+  if (array.includes(undefined)) { return; }
+  
   if (index === 4) {
     return `+${array.length - 4}`;
   }
@@ -34,12 +40,12 @@ export const getNumberOfRest = (index: number, array: any) => {
 };
 
 export const getNumberInArray = (ind: number, index: number, array: any) => {
-  if (array.includes(undefined)) { return }
-  console.log(array)
+  if (array.includes(undefined)) { return; }
+  
   if (array[ind].length > 4 && index === 4) {
     return `+${array[ind].length - 4}`;
   }
 
   const Tab = array[ind][index].name.indexOf(' ');
   return array[ind][index].name[0] + array[ind][index].name[Tab + 1];
-}
+};

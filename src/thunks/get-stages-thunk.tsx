@@ -12,7 +12,6 @@ const getAllStagesThunk: AppThunk = () => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
-
   } catch (error) {
     console.log(error);
   }

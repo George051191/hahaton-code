@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TVacancyRequest, TApproveStage, TVacancy, TRequestForPost } from '../types/apiTypes';
+import {
+  TVacancyRequest, TApproveStage, TVacancy, TRequestForPost,
+} from '../types/apiTypes';
 
 type TState = {
   allVacanciesRequests: TVacancyRequest[] | null;

@@ -17,6 +17,7 @@ import { TApprover, TDepartment, TRequestForPost } from '../types/apiTypes';
 import { setCurrentRequest } from '../store/vacancyRequestsSlice';
 import postRequestsThunk from '../thunks/post-request-thunk';
 import getAllRequestsThunk from '../thunks/get-request-thunk';
+
 const Layout = styled.section`
     margin-left: 212px;
     margin-top: 80px;
@@ -161,7 +162,6 @@ const LayoutForCreateVacancy: FC = () => {
   }
 
   const addToVacancy = (e: any) => {
-
     const { value, name } = e.target;
 
     setVolume({
@@ -172,57 +172,49 @@ const LayoutForCreateVacancy: FC = () => {
 
   const gotTOPublish = () => {
     if (stage === 2) {
-      // dispatch(setCurrentRequest({ ...formValues, customers: [currentUser] } as TRequestForPost))
+      dispatch(setCurrentRequest({ ...formValues, customers: [currentUser] } as TRequestForPost))
       dispatch(postRequestsThunk())
 
       navigate('/analitics')
       return
     }
     setStage(2)
-
   }
 
-
   const checkStatus = (e: any) => {
-    if (division.find((elem) => {
-      return elem.name === e.target.value
-    })) {
+    if (division.find((elem) => elem.name === e.target.value)) {
       return;
     }
-    const findDivision = allDepartments?.find(div => div.name === e.target.value)
+    const findDivision = allDepartments?.find((div) => div.name === e.target.value)
     setDivision([...division, findDivision!]);
 
     setVolume({
       ...formValues,
-      departments: [...division, findDivision]
+      departments: [...division, findDivision],
     })
   };
 
   const checkStatusNames = (e: any) => {
-    if (names.find((elem) => {
-      return elem.name === e.target.value
-    })) {
+    if (names.find((elem) => elem.name === e.target.value)) {
       return;
     }
-    const findDivision = allSystemUsers?.find(div => div.name === e.target.value)
+    const findDivision = allSystemUsers?.find((div) => div.name === e.target.value)
     setNames([...names, findDivision!]);
     setVolume({
       ...formValues,
-      approvers: [...names, findDivision]
+      approvers: [...names, findDivision],
     })
   };
 
   const checkAddedNames = (e: any) => {
-    if (addedNames.find((elem) => {
-      return elem.name === e.target.value
-    })) {
+    if (addedNames.find((elem) => elem.name === e.target.value)) {
       return;
     }
-    const findDivision = allSystemUsers?.find(div => div.name === e.target.value)
+    const findDivision = allSystemUsers?.find((div) => div.name === e.target.value)
     setAddedNames([...addedNames, findDivision!]);
     setVolume({
       ...formValues,
-      addedApprovers: [...addedNames, findDivision]
+      addedApprovers: [...addedNames, findDivision],
     })
   };
 
@@ -233,7 +225,7 @@ const LayoutForCreateVacancy: FC = () => {
     setDivision(arr);
     setVolume({
       ...formValues,
-      departments: arr
+      departments: arr,
     })
   };
 
@@ -242,7 +234,7 @@ const LayoutForCreateVacancy: FC = () => {
     setNames(arr);
     setVolume({
       ...formValues,
-      approvers: arr
+      approvers: arr,
     })
   };
 
@@ -251,7 +243,7 @@ const LayoutForCreateVacancy: FC = () => {
     setAddedNames(arr);
     setVolume({
       ...formValues,
-      addedApprovers: arr
+      addedApprovers: arr,
     })
   };
 

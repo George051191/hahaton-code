@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable ternary/nesting */
@@ -11,7 +16,7 @@ import { TConstructor } from '../types/components-types';
 import { getNumberInArray, getNumberOfRest } from '../services/constants/utils';
 import { openStagePopup } from '../store/userAndOrganizationSlice';
 import { useDispatch, useSelector } from '../store/store.type';
-import { TApprover } from '../types/apiTypes';
+import { TApproveStage, TApprover } from '../types/apiTypes';
 import { setStages } from '../store/vacancyRequestsSlice';
 
 const Layout = styled.div`
@@ -124,7 +129,7 @@ const IconWrapper = styled.div<{ stats: 'red' | 'grey' | 'blue' }>`
     background: ${({ stats }) => (stats === 'red' ? 'rgba(255, 78, 88, 0.05)'
     : stats === 'grey' ? 'rgba(243, 245, 249, 1)'
       : 'rgba(25, 59, 103, 0.05)')
-  };
+};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -228,33 +233,30 @@ const Constructor: FC<TConstructor> = ({ levelsArray }) => {
     if (curTitle === current) {
       const approver = currentRequestData?.approvers?.find((user) => user.name === elem);
 
-      const copy = [...approveArr]
-      if (copy[index].find(w => w.name === elem)) { return }
+      const copy = [...approveArr] ;
+      if (copy[index].find((w) => w.name === elem)) { return; }
       if (approveArr.length === 0) {
-
-        copy[index] = [approver]
+        copy[index] = [approver];
         pushToArr(copy);
       } else {
+        const modeArr = [...approveArr[index], approver];
 
-        const modeArr = [...approveArr[index], approver]
-
-        copy[index] = modeArr
+        copy[index] = modeArr;
 
         pushToArr(copy);
-
       }
     }
   };
 
   const deleteStage = (id: number) => {
-    const filteredStageArr = levelsArray.filter(arrStageEl => arrStageEl.id !== id)
+    const filteredStageArr = levelsArray.filter((arrStageEl) => arrStageEl.id !== id);
     dispatch(setStages(filteredStageArr));
-  }
+  };
 
   useEffect(() => {
     const newFilledArr = Array(20).fill([]);
-    pushToArr(newFilledArr)
-  }, [])
+    pushToArr(newFilledArr);
+  }, []);
 
   return (
     <Layout>
