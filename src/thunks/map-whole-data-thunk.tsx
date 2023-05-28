@@ -50,3 +50,5 @@ const getAndSetDataToStandart: AppThunk = (id: number) => async (dispatch, getSt
 };
 
 export default getAndSetDataToStandart;
+
+

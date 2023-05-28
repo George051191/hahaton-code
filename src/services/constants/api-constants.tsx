@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 
-export const baseUrl = 'http://94.228.118.23:8084';
+export const baseUrl = 'https://94.228.118.23:44309/';
 export const token = ' eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoi0J_QtdGC0YDQvtCyINCf0LXRgtGAINCf0LXRgtGA0L7QstC40YciLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJyZWNydXRlciIsIm5iZiI6MTY4NDk1OTk5MSwiZXhwIjoxNjg3NTUxOTkxLCJpc3MiOiJTS0JfQXV0aFNlcnZlciIsImF1ZCI6IlNLQl9IYWNrYXRob25TaXRlIn0.w8JhoxomXZRefcOVcCSU1eiWNFB-5W0ZMKyqrw1EqmU ';
