@@ -13,7 +13,7 @@
     height: calc(100% - 2rem);
     display: flex;
     flex-direction: column;
-    margin-left: 212px;
+    margin-left: 282px;
 }
 
 .drag-and-drop__header {

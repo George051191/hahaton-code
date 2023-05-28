@@ -4,9 +4,9 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { FC, useEffect } from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from '../store/store.type';
-import { BasicInput, TextArea } from './inputs';
+import { BasicInput, Dropdown, TextArea } from './inputs';
 import getVacancyThunk from '../thunks/get-vacancy-with-id';
 
 const Layout = styled.section`
@@ -68,6 +68,29 @@ color: #FFFFFF;
 
 
 background: #FF4E58;
+`;
+
+const Reserv1 = styled.button`
+    display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 8px 14px;
+cursor: pointer;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+
+width: 93px;
+height: 33px;
+border: none;
+outline: none;
+color: #FFFFFF;
+
+
+background:rgba(0, 56, 154, 1);
 `;
 
 const ColumnItem = styled.li`
@@ -148,7 +171,9 @@ const ColumnItem1 = styled.div`
 const LayoutForCurrentResume: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { allResumes, currentIdVacancy } = useSelector((state) => state.resume);
+  const { currentVacancy } = useSelector((state) => state.request);
 
   useEffect(() => {
     dispatch(getVacancyThunk(+location.pathname.slice(16)));
@@ -157,28 +182,39 @@ const LayoutForCurrentResume: FC = () => {
     <Layout>
 
       <ResumeColumn>
-        {allResumes?.map((el) => (
+        <p>
+          {' '}
+          {currentVacancy}
+        </p>
+        {allResumes?.filter((el) => el.id === +location.pathname.slice(16)).map((el) => (
+
           <ColumnItem>
+
             <Wrapper>
+
               <Header>{el.name}</Header>
               <Span>{el.city}</Span>
             </Wrapper>
             <Status>{`${el.rating}%`}</Status>
           </ColumnItem>
         ))}
+        <Dropdown withTitle value='Новый' items={['Новый', 'Анкетирование', 'Интервью с HR', 'Интервью с заказчиком', 'Интервью с заказчиком', 'Оффер', 'Вышел на работу', 'Отказ']} />
       </ResumeColumn>
+
       <CurrentResumeColumn>
         <NavBar>
           {allResumes?.filter((el) => el.id === +location.pathname.slice(16)).map((el) => (
             <>
               <ColumnItem1>
                 <Wrapper>
+
                   <Header1>{el.name}</Header1>
                   <Span>{el.city}</Span>
                 </Wrapper>
                 <Status>{`${el.rating}%`}</Status>
               </ColumnItem1>
               <Reserv>Отказ</Reserv>
+              <Reserv1 onClick={() => navigate('/vacancies')}>Выйти</Reserv1>
             </>
           ))}
         </NavBar>
@@ -195,6 +231,7 @@ const LayoutForCurrentResume: FC = () => {
         <TextArea value='Фундаментальная математическая подготовка,Языки программирования: С, С++, Pascal, Assembler, Scheme;библиотеки:STL;Среды программирования: MS Visual Studio (6.0, .Net, 2005);CASE-средства: IBM Rationa Tau, Rational Rose, Borland Together Architect, Microsoft Visio;Язык визуального моделирования: UML;Базовые знания: Средство управления требованиями Telelogic DOORs, алгоритмы работы с графами, SQL (начальный уровень).Понимание концепций ООП и шаблонов проектирования.Личные качества:Быстрое и самостоятельное освоение новой информации.Умение работать на результат, принимать решения и нести за них ответственность.Желание постоянно повышать свой профессиональный уровень, аналитический склад ума.Хорошие коммуникативные навыки, стрессоустойчивость.' />
 
       </CurrentResumeColumn>
+
     </Layout>
   );
 };

@@ -18,7 +18,7 @@ const SidebarNav = styled.aside`
     left: 0;
     top: 0;
     background-color: ${({ theme: { sidebarColor } }) => sidebarColor};
-    width: 212px;
+    width: 283px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -38,6 +38,7 @@ const SidebarItemsList = styled.nav`
     padding-top: 100px;
     flex-direction: column;
     gap: 354px;
+    align-items: center;
     @media screen and (max-height: 785px) {
       gap: 200px;
     }
@@ -75,6 +76,7 @@ const ItemName = styled.p<{ isActive: boolean }>`
 const LogoMain = styled.img`
     width: 150px;
     height: 20px;
+    cursor: pointer;
  `;
 
 const AddButton = styled.button`
@@ -104,12 +106,12 @@ const Sidebar: FC<TSidebar> = ({ linksArray }) => {
   const navigate = useNavigate();
   return (
     <SidebarNav>
-      <LogoMain src={Logo} />
+      <LogoMain onClick={() => navigate('/')} src={Logo} />
 
       <SidebarItemsList>
         <SideBarList>
           {linksArray.map((el) => (
-            <SideBarItem key={el.title} onClick={() => { if (el.title === 'Кандидаты' || el.title === 'Орг. структура' || el.title === 'Настройки') { return; } navigate(el.path); }}>
+            <SideBarItem key={el.title} onClick={() => { if (el.title === 'Кандидаты(в разработке)' || el.title === 'Орг. структура(в разработке)' || el.title === 'Настройки(в разработке)') { return; } navigate(el.path); }}>
               <el.icon isActive={location.pathname === el.urlName} />
               <ItemName isActive={location.pathname === el.urlName}>{el.title}</ItemName>
             </SideBarItem>

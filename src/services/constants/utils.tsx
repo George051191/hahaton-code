@@ -11,19 +11,19 @@ import {
 
 export const linksArray = [
   {
-    icon: ProfileIcon, urlName: '/candidats', title: 'Кандидаты', path: '/candidats',
+    icon: ProfileIcon, urlName: '/candidats', title: 'Кандидаты(в разработке)', path: '/candidats',
   },
   {
     icon: BagIcon, urlName: '/vacancies', title: 'Вакансии', path: '/vacancies',
   },
   {
-    icon: StructureIcon, urlName: '/structure', title: 'Орг. структура', path: '/structure',
+    icon: StructureIcon, urlName: '/structure', title: 'Орг. структура(в разработке)', path: '/structure',
   },
   {
-    icon: ChartIcon, urlName: '/analitics', title: 'Аналитика', path: '/analitics',
+    icon: ChartIcon, urlName: '/analitics', title: 'Заявки', path: '/analitics',
   },
   {
-    icon: EditIcon, urlName: '/settings', title: 'Настройки', path: '/settings',
+    icon: EditIcon, urlName: '/settings', title: 'Настройки(в разработке)', path: '/settings',
   },
 
 ];
