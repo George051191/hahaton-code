@@ -233,7 +233,7 @@ const Constructor: FC<TConstructor> = ({ levelsArray }) => {
     if (curTitle === current) {
       const approver = currentRequestData?.approvers?.find((user) => user.name === elem);
 
-      const copy = [...approveArr] ;
+      const copy = [...approveArr];
       if (copy[index].find((w) => w.name === elem)) { return; }
       if (approveArr.length === 0) {
         copy[index] = [approver];

@@ -21,7 +21,7 @@ import Modal from './Modal';
 import SidebarWithSettings from './SedebarWithSettings';
 import { useDispatch, useSelector } from '../store/store.type';
 import LogoHH from './logoHH';
-import { setCurrentVacancy } from '../store/vacancyRequestsSlice';
+import { setCurrentVacancy, setprePublishVacancy } from '../store/vacancyRequestsSlice';
 import getCurrentRequestsThunk from '../thunks/get-current-request-thunk';
 import getAllStagesThunk from '../thunks/get-stages-thunk';
 import getStagesThunk from '../thunks/get-stages-for-vacancy-thunk';
@@ -189,28 +189,19 @@ const PublishingLayout: FC = () => {
   } = useSelector((state) => state.request);
   const [formValues, setVolume] = useState({});
   const navigate = useNavigate();
-  const [possValue, setPossValue] = useState(currentRequestData?.positionName);
-  const [requrementValue, setReqValue] = useState(currentRequestData?.requirement);
-  const [responsValue, setRespValue] = useState(currentRequestData?.responsibilities);
-  const [commentValue, setComments] = useState(currentRequestData?.comments);
+  const [possValue, setPossValue] = useState('');
+  const [requrementValue, setReqValue] = useState('');
+  const [responsValue, setRespValue] = useState('');
+  const [commentValue, setComments] = useState('');
+  const [placeWork, setPlace] = useState('');
   const dispatch = useDispatch();
-  const [date, setDate] = useState(currentRequestData?.deadline!);
+  const [date, setDate] = useState();
 
-  const [amount, setAmount] = useState(currentRequestData?.positionCount!);
-  const [salaryValue, setValue] = useState(`${currentRequestData?.salary!}`);
-
+  const [amount, setAmount] = useState();
+  const [salaryValue, setValue] = useState();
+  const [publishRoute, setPublishRoute] = useState('');
   const arr = ['Главный офис', 'Офис на Красной 125', 'Офис город Москва'];
-  const levelsArray = [
-    { title: 'Новое', bgColor: '#F3F5F9', border: '#B0B0B0' },
-    { title: 'Отправка письма', bgColor: '#7B61FF1A', border: '#7B61FF' },
-    { title: 'Интервью с HR', bgColor: '#00389A1A', border: '#00389A' },
-    { title: 'Интервью с заказчиком', bgColor: '#008FFA1A', border: '#008FFA' },
-    { title: 'Интервью с командой', bgColor: '#E75AD91A', border: '#E75AD9' },
-    { title: 'Оффер', bgColor: '#FFDA151A', border: '#FFDA15' },
-    { title: 'Вышел на работу', bgColor: '#0788361A', border: '#078836' },
-    { title: 'Отказ', bgColor: '#FF4E580D', border: '#FF4E58' },
-  ];
-  const approvers = ['Павел Павел', 'Гена Гена', 'Ира Ира'];
+
   const onDecrease = () => {
     if (amount === 0) { return; }
     setAmount(amount - 1);
@@ -219,18 +210,21 @@ const PublishingLayout: FC = () => {
       positionCount: amount,
     });
   };
+  const publishWhere = (el: string) => {
+    setPublishRoute(el);
+  };
 
   useEffect(() => {
     dispatch(getCurrentRequestsThunk(location.pathname.slice(9)));
     dispatch(getStagesThunk(location.pathname.slice(9)));
-    setPossValue(currentRequestData?.positionName);
-    setReqValue(currentRequestData?.requirement);
+    // setPossValue(currentRequestData?.positionName);
+    /* setReqValue(currentRequestData?.requirement);
     setRespValue(currentRequestData?.responsibilities);
     setComments(currentRequestData?.comments);
     setDate(currentRequestData?.deadline!);
     setAmount(currentRequestData?.positionCount!);
-    setValue(`${currentRequestData?.salary!}`);
-  }, [dispatch, currentRequestData?.positionName]);
+    setValue(`${currentRequestData?.salary!}`); */
+  }, [dispatch]);
 
   const onIncrease = () => {
     setAmount(amount + 1);
@@ -258,15 +252,68 @@ const PublishingLayout: FC = () => {
   };
   ///
   const addAndGo = () => {
-    const name = formValues.positionName;
+    const bigBundleOfData = {
+      positionName: possValue,
+      positionCount: formValues.positionCount,
+      experience: formValues.abilities,
+      employmentFull: true,
+      employmentPart: false,
+      employmentProject: false,
+      employmentVolunteering: false,
+      employmentInternship: false,
+      scheduleFull: true,
+      scheduleShift: false,
+      scheduleAgile: false,
+      scheduleRemote: false,
+      scheduleWatch: false,
+      educationHigher: true,
+      educationProfile: false,
+      educationMiddle: false,
+      contactVisible: true,
+      placeOfWork: placeWork,
+      responsibilities: responsValue,
+      requirements: requrementValue,
+      comments: commentValue,
+      requestId: 0,
+      deadline: formValues.deadline,
+      salary: salaryValue,
+      includeTaxes: true,
+      visibility: true,
+      responseMan: {
+        id: 0, name: 'Георгий Александрович', shortName: 'Георгий', email: 'trubacheff_91@mail.ru',
+      },
+      departments: [{ id: 0, name: 'Отдел по...' }],
+      customers: [{
+        id: 0, name: 'Георгий Александрович', shortName: 'Георгий', email: 'trubacheff_91@mail.ru',
+      }],
+      approvers: [{
+        id: 0, name: 'Георгий Александрович', shortName: 'Георгий', email: 'trubacheff_91@mail.ru',
+      }, {
+        id: 1, name: 'Георгий Вахидович', shortName: 'Георгий', email: 'trubkdmvf_91@mail.ru',
+      }],
+      publicationSources: [{ id: 0, name: publishRoute }],
+      skills: formValues.abilities,
+      stages: approveStages,
+    };
+    dispatch(setprePublishVacancy(bigBundleOfData));
     dispatch(setCurrentVacancy(possValue));
-    navigate('/candidats');
+    navigate('/vacancies');
   };
 
   return (
 
     <Layout>
-      <SidebarWithSettings date={date} setDate={writeDate} amount={amount} setAmount={setAmount} salaryValue={salaryValue} setValue={setValue} onDecrease={onDecrease} onIncrease={onIncrease} />
+      {currentRequestData?.approvers && (
+        <SidebarWithSettings
+          date={date || currentRequestData?.deadline}
+          setDate={writeDate}
+          amount={amount || currentRequestData?.positionCount}
+          setAmount={setAmount}
+          salaryValue={salaryValue || currentRequestData?.salary}
+          setValue={setValue}
+          onDecrease={onDecrease}
+          onIncrease={onIncrease} />
+      )}
       <NavigateConatainer>
         <ButtonContainer>
           <NavigateButton onClick={() => setStage(1)} isClicked={stage === 1}>
@@ -286,7 +333,7 @@ const PublishingLayout: FC = () => {
       {stage === 1 && currentRequestData?.positionName !== '' && (
         <FormContainer>
           <Form>
-            <BasicInput name='positionName' onChange={(e) => { setPossValue(e.target.value); addToVacancy(e); }} value={possValue} title='Должность' />
+            <BasicInput name='positionName' onChange={(e) => { setPossValue(e.target.value); addToVacancy(e); }} value={possValue || currentRequestData?.positionName} title='Должность' />
             <BasicInput name='abilities' onChange={(e) => { addToVacancy(e); }} placeholder='Разделить - точка запятая ;' title='Ключевые навыки' />
             <BasicCheckBoxesConatiner>
               <BoxesHeader>Опыт работы</BoxesHeader>
@@ -359,7 +406,7 @@ const PublishingLayout: FC = () => {
                 </CheckBoxContainer>
               </ChecksPanel>
             </BasicCheckBoxesConatiner>
-            <Dropdown title='Место работы' items={arr} withTitle />
+            <Dropdown globalSet={setPlace} title='Место работы' items={arr} withTitle />
             <BasicCheckBoxesConatiner>
               <BoxesHeader>Контактная информация</BoxesHeader>
               <ChecksPanel>
@@ -373,16 +420,16 @@ const PublishingLayout: FC = () => {
                 </CheckBoxContainer>
               </ChecksPanel>
             </BasicCheckBoxesConatiner>
-            <TextArea onChange={(e) => setRespValue(e.target.value)} value={responsValue} name='responsibilities ' title='Обязанности кандидата' />
-            <TextArea onChange={(e) => setReqValue(e.target.value)} value={requrementValue} name='requirement' title='Требования к кандидату' />
-            <TextArea onChange={(e) => setComments(e.target.value)} value={commentValue} name='comments' title='Комментарии' />
+            <TextArea onChange={(e) => setRespValue(e.target.value)} value={responsValue || currentRequestData?.responsibilities} name='responsibilities ' title='Обязанности кандидата' />
+            <TextArea onChange={(e) => setReqValue(e.target.value)} value={requrementValue || currentRequestData?.requirement} name='requirement' title='Требования к кандидату' />
+            <TextArea onChange={(e) => setComments(e.target.value)} value={commentValue || currentRequestData?.comments} name='comments' title='Комментарии' />
 
           </Form>
         </FormContainer>
       )}
 
       {stage === 2 && <Constructor levelsArray={approveStages!} />}
-      {stage === 3 && <LogoHH />}
+      {stage === 3 && <LogoHH onClick={publishWhere} />}
       <ButtonsContainer>
         <OptionButton onClick={() => setStage(1)} disabled={stage === 1} type='button' direction={stage === 1 ? '' : 'Back'}>Назад</OptionButton>
         <OptionButton onClick={() => { stage === 2 ? setStage(3) : stage === 3 ? addAndGo() : setStage(2); }} type='button' direction='Next'>{stage === 3 ? 'Сохранить' : 'Продолжить'}</OptionButton>

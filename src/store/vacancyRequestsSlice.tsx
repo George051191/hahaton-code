@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   TVacancyRequest, TApproveStage, TVacancy, TRequestForPost,
@@ -13,6 +14,8 @@ type TState = {
   currentVacancy: string | null;
   timer: boolean;
   currentRequestId: number | null;
+  prePublishVacancy: any;
+  currentVacancyObject: any;
 };
 
 const initialState: TState = {
@@ -25,6 +28,8 @@ const initialState: TState = {
   currentVacancy: null,
   timer: false,
   currentRequestId: null,
+  prePublishVacancy: null,
+  currentVacancyObject: null,
 };
 
 const allRequests = createSlice({
@@ -58,6 +63,12 @@ const allRequests = createSlice({
     setId: (state, action: PayloadAction<number>) => ({
       ...state, currentRequestId: action.payload,
     }),
+    setprePublishVacancy: (state, action: PayloadAction<any>) => ({
+      ...state, prePublishVacancy: action.payload,
+    }),
+    setCurrentVacancyObject: (state, action: PayloadAction<any>) => ({
+      ...state, currentVacancyObject: action.payload,
+    }),
   },
 });
 
@@ -72,6 +83,8 @@ export const {
   setCurrentVacancy,
   timer,
   setId,
+  setprePublishVacancy,
+  setCurrentVacancyObject
 } = allRequests.actions;
 
 export default requestReducer;

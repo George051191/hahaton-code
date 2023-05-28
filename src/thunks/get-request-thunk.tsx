@@ -16,10 +16,7 @@ const getAllRequestsThunk: AppThunk = () => async (dispatch) => {
     batch(() => {
       dispatch(setAllRequests(requests.data.vacancyRequests));
       dispatch(setCurrentRequesrArray(requests.data.vacancyRequests));
-      console.log(requests.data.vacancyRequests)
-    })
-
-
+    });
   } catch (error) {
     console.log(error);
   }

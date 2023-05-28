@@ -14,7 +14,7 @@ import { StatusEnum } from '../types/components-types';
 import { useDispatch, useSelector } from '../store/store.type';
 import getAllRequestsThunk from '../thunks/get-request-thunk';
 import { setCurrentRequesrArray, setCurrentVacancyArray } from '../store/vacancyRequestsSlice';
-import { TVacancy } from '../types/apiTypes';
+import { TCurrentUser, TVacancy } from '../types/apiTypes';
 import getAllVacanciesThunk from '../thunks/get-vacansies-thunk';
 import VacancyPlate from './VacancyPlate';
 
@@ -102,77 +102,79 @@ const FilterButton = styled.button<{ status: StatusEnum }>`
 const VacancyLayout: FC<{ title: string }> = ({ title }) => {
   const dispatch = useDispatch();
 
-  const { vacansies } = useSelector((state) => state.request);
-  const vacan = [{
-    id: 1,
-    name: 'her man',
-    approvers: [{ id: 1, name: 'her  man', shortName: 'her' }],
-    responseMan: { id: 1, name: 'her  man', shortName: 'her' },
-    positionAmount: 5,
-    salary: 500000,
-    status: 'inWork',
-    dateOfExpire: '5-10-2025',
-    daysInProgressStatus: 5,
-    candidats: 8,
-  }];
+  const { vacansies, currentVacanciesArr } = useSelector((state) => state.request);
+  /*   const vacan = [{
+      id: 1,
+      name: 'her man',
+      approvers: [{ id: 1, name: 'her  man', shortName: 'her' }],
+      responseMan: { id: 1, name: 'her  man', shortName: 'her' },
+      positionAmount: 5,
+      salary: 500000,
+      status: 'inWork',
+      dateOfExpire: '5-10-2025',
+      daysInProgressStatus: 5,
+      candidats: 8,
+    }]; */
   useEffect(() => {
     dispatch(getAllVacanciesThunk());
   }, [dispatch]);
   /// 'inWork' | 'draft' | 'close'
-  const switchStatus = (status: string) => {
+  const switchStatus = (status: number) => {
     switch (status) {
-      case 'inWork': {
+      case 0: {
         return StatusEnum.agreed;
       }
-      case 'draft': {
+      case 1: {
         return StatusEnum.send;
       }
-      case 'close': {
+      case 2: {
         return StatusEnum.cancel;
       }
 
       default: { return StatusEnum.send; }
     }
   };
-  const filterRequests = (status: StatusEnum) => {
-    const newArr = vacan?.filter((item) => switchStatus(item.status) === status);
-    dispatch(setCurrentVacancyArray(newArr));
+  const filterRequests = (status: number) => {
+    const newArr = vacansies?.filter((item) => +item.status === status);
+    dispatch(setCurrentVacancyArray(newArr!));
   };
   return (
-    <Layout>
-      <SectionTitle>{title}</SectionTitle>
-      <FilterButtonsShell>
-        <FilterButton onClick={() => dispatch(setCurrentVacancyArray(vacan))} status={StatusEnum.inprocess}>Все</FilterButton>
-        <FilterButton onClick={() => filterRequests(StatusEnum.agreed)} status={StatusEnum.agreed}>В работе</FilterButton>
-        <FilterButton onClick={() => filterRequests(StatusEnum.cancel)} status={StatusEnum.cancel}>Закрыта</FilterButton>
-        <FilterButton onClick={() => filterRequests(StatusEnum.send)} status={StatusEnum.send}>Черновик</FilterButton>
-      </FilterButtonsShell>
-      <TableHeader>
-        <MainCell>Название / Дата  и дни до закрытия</MainCell>
-        <Cell style={{ marginLeft: '-19px' }}>Кандидаты</Cell>
-        <Cell style={{ marginLeft: '-46px' }}>Согласующие</Cell>
-        <Cell style={{ marginLeft: '18px' }}>Ответсвенный</Cell>
-        <Cell style={{ marginLeft: '16px' }}>Кол-во позиций</Cell>
-        <Cell style={{ marginLeft: '-48px' }}>Зарплата (рубли)</Cell>
-        <Cell style={{ marginLeft: '-5px' }}>Статус</Cell>
+    currentVacanciesArr && (
+      <Layout>
+        <SectionTitle>{title}</SectionTitle>
+        <FilterButtonsShell>
+          <FilterButton onClick={() => dispatch(setCurrentVacancyArray(vacansies!))} status={StatusEnum.inprocess}>Все</FilterButton>
+          <FilterButton onClick={() => filterRequests(0)} status={StatusEnum.agreed}>В работе</FilterButton>
+          <FilterButton onClick={() => filterRequests(2)} status={StatusEnum.cancel}>Закрыта</FilterButton>
+          <FilterButton onClick={() => filterRequests(1)} status={StatusEnum.send}>Черновик</FilterButton>
+        </FilterButtonsShell>
+        <TableHeader>
+          <MainCell>Название / Дата  и дни до закрытия</MainCell>
+          <Cell style={{ marginLeft: '-19px' }}>Кандидаты</Cell>
+          <Cell style={{ marginLeft: '-46px' }}>Согласующие</Cell>
+          <Cell style={{ marginLeft: '18px' }}>Ответсвенный</Cell>
+          <Cell style={{ marginLeft: '16px' }}>Кол-во позиций</Cell>
+          <Cell style={{ marginLeft: '-48px' }}>Зарплата (рубли)</Cell>
+          <Cell style={{ marginLeft: '-5px' }}>Статус</Cell>
 
-      </TableHeader>
-      {vacan?.map((item) => (
-        <VacancyPlate
-          title={item.positionName}
-          salary={item.salary}
-          amount={item.positionAmount}
-          approvers={item.approvers}
-          responseMan={item.responseMan}
-          stats={switchStatus(item.status)}
-          dateOfExpire={item.dateOfExpire}
-          daysInProgressStatus={item.daysInProgressStatus}
-          candidats={item.candidats}
-          id={item.id}
-          forVacancy />
-      ))}
+        </TableHeader>
+        {currentVacanciesArr?.map((item) => (
+          <VacancyPlate
+            title={item.name}
+            salary={item.salary}
+            amount={item.positionAmount}
+            approvers={item.approvers}
+            responseMan={item.responseMan as TCurrentUser}
+            stats={switchStatus(item.status)}
+            dateOfExpire={item.dateOfExpire}
+            daysInProgressStatus={item.daysInProgressStatus}
+            candidats={item.candidats}
+            id={item.id}
+            forVacancy />
+        ))}
 
-    </Layout>
+      </Layout>
+    )
   );
 };
 

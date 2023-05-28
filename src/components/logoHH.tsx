@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import hh from '../assets/images/hh.png';
@@ -38,16 +39,16 @@ const Image = styled.img`
 height: 57px;
  `;
 
-const LogoHH: FC = () => (
-    <>
-        <SectionTitle>Где опубликовать</SectionTitle>
-        <LogoBox>
-            <Logo><Image src={hh} /></Logo>
-            <Logo><Image src={job} /></Logo>
-            <Logo><Image src={work} /></Logo>
-            <Logo><Image src={job} /></Logo>
-        </LogoBox>
-    </>
+const LogoHH: FC<{ onClick: (el: string) => void }> = ({ onClick }) => (
+  <>
+    <SectionTitle>Где опубликовать</SectionTitle>
+    <LogoBox>
+      <Logo onClick={() => onClick('HH')}><Image src={hh} /></Logo>
+      <Logo onClick={() => onClick('superjob')}><Image src={job} /></Logo>
+      <Logo onClick={() => onClick('rabota.ru')}><Image src={work} /></Logo>
+      <Logo onClick={() => onClick('HH')}><Image src={job} /></Logo>
+    </LogoBox>
+  </>
 );
 
 export default LogoHH;

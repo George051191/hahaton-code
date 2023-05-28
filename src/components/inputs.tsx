@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable max-len */
 /* eslint-disable react/require-default-props */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -554,7 +555,7 @@ const Dropdown: FC<{
   items: string[],
   withTitle: boolean,
   title?: string,
-  value: string | null,
+  value?: string | null,
   globalSet?: React.Dispatch<React.SetStateAction<string>>,
 }> = ({
   items, withTitle, title, value, globalSet = () => console.log(123),

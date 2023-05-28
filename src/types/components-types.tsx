@@ -56,7 +56,7 @@ export type TInputForAmount = {
 
 export type TInputWithDate = {
   onClick: (e: any) => void;
-  value: Date;
+  value: any;
   title: string;
 };
 

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable react/jsx-closing-tag-location */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable ternary/no-unreachable */

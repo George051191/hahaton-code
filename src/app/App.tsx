@@ -15,7 +15,9 @@ import getAllRequestsThunk from '../thunks/get-request-thunk';
 import Modal from '../components/Modal';
 import { openStagePopup } from '../store/userAndOrganizationSlice';
 import VacancyLayout from '../components/VacanciesLayout';
-import Candidats from '../components/Candidats';
+
+
+import DragAndDrop from '../components/Canban/Candidats';
 
 const MainLayout = styled.main`
   width: 100%;
@@ -38,7 +40,7 @@ const App = () => {
       {location.pathname !== '/candidats' && <Sidebar linksArray={linksArray} />}
       <Routes>
         <Route path='/vacancies' element={<VacancyLayout title='Вакансии' />} />
-        <Route path='/candidats' element={<Candidats />} />
+        <Route path='/candidats/:id' element={<DragAndDrop />} />
         <Route path='/structure' element={<BasicLayout title='Структура' />} />
 
         <Route path='/create' element={<LayoutForCreateVacancy />} />

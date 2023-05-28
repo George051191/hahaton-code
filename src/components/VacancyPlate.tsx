@@ -11,6 +11,9 @@ import { getNumberOfRest } from '../services/constants/utils';
 import deleteRequestItemThunk from '../thunks/delete-requets-thunk';
 import { useDispatch } from '../store/store.type';
 import getCurrentRequestsThunk from '../thunks/get-current-request-thunk';
+import deleteVacancyThunk from '../thunks/delete-vacancy-thunk';
+import { setCurrentVacancy, setId } from '../store/vacancyRequestsSlice';
+import getCurrentVacancyThunk from '../thunks/get-current-vacancy-thunk';
 
 const Wrapper = styled.div`
     max-width: 1025px;
@@ -29,7 +32,7 @@ const IconWrapper = styled.div<{ stats: 'red' | 'grey' | 'blue' }>`
     background: ${({ stats }) => (stats === 'red' ? 'rgba(255, 78, 88, 0.05)'
     : stats === 'grey' ? 'rgba(243, 245, 249, 1)'
       : 'rgba(25, 59, 103, 0.05)')
-};
+  };
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,14 +94,14 @@ line-height: 134%;
     : status === StatusEnum.cancel ? 'rgba(255, 239, 240, 1)'
       : status === StatusEnum.agreed ? 'rgba(240, 255, 246, 1)'
         : 'rgba(232, 245, 255, 1)')
-};
+  };
     color: ${({ status }) => (status === StatusEnum.send
     ? 'rgba(28, 28, 28, 1)'
     : status === StatusEnum.cancel ? 'rgba(255, 78, 88, 1)'
       : status === StatusEnum.agreed ? 'rgba(53, 160, 96, 1)'
         : 'rgba(0, 56, 154, 1)')
 
-};  
+  };  
     width: 127px;
 
 `;
@@ -157,7 +160,17 @@ cursor: pointer;
 `;
 
 const VacancyPlate: FC<TVacancyPlate> = ({
-  title, salary, amount, stats, id, forVacancy, approvers, responseMan, dateOfExpire, daysInProgressStatus, candidats,
+  title,
+  salary,
+  amount,
+  stats,
+  id,
+  forVacancy,
+  approvers,
+  responseMan,
+  dateOfExpire,
+  daysInProgressStatus,
+  candidats,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -170,7 +183,7 @@ const VacancyPlate: FC<TVacancyPlate> = ({
           <Span style={{ color: 'rgba(255, 78, 88, 1)' }}>{daysInProgressStatus}</Span>
         </div>
 
-        {stats === StatusEnum.agreed && <PublishButton onClick={() => { dispatch(getCurrentRequestsThunk(id)); navigate('/candidats'); }}>Опубликовать вакансию</PublishButton>}
+        {stats === StatusEnum.agreed && <PublishButton onClick={() => { setId(id); dispatch(setCurrentVacancy(title)); dispatch(getCurrentVacancyThunk(id)); navigate(`/candidats/${id}`); }}>Опубликовать вакансию</PublishButton>}
       </VacancCell>
       <Span>{candidats}</Span>
       <List>
@@ -201,24 +214,18 @@ const VacancyPlate: FC<TVacancyPlate> = ({
       <Span>{amount}</Span>
       <Span>{salary}</Span>
       {!forVacancy && (
-      <VacancyStatus status={stats}>
-        {stats === StatusEnum.agreed ? 'Согласована' : stats === StatusEnum.cancel ? 'Отклонена' : stats === StatusEnum.send ? 'Отправлена' : 'На согласование'}
-      </VacancyStatus>
+        <VacancyStatus status={stats}>
+          {stats === StatusEnum.agreed ? 'Согласована' : stats === StatusEnum.cancel ? 'Отклонена' : stats === StatusEnum.send ? 'Отправлена' : 'На согласование'}
+        </VacancyStatus>
       )}
       {forVacancy && (
-      <VacancyStatus status={stats}>
-        {stats === StatusEnum.agreed ? 'В работе' : stats === StatusEnum.cancel ? 'Закрыта' : stats === StatusEnum.send ? 'Черновик' : 'На согласование'}
-      </VacancyStatus>
+        <VacancyStatus status={stats}>
+          {stats === StatusEnum.agreed ? 'В работе' : stats === StatusEnum.cancel ? 'Закрыта' : stats === StatusEnum.send ? 'Черновик' : 'На согласование'}
+        </VacancyStatus>
       )}
-      <IconWrapper stats='grey'>
-        <LinkIcon />
-      </IconWrapper>
 
-      <IconWrapper stats='blue'>
-        <EditVacancyIcon />
-      </IconWrapper>
       <IconWrapper stats='red'>
-        <GarbageIcon onClick={() => dispatch(deleteRequestItemThunk(id))} />
+        <GarbageIcon onClick={() => dispatch(deleteVacancyThunk(id))} />
       </IconWrapper>
     </Wrapper>
   );

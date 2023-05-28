@@ -25,6 +25,7 @@ const SidebarNav = styled.aside`
     align-items: center;
     justify-content: start;
     padding-top: 50px;
+    z-index: 9999999;
     transition: all ease .4s;
     @media screen and (max-width: ${tabletBreakpoint}px ) {
         left: -222px;

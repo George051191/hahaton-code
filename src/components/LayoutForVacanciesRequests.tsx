@@ -14,6 +14,7 @@ import { StatusEnum } from '../types/components-types';
 import { useDispatch, useSelector } from '../store/store.type';
 import getAllRequestsThunk from '../thunks/get-request-thunk';
 import { setCurrentRequesrArray } from '../store/vacancyRequestsSlice';
+import { TVacancyRequest } from '../types/apiTypes';
 
 const Layout = styled.section`
         margin-left: 294px;
@@ -77,14 +78,14 @@ const FilterButton = styled.button<{ status: StatusEnum }>`
     : status === StatusEnum.cancel ? 'rgba(255, 239, 240, 1)'
       : status === StatusEnum.agreed ? 'rgba(240, 255, 246, 1)'
         : 'rgba(232, 245, 255, 1)')
-  };
+};
     color: ${({ status }) => (status === StatusEnum.send
     ? 'rgba(28, 28, 28, 1)'
     : status === StatusEnum.cancel ? 'rgba(255, 78, 88, 1)'
       : status === StatusEnum.agreed ? 'rgba(53, 160, 96, 1)'
         : 'rgba(0, 56, 154, 1)')
 
-  };  
+};  
     font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
@@ -103,7 +104,6 @@ const LayoutForVacanciesRequests: FC<{ title: string }> = ({ title }) => {
 
   useEffect(() => {
     dispatch(getAllRequestsThunk());
-
   }, [dispatch]);
   const switchStatus = (status: number) => {
     switch (status) {
@@ -124,13 +124,13 @@ const LayoutForVacanciesRequests: FC<{ title: string }> = ({ title }) => {
   };
   const filterRequests = (status: StatusEnum) => {
     const newArr = allVacanciesRequests?.filter((item) => switchStatus(item.status) === status);
-    dispatch(setCurrentRequesrArray(newArr!))
+    dispatch(setCurrentRequesrArray(newArr!));
   };
   return (
     <Layout>
       <SectionTitle>{title}</SectionTitle>
       <FilterButtonsShell>
-        <FilterButton onClick={() => dispatch(setCurrentRequesrArray(allVacanciesRequests))} status={StatusEnum.inprocess}>Все</FilterButton>
+        <FilterButton onClick={() => dispatch(setCurrentRequesrArray(allVacanciesRequests as TVacancyRequest[]))} status={StatusEnum.inprocess}>Все</FilterButton>
         <FilterButton onClick={() => filterRequests(StatusEnum.agreed)} status={StatusEnum.agreed}>Согласовано</FilterButton>
         <FilterButton onClick={() => filterRequests(StatusEnum.cancel)} status={StatusEnum.cancel}>Отменены</FilterButton>
         <FilterButton onClick={() => filterRequests(StatusEnum.send)} status={StatusEnum.send}>Отправлены</FilterButton>
@@ -155,8 +155,7 @@ const LayoutForVacanciesRequests: FC<{ title: string }> = ({ title }) => {
           stats={switchStatus(item.status)}
           date={new Date(item.deadline).toLocaleDateString()}
           id={item.id}
-          forVacancy={false}
-        />
+          forVacancy={false} />
       ))}
 
     </Layout>

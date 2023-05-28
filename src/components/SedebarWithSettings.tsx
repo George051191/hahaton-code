@@ -53,24 +53,21 @@ const SidebarWithSettings: FC<TSideBar> = ({
 }) => {
   const { currentRequestData, currentRequestId } = useSelector((state) => state.request);
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log(currentRequestData);
-  }, [dispatch, currentRequestData]);
 
   return (
     currentRequestData
     && (
-    <Sidebar>
-      <ContentWrapper>
-        <DropdownWithDelete approversArr={currentRequestData?.approvers} title='Ответственные сотрудники ' forAprove />
-        <InputWithDate title='Дата закрытия вакансии' value={date} onClick={(e) => setDate(e.target.value)} />
-        <DropdownWithDelete divisionArr={currentRequestData?.departments} title='Подразделение' forDivision />
-        <DropdownWithDelete clientArr={currentRequestData?.customers} title='Заказчик' forClient />
-        <InputForPositionSelect value={amount} onDecrease={onDecrease} onIncrease={onIncrease} title='Количество позиций' />
-        <BasicInput type='number' name='salary' salary title='Зарплата' value={salaryValue} onChange={(e) => setValue(e.target.value)} />
-        <DropdownWithDelete mainArr={currentRequestData?.approvers} title='Согласующие лица' forMain />
-      </ContentWrapper>
-    </Sidebar>
+      <Sidebar>
+        <ContentWrapper>
+          <DropdownWithDelete approversArr={currentRequestData?.approvers} title='Ответственные сотрудники ' forAprove />
+          <InputWithDate title='Дата закрытия вакансии' value={date} onClick={(e) => setDate(e.target.value)} />
+          <DropdownWithDelete divisionArr={currentRequestData?.departments} title='Подразделение' forDivision />
+          <DropdownWithDelete clientArr={currentRequestData?.customers} title='Заказчик' forClient />
+          <InputForPositionSelect value={amount} onDecrease={onDecrease} onIncrease={onIncrease} title='Количество позиций' />
+          <BasicInput type='number' name='salary' salary title='Зарплата' value={salaryValue} onChange={(e) => setValue(e.target.value)} />
+          <DropdownWithDelete mainArr={currentRequestData?.approvers} title='Согласующие лица' forMain />
+        </ContentWrapper>
+      </Sidebar>
     )
   );
 };

@@ -4,29 +4,31 @@ import axios from 'axios';
 import { batch } from 'react-redux';
 import { AppThunk } from '../store/store.type';
 import { baseUrl, token } from '../services/constants/api-constants';
-import { setAllRequests, setCurrentRequesrArray, setCurrentVacancyArray } from '../store/vacancyRequestsSlice';
+import {
+  setAllRequests, setCurrentRequesrArray, setCurrentVacancyArray, setVacancies,
+} from '../store/vacancyRequestsSlice';
 
-const deleteRequestItemThunk: AppThunk = (id: number) => async (dispatch) => {
+const deleteVacancyThunk: AppThunk = (id: number) => async (dispatch) => {
   try {
-    await axios.delete(`${baseUrl}/api/vacancyrequest`, {
+    await axios.delete(`${baseUrl}/api/vacancy`, {
       data: { id },
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    const requests = await axios.get(`${baseUrl}/api/vacancyrequest/all`, {
+    const requests = await axios.get(`${baseUrl}/api/vacancy/all`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     batch(() => {
-      dispatch(setAllRequests(requests.data.vacancyRequests));
+      dispatch(setCurrentVacancyArray(requests.data.vacancies));
 
-      dispatch(setCurrentRequesrArray(requests.data.vacancyRequests));
+      dispatch(setVacancies(requests.data.vacancies));
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export default deleteRequestItemThunk;
+export default deleteVacancyThunk;

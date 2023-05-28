@@ -167,7 +167,7 @@ const RequestVacancyPlate: FC<TRequestVacancyPlate> = ({
       <VacancCell>
         <Vacancy>{title}</Vacancy>
         <Span>{date}</Span>
-        {stats === StatusEnum.agreed && <PublishButton onClick={() => { console.log(id); setId(id); dispatch(getCurrentRequestsThunk(id)); navigate(`/publish/${id}`); }}>Опубликовать вакансию</PublishButton>}
+        {stats === StatusEnum.agreed && <PublishButton onClick={() => { setId(id); /* dispatch(getCurrentRequestsThunk(id)) */ navigate(`/publish/${id}`); }}>Опубликовать вакансию</PublishButton>}
       </VacancCell>
       <List>
         {divisions?.slice(0, 5).map((el, index) => (

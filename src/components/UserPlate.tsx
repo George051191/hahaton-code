@@ -40,10 +40,10 @@ color: #838A9D;
 `;
 
 const NamePlate: FC<{ name: string, role: string }> = ({ name, role }) => (
-    <Plate>
-        <UserName>{name}</UserName>
-        <NameSpan>{role}</NameSpan>
-    </Plate>
+  <Plate>
+    <UserName>{name}</UserName>
+    <NameSpan>{role}</NameSpan>
+  </Plate>
 );
 
 export default NamePlate;
