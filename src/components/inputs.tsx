@@ -529,18 +529,18 @@ const DropdownWithDelete: FC<TDropdownWithDelete> = ({
   );
 };
 
-const ColorDropdown: FC<{ colorsArray: string[], globalSet: React.Dispatch<React.SetStateAction<string>>, }> = ({ colorsArray, globalSet }) => {
-  const [currentColor, setColor] = useState('hsl(249.873417721519, 100%, 69.01960784313725%)');
+const ColorDropdown: FC<{ colorsArray: { selectorColor: string, bgColor: string, borderColor: string }[], globalSet: React.Dispatch<React.SetStateAction<{ selectorColor: string, bgColor: string, borderColor: string }>>, }> = ({ colorsArray, globalSet }) => {
+  const [currentColor, setColor] = useState({ selectorColor: '#F3F5F9', bgColor: '#F3F5F9', borderColor: '#B0B0B0' });
   const [isOpen, open] = useState(false);
 
   return (
     <ColorListButton type='button'>
-      <ColorStyleTemplate color={currentColor} />
+      <ColorStyleTemplate color={currentColor.selectorColor} />
       <ClearArrowIcon isActive={isOpen} onClick={() => open(!isOpen)} />
       {isOpen && (
         <ColorList>
           {colorsArray.map((item) => (
-            <ColorStyleTemplate color={item} onClick={() => { globalSet(item); setColor(item); }} />
+            <ColorStyleTemplate color={item.selectorColor} onClick={() => { globalSet(item); setColor(item); }} />
           ))}
         </ColorList>
       )}
