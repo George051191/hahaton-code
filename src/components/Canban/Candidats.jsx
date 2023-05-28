@@ -79,8 +79,7 @@ const DragAndDrop = () => {
     const itemToMove = currentContainerItems.find(
       (item) => itemId === item.id,
     );
-    console.log(newContainerItems);
-    console.log(itemToMove);
+
     if (newContainer === currentContainer) {
 
     } else {
