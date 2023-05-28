@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
@@ -187,7 +189,7 @@ const PublishingLayout: FC = () => {
   const {
     currentRequestData, timer, currentRequestId, approveStages,
   } = useSelector((state) => state.request);
-  const [formValues, setVolume] = useState({});
+  const [formValues, setVolume] = useState<{ [key: string]: any }>({});
   const navigate = useNavigate();
   const [possValue, setPossValue] = useState('');
   const [requrementValue, setReqValue] = useState('');
@@ -197,7 +199,7 @@ const PublishingLayout: FC = () => {
   const dispatch = useDispatch();
   const [date, setDate] = useState();
 
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState(0);
   const [salaryValue, setValue] = useState();
   const [publishRoute, setPublishRoute] = useState('');
   const arr = ['Главный офис', 'Офис на Красной 125', 'Офис город Москва'];

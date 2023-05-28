@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import axios from 'axios';
 import { batch } from 'react-redux';

@@ -64,7 +64,7 @@ const SidebarWithSettings: FC<TSideBar> = ({
           <DropdownWithDelete divisionArr={currentRequestData?.departments} title='Подразделение' forDivision />
           <DropdownWithDelete clientArr={currentRequestData?.customers} title='Заказчик' forClient />
           <InputForPositionSelect value={amount} onDecrease={onDecrease} onIncrease={onIncrease} title='Количество позиций' />
-          <BasicInput type='number' name='salary' salary title='Зарплата' value={salaryValue} onChange={(e) => setValue(e.target.value)} />
+          <BasicInput type='number' name='salary' salary title='Зарплата' value={salaryValue as unknown as string} onChange={(e) => setValue(e.target.value)} />
           <DropdownWithDelete mainArr={currentRequestData?.approvers} title='Согласующие лица' forMain />
         </ContentWrapper>
       </Sidebar>

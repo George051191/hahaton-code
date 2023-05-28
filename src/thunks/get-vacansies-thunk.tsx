@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import axios from 'axios';
@@ -14,7 +15,7 @@ const getAllVacanciesThunk: AppThunk = () => async (dispatch) => {
       },
     });
     dispatch(setCurrentVacancyArray(vacansies.data.vacancies));
-    dispatch(setVacancies(vacansies.data.vacancies))
+    dispatch(setVacancies(vacansies.data.vacancies));
   } catch (error) {
     console.log(error);
   }

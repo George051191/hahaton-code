@@ -43,5 +43,3 @@ export const {
 } = userAndOrgDataSlice.actions;
 
 export default allReducer;
-
-

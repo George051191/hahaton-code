@@ -39,7 +39,7 @@ const allRequests = createSlice({
     setAllRequests: (state, action: PayloadAction<TVacancyRequest[]>) => ({
       ...state, allVacanciesRequests: action.payload,
     }),
-    setStages: (state, action: PayloadAction<TApproveStage[]>) => ({
+    setStages: (state, action: PayloadAction<any>) => ({
       ...state, approveStages: action.payload,
     }),
     setVacancies: (state, action: PayloadAction<TVacancy[]>) => ({
@@ -84,7 +84,7 @@ export const {
   timer,
   setId,
   setprePublishVacancy,
-  setCurrentVacancyObject
+  setCurrentVacancyObject,
 } = allRequests.actions;
 
 export default requestReducer;

@@ -28,7 +28,7 @@ const resumes = createSlice({
 const resumesReducer = resumes.reducer;
 export const {
   setAllResumes,
-  setMappedData
+  setMappedData,
 } = resumes.actions;
 
 export default resumesReducer;

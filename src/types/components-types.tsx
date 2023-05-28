@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StyledComponent } from 'styled-components';
 import { TApprover, TCurrentUser, TDepartment } from './apiTypes';
 
@@ -91,18 +92,9 @@ export type TVacancyPlate = {
   id: number;
   forVacancy: boolean;
   candidats: number;
-}
+};
 
 export type TConstructor = {
-  levelsArray: {
-    action: string;
-    approvers: TApprover[];
-    bgColor: string;
-    border: string;
-    id: number;
-    isFinal: boolean;
-    template: string | null;
-    title: string;
-  }[];
+  levelsArray: any
 
 };

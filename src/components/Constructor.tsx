@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable max-len */
@@ -220,7 +221,7 @@ const OptionButton = styled.button`
 const Constructor: FC<TConstructor> = ({ levelsArray }) => {
   const dispatch = useDispatch();
   const [isOpen, open] = useState(false);
-  const [approveArr, pushToArr] = useState([]);
+  const [approveArr, pushToArr] = useState<Array<TApprover[] | []>>([]);
   const [current, setCurrent] = useState('');
   const actions = ['Звонок', 'Письмо', 'Письмо с датой'];
   const templates = ['Стартовое', 'Анкетирование', 'Певичное инет..', 'Оффер', 'ОнБординг', 'Отказ'];
@@ -236,21 +237,20 @@ const Constructor: FC<TConstructor> = ({ levelsArray }) => {
       const copy = [...approveArr];
       if (copy[index].find((w) => w.name === elem)) { return; }
       if (approveArr.length === 0) {
-        copy[index] = [approver];
+        copy[index] = [approver!];
         pushToArr(copy);
       } else {
         const modeArr = [...approveArr[index], approver];
 
-        copy[index] = modeArr;
-
+        copy[index] = modeArr as unknown as Array<TApprover>;
         pushToArr(copy);
       }
     }
   };
 
   const deleteStage = (id: number) => {
-    const filteredStageArr = levelsArray.filter((arrStageEl) => arrStageEl.id !== id);
-    dispatch(setStages(filteredStageArr));
+    const filteredStageArr = levelsArray.filter((arrStageEl:any) => arrStageEl.id !== id);
+    dispatch(setStages(filteredStageArr as unknown as TApproveStage[]));
   };
 
   useEffect(() => {
@@ -268,7 +268,7 @@ const Constructor: FC<TConstructor> = ({ levelsArray }) => {
         <TableHeaderItem>Шаблон</TableHeaderItem>
         <span />
       </TableHeader>
-      {levelsArray.map((el, indx) => (
+      {levelsArray.map((el:any, indx:any) => (
         <Grid border={el.border} bgColor={el.bgColor}>
           <Input>
             <ThreeIcon />
@@ -278,9 +278,9 @@ const Constructor: FC<TConstructor> = ({ levelsArray }) => {
           <Contributors>
             {/* это массив с бека */}
             {' '}
-            {approveArr[indx] && approveArr[indx].concat(el.approvers) && approveArr[indx].slice(0, 5).map((item, index) => (
+            {approveArr[indx] && approveArr[indx].concat(el.approvers as never) && approveArr[indx].slice(0, 5).map((item, index) => (
               <ListItem
-                key={item}
+                key={item.id}
                 pos={index}>
                 {getNumberInArray(indx, index, approveArr)}
               </ListItem>

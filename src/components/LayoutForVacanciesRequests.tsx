@@ -148,8 +148,8 @@ const LayoutForVacanciesRequests: FC<{ title: string }> = ({ title }) => {
       {currentVacanciesRequest?.map((item) => (
         <RequestVacancyPlate
           title={item.positionName}
-          salary={item.salary as number}
-          amount={item.positionCount as number}
+          salary={item.salary as unknown as number}
+          amount={item.positionCount as unknown as number}
           divisions={item.departments}
           coordinators={item.approvers}
           stats={switchStatus(item.status)}

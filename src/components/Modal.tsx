@@ -13,6 +13,7 @@ import {
 } from './inputs';
 import { useSelector, useDispatch } from '../store/store.type';
 import { setStages } from '../store/vacancyRequestsSlice';
+import { TApproveStage } from '../types/apiTypes';
 
 const ModalOverlay = styled.section`
     width: 100vw;
@@ -154,7 +155,7 @@ const Modal: FC<{ onClose: () => void }> = ({ onClose }) => {
       border: 'rgba(255, 231, 17, 1)',
       isFinal: false,
     };
-    dispatch(setStages([...approveStages, stageNew]));
+    dispatch(setStages([...approveStages!, stageNew]));
   };
 
   return ReactDOM.createPortal(
