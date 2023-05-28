@@ -89,7 +89,7 @@ export type TResumeData = {
   name: string;
   city: string;
   imageUrl: string;
-  howMuchDoesItFit: number;
+  rating: number;
   gender: string;
   age: number;
   specialization: string;

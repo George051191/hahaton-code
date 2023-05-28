@@ -102,7 +102,6 @@ const DragAndDrop = () => {
 
   useEffect(() => {
     dispatch(getAndSetDataToStandart(+(location.pathname.slice(11))));
-    setTimeout(() => setAppData(mappedData), 5000);
   }, [dispatch]);
 
   return (
@@ -258,7 +257,7 @@ const ColumnOptions = ({ isHovered }) => {
       </button>
       <div
         className={`column-options__option-panel column-options__option-panel--${isOpen ? 'active' : 'default'
-          }`}>
+        }`}>
         <button>Edit Column Name</button>
         <button>Add Item</button>
       </div>

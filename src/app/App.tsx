@@ -5,7 +5,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '../store/store.type';
 import Sidebar from '../components/SideBar';
-
+import LayoutForCurrentResume from '../components/LayoutForCurrentResume';
 import { linksArray } from '../services/constants/utils';
 import LayoutForCreateVacancy from '../components/LayoutForCreateVacancy';
 import LayoutForVacanciesRequests from '../components/LayoutForVacanciesRequests';
@@ -40,8 +40,7 @@ const App = () => {
       <Routes>
         <Route path='/vacancies' element={<VacancyLayout title='Вакансии' />} />
         <Route path='/candidats/:id' element={<DragAndDrop />} />
-        {/*   <Route path='/structure' element={<BasicLayout title='Структура' />} /> */}
-
+        <Route path='/candidats/page/:id' element={<LayoutForCurrentResume />} />
         <Route path='/create' element={<LayoutForCreateVacancy />} />
         <Route path='/analitics' element={<LayoutForVacanciesRequests title='Заявки на вакансию' />} />
         <Route path='/publish/:id' element={<PublishingLayout />} />

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-duplicates */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable no-plusplus */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -10,6 +11,7 @@ import { AppThunk } from '../store/store.type';
 import { baseUrl, token } from '../services/constants/api-constants';
 import { setMappedData } from '../store/resumeSlice';
 import { timer } from '../store/vacancyRequestsSlice';
+import { setAllResumes } from '../store/resumeSlice';
 
 const getAndSetDataToStandart: AppThunk = (id: number) => async (dispatch, getState) => {
   /*     const id = getState().request.currentRequestId;
@@ -26,7 +28,7 @@ const getAndSetDataToStandart: AppThunk = (id: number) => async (dispatch, getSt
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(resumes.data.resume);
+
     const bundle = {} as { [key: string]: any };
     const wholeStages = stages.data.stages;
 
@@ -43,6 +45,7 @@ const getAndSetDataToStandart: AppThunk = (id: number) => async (dispatch, getSt
       };
     }
     batch(() => {
+      dispatch(setAllResumes(resumes.data.resume));
       dispatch(setMappedData(bundle));
       dispatch(timer(true));
     });
