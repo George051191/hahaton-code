@@ -19,6 +19,14 @@ WE USE ON BACK:
 * PostgreSQL
 * pgAdmin
 
+DEPLOYMENT https://hahaton-code-gt94.vercel.app/
+
+
+
+
+
+
+
 
 
 
