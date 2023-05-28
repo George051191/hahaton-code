@@ -6,6 +6,7 @@ type TState = {
   allSystemUsers: TCurrentUser[] | null;
   allDepartments: TDepartment[] | null;
   stagePopupOpen: boolean;
+  canbanOpen: boolean;
 };
 
 const initialState: TState = {
@@ -13,6 +14,7 @@ const initialState: TState = {
   allDepartments: null,
   allSystemUsers: null,
   stagePopupOpen: false,
+  canbanOpen: false,
 };
 
 const userAndOrgDataSlice = createSlice({
@@ -31,6 +33,9 @@ const userAndOrgDataSlice = createSlice({
     openStagePopup: (state, action: PayloadAction<boolean>) => ({
       ...state, stagePopupOpen: action.payload,
     }),
+    openCanbanPopup: (state, action: PayloadAction<boolean>) => ({
+      ...state, canbanOpen: action.payload,
+    }),
   },
 });
 
@@ -40,6 +45,7 @@ export const {
   setAllSystemsUsers,
   setAllDepartments,
   openStagePopup,
+  openCanbanPopup,
 } = userAndOrgDataSlice.actions;
 
 export default allReducer;

@@ -13,9 +13,9 @@ import PublishingLayout from '../components/PublishingLayout';
 import getAllThunk from '../thunks/get-user-and-departments-thunk';
 import getAllRequestsThunk from '../thunks/get-request-thunk';
 import Modal from '../components/Modal';
-import { openStagePopup } from '../store/userAndOrganizationSlice';
+import { openStagePopup, openCanbanPopup } from '../store/userAndOrganizationSlice';
 import VacancyLayout from '../components/VacanciesLayout';
-
+import ModalForCanban from '../components/ModalForCanban';
 import DragAndDrop from '../components/Canban/Candidats';
 
 const MainLayout = styled.main`
@@ -29,7 +29,7 @@ const App = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { stagePopupOpen } = useSelector((state) => state.allBaseData);
+  const { stagePopupOpen, canbanOpen } = useSelector((state) => state.allBaseData);
   useEffect(() => {
     dispatch(getAllThunk());
     dispatch(getAllRequestsThunk());
@@ -47,6 +47,7 @@ const App = () => {
         <Route path='/publish/:id' element={<PublishingLayout />} />
       </Routes>
       {stagePopupOpen && <Modal onClose={() => dispatch(openStagePopup(false))} />}
+      {canbanOpen && <ModalForCanban onClose={() => dispatch(openCanbanPopup(false))} />}
     </MainLayout>
   );
 };

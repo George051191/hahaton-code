@@ -29,7 +29,7 @@ const initialState: TState = {
   timer: false,
   currentRequestId: null,
   prePublishVacancy: null,
-  currentVacancyObject: null,
+  currentVacancyObject: '',
 };
 
 const allRequests = createSlice({

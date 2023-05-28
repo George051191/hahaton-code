@@ -12,7 +12,7 @@ import deleteRequestItemThunk from '../thunks/delete-requets-thunk';
 import { useDispatch } from '../store/store.type';
 import getCurrentRequestsThunk from '../thunks/get-current-request-thunk';
 import deleteVacancyThunk from '../thunks/delete-vacancy-thunk';
-import { setCurrentVacancy, setId } from '../store/vacancyRequestsSlice';
+import { setCurrentVacancy, setCurrentVacancyObject, setId } from '../store/vacancyRequestsSlice';
 import getCurrentVacancyThunk from '../thunks/get-current-vacancy-thunk';
 
 const Wrapper = styled.div`
@@ -183,7 +183,7 @@ const VacancyPlate: FC<TVacancyPlate> = ({
           <Span style={{ color: 'rgba(255, 78, 88, 1)' }}>{daysInProgressStatus}</Span>
         </div>
 
-        {stats === StatusEnum.agreed && <PublishButton onClick={() => { setId(id); dispatch(setCurrentVacancy(title)); dispatch(getCurrentVacancyThunk(id)); navigate(`/candidats/${id}`); }}>Опубликовать вакансию</PublishButton>}
+        {stats === StatusEnum.agreed && <PublishButton onClick={() => { dispatch(setCurrentVacancyObject(id)); dispatch(setCurrentVacancy(title)); dispatch(getCurrentVacancyThunk(id)); navigate(`/candidats/${id}`); }}>Опубликовать вакансию</PublishButton>}
       </VacancCell>
       <Span>{candidats}</Span>
       <List>

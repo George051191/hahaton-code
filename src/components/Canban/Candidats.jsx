@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-console */
 /* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -18,11 +19,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useState, useEffect } from 'react';
 import './canban.css';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from '../../store/store.type';
 import getAndSetDataToStandart from '../../thunks/map-whole-data-thunk';
-import { openStagePopup } from '../../store/userAndOrganizationSlice';
-
+import { openStagePopup, openCanbanPopup } from '../../store/userAndOrganizationSlice';
+import { setEmail } from '../../store/resumeSlice';
+import { setCurrentVacancyObject } from '../../store/vacancyRequestsSlice';
 // const createNewItem = (name, status, id) => {
 //   class Item {
 //     constructor(itemName, itemStatus, itemId) {
@@ -160,7 +162,7 @@ const DropContainer = ({
 
   const dragDrop = (e) => {
     e.preventDefault();
-    dispatch(openStagePopup(true));
+    dispatch(openCanbanPopup(true));
     handleMoveItemToNewContainer(
       appData,
       containerKey,
@@ -169,9 +171,7 @@ const DropContainer = ({
       0,
     );
   };
-  useEffect(() => {
-    console.log(items);
-  }, [items]);
+
   return (
     <div className='column'>
       <div className='column__toolbar'>
@@ -193,7 +193,10 @@ const DropContainer = ({
               itemId={item.id}
               setItemId={setItemId}
               setCurrentContainer={setCurrentContainer}
-              currentContainerName={containerKey} />
+              currentContainerName={containerKey}
+              itemCity={item.city}
+              rating={item.rating}
+              mail={item.mail} />
           ))
           : 'Перенесите кандидата'}
       </ul>
@@ -208,19 +211,33 @@ const DraggableItem = ({
   currentContainerName,
   setCurrentContainer,
   setItemId,
+  itemCity,
+  rating,
+  mail,
 }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handlePrepForDrop = () => {
     setItemId(itemId);
     setCurrentContainer(currentContainerName);
   };
   return (
     <li
+      onClick={() => navigate(`/candidats/page/${itemId}`)}
       className={`draggable-item draggable-item--${status}`}
       draggable='true'
       onDragStart={() => {
         handlePrepForDrop();
-      }}>
+      }}
+      onDragEnter={() => { dispatch(setCurrentVacancyObject(itemId)); }}>
       <h3 className='draggable-item__name'>{itemName}</h3>
+      <span className='my-span'>
+        {itemCity}
+        <div className='my-div'>
+          {`${rating}%`}
+        </div>
+
+      </span>
     </li>
   );
 };
@@ -241,7 +258,7 @@ const ColumnOptions = ({ isHovered }) => {
       </button>
       <div
         className={`column-options__option-panel column-options__option-panel--${isOpen ? 'active' : 'default'
-        }`}>
+          }`}>
         <button>Edit Column Name</button>
         <button>Add Item</button>
       </div>

@@ -13,7 +13,7 @@
     height: calc(100% - 2rem);
     display: flex;
     flex-direction: column;
-    margin-left: 240px;
+    margin-left: 212px;
 }
 
 .drag-and-drop__header {
@@ -193,7 +193,34 @@
 .draggable-item__name {
     font-size: 1rem;
     padding: 1rem;
+    padding-bottom: 0;
     margin: 0rem;
     color: #001823;
     font-weight: 500;
+}
+
+.my-span {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    display: flex;
+    align-items: center;
+    /* Secondary Text (Light) */
+    color: rgba(27, 43, 65, 0.72);
+    padding-left: 1rem;
+    display: flex;
+}
+
+.my-div {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 56, 154, 1);
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
 }
