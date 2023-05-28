@@ -26,11 +26,11 @@ const getAndSetDataToStandart: AppThunk = (id: number) => async (dispatch, getSt
         Authorization: `Bearer ${token}`,
       },
     });
-    const bundle = {};
+    const bundle = {} as { [key:string]:any };
     const wholeStages = stages.data.stages;
 
     for (let i = 0; i < wholeStages.length; i++) {
-      const itemsArr = resumes.data.resume.map((el) => ({ itemName: el.name, status: 'ok', id: el.id }));
+      const itemsArr = resumes.data.resume.map((el:any) => ({ itemName: el.name, status: 'ok', id: el.id }));
       const container = `container${i + 1}`;
 
       bundle[`container${i + 1}`] = {

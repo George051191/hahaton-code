@@ -165,7 +165,7 @@ const VacancyLayout: FC<{ title: string }> = ({ title }) => {
             amount={item.positionAmount}
             approvers={item.approvers}
             responseMan={item.responseMan as TCurrentUser}
-            stats={switchStatus(item.status)}
+            stats={switchStatus(item.status as unknown as number)}
             dateOfExpire={item.dateOfExpire}
             daysInProgressStatus={item.daysInProgressStatus}
             candidats={item.candidats}

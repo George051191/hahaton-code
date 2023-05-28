@@ -117,7 +117,7 @@ const Sidebar: FC<TSidebar> = ({ linksArray }) => {
         </SideBarList>
         <AddButton onClick={() => navigate('/create')}>
           + Добавить
-          <NamePlate name={currentUser?.name} role={currentUser?.role} />
+          <NamePlate name={currentUser?.name as string} role={currentUser?.role as string} />
         </AddButton>
 
       </SidebarItemsList>
