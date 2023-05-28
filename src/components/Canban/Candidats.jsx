@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -63,7 +64,7 @@ const DragAndDrop = () => {
   const [runTest, setRunTest] = useState(false);
   const [currentContainer, setCurrentContainer] = useState(null);
   const [itemId, setItemId] = useState(null);
-
+  const [sec, setSec] = useState(0);
   const handleMoveItemToNewContainer = (
     currentState,
     newContainer,
@@ -90,22 +91,21 @@ const DragAndDrop = () => {
       newState[`container${currentContainer}`].items = [
         ...currentContainerItems.filter((item) => item.id !== itemId),
       ];
-      console.log(newState);
+
       setAppData(newState);
     }
   };
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    setAppData(mappedData);
-  }, [timer]);
 
   useEffect(() => {
     dispatch(getAndSetDataToStandart(+(location.pathname.slice(11))));
+    setTimeout(() => setAppData(mappedData), 5000);
   }, [dispatch]);
 
   return (
-    appData && (
+    mappedData && appData
+    && (
       <div className='drag-and-drop'>
 
         <div className='drag-and-drop__header'>
@@ -129,6 +129,7 @@ const DragAndDrop = () => {
         </div>
       </div>
     )
+
   );
 };
 
@@ -194,7 +195,7 @@ const DropContainer = ({
               setCurrentContainer={setCurrentContainer}
               currentContainerName={containerKey} />
           ))
-          : 'No items'}
+          : 'Перенесите кандидата'}
       </ul>
     </div>
   );
