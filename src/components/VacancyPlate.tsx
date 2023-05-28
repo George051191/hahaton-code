@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable ternary/no-unreachable */
 /* eslint-disable no-nested-ternary */
@@ -9,11 +11,12 @@ import { LinkIcon, EditVacancyIcon, GarbageIcon } from './icons';
 import { TRequestVacancyPlate, StatusEnum, TVacancyPlate } from '../types/components-types';
 import { getNumberOfRest } from '../services/constants/utils';
 import deleteRequestItemThunk from '../thunks/delete-requets-thunk';
-import { useDispatch } from '../store/store.type';
+import { useDispatch, useSelector } from '../store/store.type';
 import getCurrentRequestsThunk from '../thunks/get-current-request-thunk';
 import deleteVacancyThunk from '../thunks/delete-vacancy-thunk';
 import { setCurrentVacancy, setCurrentVacancyObject, setId } from '../store/vacancyRequestsSlice';
 import getCurrentVacancyThunk from '../thunks/get-current-vacancy-thunk';
+import postVacancyThunk from '../thunks/post-vacancy-thunk';
 
 const Wrapper = styled.div`
     max-width: 1025px;
@@ -174,6 +177,7 @@ const VacancyPlate: FC<TVacancyPlate> = ({
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { prePublishVacancy } = useSelector((state) => state.request);
   return (
     <Wrapper>
       <VacancCell>
@@ -183,7 +187,7 @@ const VacancyPlate: FC<TVacancyPlate> = ({
           <Span style={{ color: 'rgba(255, 78, 88, 1)' }}>{daysInProgressStatus}</Span>
         </div>
 
-        {stats === StatusEnum.agreed && <PublishButton onClick={() => { dispatch(setCurrentVacancyObject(id)); dispatch(setCurrentVacancy(title)); dispatch(getCurrentVacancyThunk(id)); navigate(`/candidats/${id}`); }}>Опубликовать вакансию</PublishButton>}
+        {stats === StatusEnum.agreed && <PublishButton onClick={() => { dispatch(setCurrentVacancyObject(id)); dispatch(setCurrentVacancy(title)); dispatch(getCurrentVacancyThunk(id)); navigate(`/candidats/${id}`); }}>Перейти</PublishButton>}
       </VacancCell>
       <Span>{candidats}</Span>
       <List>

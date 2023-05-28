@@ -30,7 +30,7 @@ export const linksArray = [
 
 export const getNumberOfRest = (index: number, array: any) => {
   if (array.includes(undefined)) { return; }
-  
+
   if (index === 4) {
     return `+${array.length - 4}`;
   }
@@ -41,11 +41,30 @@ export const getNumberOfRest = (index: number, array: any) => {
 
 export const getNumberInArray = (ind: number, index: number, array: any) => {
   if (array.includes(undefined)) { return; }
-  
+
   if (array[ind].length > 4 && index === 4) {
     return `+${array[ind].length - 4}`;
   }
 
   const Tab = array[ind][index].name.indexOf(' ');
   return array[ind][index].name[0] + array[ind][index].name[Tab + 1];
+};
+
+export const mapData = {
+  container1:
+    { name: 'Новый', key: 1, items: Array(10) },
+  container2:
+    { name: 'Анкетирование', key: 2, items: [] },
+  container3:
+    { name: 'Интервью с HR', key: 3, items: [] },
+  container4:
+    { name: 'Интервью с заказчиком', key: 4, items: [] },
+  container5:
+    { name: 'Интервью с командой', key: 5, items: [] },
+  container6:
+    { name: 'Оффер', key: 6, items: [] },
+  container7:
+    { name: 'Отказ', key: 7, items: [] },
+  container8:
+    { name: 'Вышел на работу', key: 8, items: [] },
 };

@@ -1,8 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { FC, useEffect } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from '../store/store.type';
+import { BasicInput, TextArea } from './inputs';
+import getVacancyThunk from '../thunks/get-vacancy-with-id';
 
 const Layout = styled.section`
     margin-left: 218px;
@@ -10,7 +15,7 @@ const Layout = styled.section`
     height: 100%;
     position: relative;
     display: flex;
-    flex-direction: column;
+   
  `;
 
 const ResumeColumn = styled.ul`
@@ -22,6 +27,7 @@ const ResumeColumn = styled.ul`
     list-style: none;
     margin: 0;
     padding: 0;
+    margin-left: 210px;
 `;
 
 const CurrentResumeColumn = styled.div`
@@ -29,10 +35,39 @@ const CurrentResumeColumn = styled.div`
     display: flex;
     flex-direction: column;
     gap: 30px;
-
+    & textarea {
+      width: 610px;
+    min-height: 225px;
+    }
 `;
 const NavBar = styled.div`
-    
+    display:flex ;
+    align-items: center;
+    gap: 20px;
+    margin-left: 10px;
+`;
+
+const Reserv = styled.button`
+  display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 8px 14px;
+cursor: pointer;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+
+width: 93px;
+height: 33px;
+border: none;
+outline: none;
+color: #FFFFFF;
+
+
+background: #FF4E58;
 `;
 
 const ColumnItem = styled.li`
@@ -87,15 +122,40 @@ const Status = styled.div`
     justify-content: center;
     border: 1px solid #008FFA;
 `;
+const Header1 = styled.h2`
+  font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 125%;
+/* identical to box height, or 20px */
+
+
+/* Text/Text Reg */
+
+color: #1C1C1C;
+`;
+
+const ColumnItem1 = styled.div`
+  width: 500px;
+  display: flex;
+    height: 56px;
+  border: none;
+    align-items: center;
+
+`;
 
 const LayoutForCurrentResume: FC = () => {
   const location = useLocation();
-  const { allResumes } = useSelector((state) => state.resume);
+  const dispatch = useDispatch();
+  const { allResumes, currentIdVacancy } = useSelector((state) => state.resume);
+
   useEffect(() => {
-    console.log(location.pathname.slice(16));
-  });
+    dispatch(getVacancyThunk(+location.pathname.slice(16)));
+  }, [dispatch]);
   return (
     <Layout>
+
       <ResumeColumn>
         {allResumes?.map((el) => (
           <ColumnItem>
@@ -107,6 +167,34 @@ const LayoutForCurrentResume: FC = () => {
           </ColumnItem>
         ))}
       </ResumeColumn>
+      <CurrentResumeColumn>
+        <NavBar>
+          {allResumes?.filter((el) => el.id === +location.pathname.slice(16)).map((el) => (
+            <>
+              <ColumnItem1>
+                <Wrapper>
+                  <Header1>{el.name}</Header1>
+                  <Span>{el.city}</Span>
+                </Wrapper>
+                <Status>{`${el.rating}%`}</Status>
+              </ColumnItem1>
+              <Reserv>Отказ</Reserv>
+            </>
+          ))}
+        </NavBar>
+
+        <TextArea value={`Мужчина, 28 лет, родился 9 октября 1995
+Москва, готова к переезду (Санкт-Петербург), не готов к командировкам
+Разработчик
+50 000 руб. на руки
+Специализации:
+Программист, разработчик
+Занятость: полная занятость, работа из дома
+График работы: полный день
+ `} />
+        <TextArea value='Фундаментальная математическая подготовка,Языки программирования: С, С++, Pascal, Assembler, Scheme;библиотеки:STL;Среды программирования: MS Visual Studio (6.0, .Net, 2005);CASE-средства: IBM Rationa Tau, Rational Rose, Borland Together Architect, Microsoft Visio;Язык визуального моделирования: UML;Базовые знания: Средство управления требованиями Telelogic DOORs, алгоритмы работы с графами, SQL (начальный уровень).Понимание концепций ООП и шаблонов проектирования.Личные качества:Быстрое и самостоятельное освоение новой информации.Умение работать на результат, принимать решения и нести за них ответственность.Желание постоянно повышать свой профессиональный уровень, аналитический склад ума.Хорошие коммуникативные навыки, стрессоустойчивость.' />
+
+      </CurrentResumeColumn>
     </Layout>
   );
 };

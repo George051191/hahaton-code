@@ -101,6 +101,10 @@ const DragAndDrop = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(mappedData);
+  });
+
+  useEffect(() => {
     dispatch(getAndSetDataToStandart(+(location.pathname.slice(11))));
   }, [dispatch]);
 

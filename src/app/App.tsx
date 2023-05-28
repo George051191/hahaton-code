@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable max-len */
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { FC, useEffect } from 'react';
@@ -17,6 +20,7 @@ import { openStagePopup, openCanbanPopup } from '../store/userAndOrganizationSli
 import VacancyLayout from '../components/VacanciesLayout';
 import ModalForCanban from '../components/ModalForCanban';
 import DragAndDrop from '../components/Canban/Candidats';
+import getAndSetDataToStandart from '../thunks/map-whole-data-thunk';
 
 const MainLayout = styled.main`
   width: 100%;
@@ -25,17 +29,39 @@ const MainLayout = styled.main`
   background-color:  ${({ theme: { bgColor } }) => bgColor};
 `;
 
+const MainViewHeader = styled.h2`
+  font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 40px;
+line-height: 125%;
+position: absolute;
+margin: 0;
+
+text-align: center;
+
+left: 56%;
+    text-align: center;
+    color: rgb(0, 57, 145);
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+
+`;
+
 const App = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
   const { stagePopupOpen, canbanOpen } = useSelector((state) => state.allBaseData);
   useEffect(() => {
+    dispatch(getAndSetDataToStandart(+(location.pathname.slice(11))));
     dispatch(getAllThunk());
     dispatch(getAllRequestsThunk());
   }, [dispatch]);
   return (
     <MainLayout>
+      {location.pathname === '/' && <MainViewHeader>Добро пожаловать в систему!Нажмите кнопку 'Добавить' для начала работы </MainViewHeader>}
       {location.pathname !== '/candidats' && <Sidebar linksArray={linksArray} />}
       <Routes>
         <Route path='/vacancies' element={<VacancyLayout title='Вакансии' />} />

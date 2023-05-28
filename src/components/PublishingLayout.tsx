@@ -27,6 +27,7 @@ import { setCurrentVacancy, setprePublishVacancy } from '../store/vacancyRequest
 import getCurrentRequestsThunk from '../thunks/get-current-request-thunk';
 import getAllStagesThunk from '../thunks/get-stages-thunk';
 import getStagesThunk from '../thunks/get-stages-for-vacancy-thunk';
+import postVacancyThunk from '../thunks/post-vacancy-thunk';
 
 const Layout = styled.section`
     margin-left: 294px;
@@ -186,6 +187,7 @@ const OptionButton = styled.button<{ direction: string }>`
 const PublishingLayout: FC = () => {
   const location = useLocation();
   const [stage, setStage] = useState<number>(1);
+  const { currentUser, allDepartments, allSystemUsers } = useSelector((state) => state.allBaseData);
   const {
     currentRequestData, timer, currentRequestId, approveStages,
   } = useSelector((state) => state.request);
@@ -276,29 +278,24 @@ const PublishingLayout: FC = () => {
       responsibilities: responsValue,
       requirements: requrementValue,
       comments: commentValue,
-      requestId: 0,
+      requestId: currentRequestId,
       deadline: formValues.deadline,
       salary: salaryValue,
       includeTaxes: true,
       visibility: true,
-      responseMan: {
-        id: 0, name: 'Георгий Александрович', shortName: 'Георгий', email: 'trubacheff_91@mail.ru',
-      },
-      departments: [{ id: 0, name: 'Отдел по...' }],
-      customers: [{
-        id: 0, name: 'Георгий Александрович', shortName: 'Георгий', email: 'trubacheff_91@mail.ru',
-      }],
-      approvers: [{
-        id: 0, name: 'Георгий Александрович', shortName: 'Георгий', email: 'trubacheff_91@mail.ru',
-      }, {
-        id: 1, name: 'Георгий Вахидович', shortName: 'Георгий', email: 'trubkdmvf_91@mail.ru',
-      }],
-      publicationSources: [{ id: 0, name: publishRoute }],
+      responseMan: currentUser,
+      departments: allDepartments,
+      customers: allSystemUsers,
+      approvers: allSystemUsers,
+      publicationSources: [{ id: 0, name: 'HH' }],
       skills: formValues.abilities,
       stages: approveStages,
     };
+    console.log(bigBundleOfData);
     dispatch(setprePublishVacancy(bigBundleOfData));
     dispatch(setCurrentVacancy(possValue));
+    dispatch(postVacancyThunk(bigBundleOfData));
+
     navigate('/vacancies');
   };
 

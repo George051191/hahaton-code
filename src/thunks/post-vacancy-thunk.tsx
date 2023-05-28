@@ -4,10 +4,8 @@ import { batch } from 'react-redux';
 import { AppThunk } from '../store/store.type';
 import { baseUrl, token } from '../services/constants/api-constants';
 
-const postVacancyThunk: AppThunk = () => async (dispatch, getState) => {
+const postVacancyThunk: AppThunk = (request: any) => async (dispatch, getState) => {
   try {
-    const request = getState().request.prePublishVacancy;
-    console.log(request);
     await axios.post(`${baseUrl}/api/vacancy`, request, {
       headers: {
         Authorization: `Bearer ${token}`,

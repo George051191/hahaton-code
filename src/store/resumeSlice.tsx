@@ -6,12 +6,14 @@ type TState = {
   allResumes: TResumeData[] | null;
   mappedData: any;
   emailCurrent: string | null;
+  currentIdVacancy: any;
 };
 
 const initialState: TState = {
   allResumes: null,
   mappedData: null,
   emailCurrent: null,
+  currentIdVacancy: null,
 };
 
 const resumes = createSlice({
@@ -27,6 +29,9 @@ const resumes = createSlice({
     setEmail: (state, action: PayloadAction<any>) => ({
       ...state, mappedData: action.payload,
     }),
+    setCurrentIdVacancy: (state, action: PayloadAction<any>) => ({
+      ...state, currentIdVacancy: action.payload,
+    }),
   },
 });
 
@@ -35,6 +40,7 @@ export const {
   setAllResumes,
   setMappedData,
   setEmail,
+  setCurrentIdVacancy,
 } = resumes.actions;
 
 export default resumesReducer;

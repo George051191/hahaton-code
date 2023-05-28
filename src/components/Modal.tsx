@@ -155,7 +155,7 @@ const Modal: FC<{ onClose: () => void }> = ({ onClose }) => {
   const addStage = (e: any) => {
     e.preventDefault();
     const stageNew = {
-      id: Math.random(),
+      id: Math.floor(Math.random() * 100),
       title: name,
       approvers: [],
       action: actionForForm,

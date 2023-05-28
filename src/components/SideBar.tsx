@@ -109,7 +109,7 @@ const Sidebar: FC<TSidebar> = ({ linksArray }) => {
       <SidebarItemsList>
         <SideBarList>
           {linksArray.map((el) => (
-            <SideBarItem key={el.title} onClick={() => navigate(el.path)}>
+            <SideBarItem key={el.title} onClick={() => { if (el.title === 'Кандидаты' || el.title === 'Орг. структура' || el.title === 'Настройки') { return; } navigate(el.path); }}>
               <el.icon isActive={location.pathname === el.urlName} />
               <ItemName isActive={location.pathname === el.urlName}>{el.title}</ItemName>
             </SideBarItem>

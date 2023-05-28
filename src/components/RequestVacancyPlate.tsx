@@ -199,13 +199,7 @@ const RequestVacancyPlate: FC<TRequestVacancyPlate> = ({
         {stats === StatusEnum.agreed ? 'В работе' : stats === StatusEnum.cancel ? 'Закрыта' : stats === StatusEnum.send ? 'Черновик' : 'На согласование'}
       </VacancyStatus>
       )}
-      <IconWrapper stats='grey'>
-        <LinkIcon />
-      </IconWrapper>
 
-      <IconWrapper stats='blue'>
-        <EditVacancyIcon />
-      </IconWrapper>
       <IconWrapper stats='red'>
         <GarbageIcon onClick={() => dispatch(deleteRequestItemThunk(id))} />
       </IconWrapper>
