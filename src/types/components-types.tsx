@@ -29,7 +29,7 @@ export type TDropdownWithDelete = {
   forAprove?: boolean;
   forClient?: boolean;
   forMain?: boolean;
-  approversArr?: TDepartment[] | TApprover[];
+  approversArr?: TDepartment[] | TApprover[] | TCurrentUser[];
   mainArr?: TDepartment[] | TApprover[];
   clientArr?: TDepartment[] | TApprover[];
   divisionArr?: TDepartment[] | TApprover[];

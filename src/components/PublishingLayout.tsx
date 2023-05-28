@@ -218,7 +218,7 @@ const PublishingLayout: FC = () => {
 
   useEffect(() => {
     dispatch(getCurrentRequestsThunk(location.pathname.slice(9)));
-    dispatch(getStagesThunk(location.pathname.slice(9)));
+    dispatch(getStagesThunk(0));
     // setPossValue(currentRequestData?.positionName);
     /* setReqValue(currentRequestData?.requirement);
     setRespValue(currentRequestData?.responsibilities);
@@ -341,20 +341,20 @@ const PublishingLayout: FC = () => {
               <BoxesHeader>Опыт работы</BoxesHeader>
               <ChecksPanel>
                 <CheckBoxContainer>
-                  <CheckBox name='work' id='base1' type='radio' />
-                  <InputTitle htmlFor='base1'>Начало карьеры</InputTitle>
+                  <CheckBox name='work' id='experience_0' type='radio' />
+                  <InputTitle htmlFor='experience_0'>Начало карьеры</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='work' id='base2' type='radio' />
-                  <InputTitle htmlFor='base2'>1-3 года</InputTitle>
+                  <CheckBox name='work' id='experience_1_3' type='radio' />
+                  <InputTitle htmlFor='experience_1_3'>1-3 года</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='work' id='base3' type='radio' />
-                  <InputTitle htmlFor='base3'>3-6 лет</InputTitle>
+                  <CheckBox name='work' id='experience_3_6' type='radio' />
+                  <InputTitle htmlFor='experience_3_6'>3-6 лет</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='work' id='base4' type='radio' />
-                  <InputTitle htmlFor='base4'>больше 6 лет</InputTitle>
+                  <CheckBox name='work' id='experience_7' type='radio' />
+                  <InputTitle htmlFor='experience_7'>больше 6 лет</InputTitle>
                 </CheckBoxContainer>
               </ChecksPanel>
             </BasicCheckBoxesConatiner>
@@ -362,24 +362,24 @@ const PublishingLayout: FC = () => {
               <BoxesHeader>Занятость</BoxesHeader>
               <ChecksPanel>
                 <CheckBoxContainer>
-                  <CheckBox name='full' id='base1' type='checkbox' />
-                  <InputTitle htmlFor='base1'>Полная занятость</InputTitle>
+                  <CheckBox name='full' id='employment_full' type='checkbox' />
+                  <InputTitle htmlFor='employment_full'>Полная занятость</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='partial' id='base2' type='checkbox' />
-                  <InputTitle htmlFor='base2'>Частичная занятость</InputTitle>
+                  <CheckBox name='partial' id='employment_partial' type='checkbox' />
+                  <InputTitle htmlFor='employment_partial'>Частичная занятость</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='permanent' id='base3' type='checkbox' />
-                  <InputTitle htmlFor='base3'>Проектная  / временная работа</InputTitle>
+                  <CheckBox name='permanent' id='employment_permanent' type='checkbox' />
+                  <InputTitle htmlFor='employment_permanent'>Проектная  / временная работа</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='volont' id='base4' type='checkbox' />
-                  <InputTitle htmlFor='base4'>Волонтерство</InputTitle>
+                  <CheckBox name='volont' id='employment_volont' type='checkbox' />
+                  <InputTitle htmlFor='employment_volont'>Волонтерство</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='intern' id='base5' type='checkbox' />
-                  <InputTitle htmlFor='base5'>Стажировка</InputTitle>
+                  <CheckBox name='intern' id='employment_intern' type='checkbox' />
+                  <InputTitle htmlFor='employment_intern'>Стажировка</InputTitle>
                 </CheckBoxContainer>
               </ChecksPanel>
             </BasicCheckBoxesConatiner>
@@ -387,24 +387,24 @@ const PublishingLayout: FC = () => {
               <BoxesHeader>График работы</BoxesHeader>
               <ChecksPanel>
                 <CheckBoxContainer>
-                  <CheckBox name='fullday' id='base1' type='checkbox' />
-                  <InputTitle htmlFor='base1'>Полный день</InputTitle>
+                  <CheckBox name='fullday' id='schedule_fullday' type='checkbox' />
+                  <InputTitle htmlFor='schedule_fullday'>Полный день</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='parts' id='base2' type='checkbox' />
-                  <InputTitle htmlFor='base2'>Сменный график</InputTitle>
+                  <CheckBox name='parts' id='schedule_parts' type='checkbox' />
+                  <InputTitle htmlFor='schedule_parts'>Сменный график</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='flex' id='base3' type='checkbox' />
-                  <InputTitle htmlFor='base3'>Гибкий график</InputTitle>
+                  <CheckBox name='flex' id='schedule_flex' type='checkbox' />
+                  <InputTitle htmlFor='schedule_flex'>Гибкий график</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='distance' id='base4' type='checkbox' />
-                  <InputTitle htmlFor='base4'>Удаленная работа</InputTitle>
+                  <CheckBox name='distance' id='schedule_distance' type='checkbox' />
+                  <InputTitle htmlFor='schedule_distance'>Удаленная работа</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='tour' id='base5' type='checkbox' />
-                  <InputTitle htmlFor='base5'>Вахтовый метод</InputTitle>
+                  <CheckBox name='tour' id='schedule_tour' type='checkbox' />
+                  <InputTitle htmlFor='schedule_tour'>Вахтовый метод</InputTitle>
                 </CheckBoxContainer>
               </ChecksPanel>
             </BasicCheckBoxesConatiner>
@@ -413,12 +413,12 @@ const PublishingLayout: FC = () => {
               <BoxesHeader>Контактная информация</BoxesHeader>
               <ChecksPanel>
                 <CheckBoxContainer>
-                  <CheckBox name='set' id='base1' type='radio' />
-                  <InputTitle htmlFor='base1'>Не указывать</InputTitle>
+                  <CheckBox name='set' id='contact_hide' type='radio' />
+                  <InputTitle htmlFor='contact_hide'>Не указывать</InputTitle>
                 </CheckBoxContainer>
                 <CheckBoxContainer>
-                  <CheckBox name='set' id='base2' type='radio' />
-                  <InputTitle htmlFor='base2'>Указывать</InputTitle>
+                  <CheckBox name='set' id='contact_visible' type='radio' />
+                  <InputTitle htmlFor='contact_visible'>Указывать</InputTitle>
                 </CheckBoxContainer>
               </ChecksPanel>
             </BasicCheckBoxesConatiner>

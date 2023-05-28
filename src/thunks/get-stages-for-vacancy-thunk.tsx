@@ -10,17 +10,16 @@ import { setStages } from '../store/vacancyRequestsSlice';
 
 const getStagesThunk: AppThunk = (id: number) => async (dispatch) => {
   try {
-    const stages = id == 23 || id == 19 ? await axios.get(`${baseUrl}/api/stages/all/`, {
+    let url = `${baseUrl}/api/stages/all`;
+    if (id != 0) {
+      url = `${url}/api/stages/all/${id}`;
+    }
+
+    const stages = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
-
-      : await axios.get(`${baseUrl}/api/stages/all/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    });
     dispatch(setStages(stages.data.stages));
   } catch (error) {
     console.log(error);

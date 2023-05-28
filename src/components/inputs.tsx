@@ -24,7 +24,7 @@ import {
   ArrowIcon, DeleteIcon, PlusIcon, MinusIcon, ClockIcon, ClearArrowIcon,
 } from './icons';
 import { getNumberOfRest } from '../services/constants/utils';
-import { TApprover, TDepartment } from '../types/apiTypes';
+import { TApprover, TCurrentUser, TDepartment } from '../types/apiTypes';
 
 const Input = styled.input`
 border: none;
@@ -483,7 +483,7 @@ const DropdownWithDelete: FC<TDropdownWithDelete> = ({
   const [isOpen, setOpen] = useState(false);
   const [division, setDivision] = useState<null | never | TDepartment[]>(divisionArr!);
   const [client, setClient] = useState<null | never | TApprover[] | TDepartment[]>(clientArr!);
-  const [approvers, setApprovers] = useState<null | never | TApprover[] | TDepartment[]>(approversArr!);
+  const [approvers, setApprovers] = useState<null | never | TApprover[] | TDepartment[] | TCurrentUser[]>(approversArr!);
   const [main, setMain] = useState<null | never | TApprover[] | TDepartment[]>(mainArr!);
 
   const setCurrentArr = () => {
