@@ -130,7 +130,7 @@ const Modal: FC<{ onClose: () => void }> = ({ onClose }) => {
   const [actionForForm, setAction] = useState<string>('');
   const [templateForForm, setTemplate] = useState<string>('');
   const [name, setName] = useState<string>('');
-  const [color, setColorFor] = useState<string>('');
+  const [color, setColorFor] = useState<{ selectorColor: string, bgColor: string, borderColor: string }>({ selectorColor: '#F3F5F9', bgColor: '#F3F5F9', borderColor: '#B0B0B0' });
   const [value, setValue] = useState<string>('Уважаемый  [Имя Фамилия] приглашаем на нашу вакансию [Название вакансии]');
   const [modalValue, setModalValue] = useState<string>(`Приглашаем на вакансию [Название вакансии]
   
@@ -141,7 +141,16 @@ const Modal: FC<{ onClose: () => void }> = ({ onClose }) => {
   Когда вам было бы удобно пообщаться с руководителем проекта?
   Какие у вас зарплатные ожидания?`);
   const templates = ['Стартовое', 'Анкетирование', 'Певичное инет..', 'Оффер', 'ОнБординг', 'Отказ'];
-  const colorShema = ['#483f72', '#7B61FF1A', '#008FFA1A', '#FFDA151A', '#0788361A', '#FF4E580D'];
+  const colorShema = [
+    { selectorColor: '#F3F5F9', bgColor: '#F3F5F9', borderColor: '#B0B0B0' },
+    { selectorColor: 'rgba(123, 97, 255, 0.5)', bgColor: 'rgba(123, 97, 255, 0.1)', borderColor: '#7B61FF' },
+    { selectorColor: 'rgba(0, 56, 154, 0.5)', bgColor: 'rgba(0, 56, 154, 0.1)', borderColor: '#00389A' },
+    { selectorColor: 'rgba(0, 143, 250, 0.5)', bgColor: 'rgba(0, 143, 250, 0.1)', borderColor: '#008FFA' },
+    { selectorColor: 'rgba(231, 90, 217, 0.5)', bgColor: 'rgba(231, 90, 217, 0.1)', borderColor: '#E75AD9' },
+    { selectorColor: 'rgba(255, 218, 21, 0.5)', bgColor: 'rgba(255, 218, 21, 0.1)', borderColor: '#FFDA15' },
+    { selectorColor: 'rgba(255, 78, 88, 0.5)', bgColor: 'rgba(255, 78, 88, 0.05)', borderColor: '#FF4E58' },
+    { selectorColor: 'rgba(7, 136, 54, 0.5)', bgColor: 'rgba(7, 136, 54, 0.1)', borderColor: '#078836' },
+  ];
 
   const addStage = (e: any) => {
     e.preventDefault();
@@ -151,8 +160,8 @@ const Modal: FC<{ onClose: () => void }> = ({ onClose }) => {
       approvers: [],
       action: actionForForm,
       template: templateForForm,
-      bgColor: color,
-      border: 'rgba(255, 231, 17, 1)',
+      bgColor: color.bgColor,
+      border: color.borderColor,
       isFinal: false,
     };
     dispatch(setStages([...approveStages!, stageNew]));

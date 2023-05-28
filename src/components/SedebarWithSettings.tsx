@@ -52,6 +52,7 @@ const SidebarWithSettings: FC<TSideBar> = ({
   date, setDate, setAmount, setValue, amount, salaryValue, onDecrease, onIncrease,
 }) => {
   const { currentRequestData, currentRequestId } = useSelector((state) => state.request);
+  const { currentUser } = useSelector((state) => state.allBaseData);
   const dispatch = useDispatch();
 
   return (
@@ -59,7 +60,7 @@ const SidebarWithSettings: FC<TSideBar> = ({
     && (
       <Sidebar>
         <ContentWrapper>
-          <DropdownWithDelete approversArr={currentRequestData?.approvers} title='Ответственные сотрудники ' forAprove />
+          <DropdownWithDelete approversArr={[currentUser!]} title='Ответственные сотрудники ' forAprove />
           <InputWithDate title='Дата закрытия вакансии' value={date} onClick={(e) => setDate(e.target.value)} />
           <DropdownWithDelete divisionArr={currentRequestData?.departments} title='Подразделение' forDivision />
           <DropdownWithDelete clientArr={currentRequestData?.customers} title='Заказчик' forClient />

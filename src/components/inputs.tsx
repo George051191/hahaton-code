@@ -24,7 +24,7 @@ import {
   ArrowIcon, DeleteIcon, PlusIcon, MinusIcon, ClockIcon, ClearArrowIcon,
 } from './icons';
 import { getNumberOfRest } from '../services/constants/utils';
-import { TApprover, TDepartment } from '../types/apiTypes';
+import { TApprover, TCurrentUser, TDepartment } from '../types/apiTypes';
 
 const Input = styled.input`
 border: none;
@@ -483,7 +483,7 @@ const DropdownWithDelete: FC<TDropdownWithDelete> = ({
   const [isOpen, setOpen] = useState(false);
   const [division, setDivision] = useState<null | never | TDepartment[]>(divisionArr!);
   const [client, setClient] = useState<null | never | TApprover[] | TDepartment[]>(clientArr!);
-  const [approvers, setApprovers] = useState<null | never | TApprover[] | TDepartment[]>(approversArr!);
+  const [approvers, setApprovers] = useState<null | never | TApprover[] | TDepartment[] | TCurrentUser[]>(approversArr!);
   const [main, setMain] = useState<null | never | TApprover[] | TDepartment[]>(mainArr!);
 
   const setCurrentArr = () => {
@@ -529,18 +529,18 @@ const DropdownWithDelete: FC<TDropdownWithDelete> = ({
   );
 };
 
-const ColorDropdown: FC<{ colorsArray: string[], globalSet: React.Dispatch<React.SetStateAction<string>>, }> = ({ colorsArray, globalSet }) => {
-  const [currentColor, setColor] = useState('hsl(249.873417721519, 100%, 69.01960784313725%)');
+const ColorDropdown: FC<{ colorsArray: { selectorColor: string, bgColor: string, borderColor: string }[], globalSet: React.Dispatch<React.SetStateAction<{ selectorColor: string, bgColor: string, borderColor: string }>>, }> = ({ colorsArray, globalSet }) => {
+  const [currentColor, setColor] = useState({ selectorColor: '#F3F5F9', bgColor: '#F3F5F9', borderColor: '#B0B0B0' });
   const [isOpen, open] = useState(false);
 
   return (
     <ColorListButton type='button'>
-      <ColorStyleTemplate color={currentColor} />
+      <ColorStyleTemplate color={currentColor.selectorColor} />
       <ClearArrowIcon isActive={isOpen} onClick={() => open(!isOpen)} />
       {isOpen && (
         <ColorList>
           {colorsArray.map((item) => (
-            <ColorStyleTemplate color={item} onClick={() => { globalSet(item); setColor(item); }} />
+            <ColorStyleTemplate color={item.selectorColor} onClick={() => { globalSet(item); setColor(item); }} />
           ))}
         </ColorList>
       )}
