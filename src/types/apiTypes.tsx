@@ -54,9 +54,9 @@ export type TRequestForPost = {
   salaryType?: string;
   departmentId: 0;
   responsibilities: string;
-  requirement: string;
+  requirements: string;
   comments: string;
-  customers: TCurrentUser[];
+  customers: TApprover[];
   templateId?: 0;
   status: 1;
 
