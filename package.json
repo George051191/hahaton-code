@@ -3,8 +3,13 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@chakra-ui/react": "^2.6.1",
+        "@dnd-kit/core": "^6.0.5",
+        "@emotion/react": "^11.11.0",
+        "@emotion/styled": "^11.11.0",
         "@reduxjs/toolkit": "^1.8.1",
         "axios": "^0.27.2",
+        "framer-motion": "^3.10.6",
         "history": "^4.6.3",
         "marked": "^0.3.6",
         "prop-types": "^15.5.10",
@@ -20,11 +25,7 @@
         "redux-thunk": "^2.4.1",
         "styled-components": "^5.3.5",
         "styled-normalize": "^8.0.7",
-        "styled-theming": "^2.2.0",
-        "@dnd-kit/core": "^6.0.5",
-        "@emotion/react": "^11.0.0",
-        "@emotion/styled": "^11.0.0",
-        "@chakra-ui/react": "^2.3.5"
+        "styled-theming": "^2.2.0"
     },
     "devDependencies": {
         "@types/jest": "^27.4.1",

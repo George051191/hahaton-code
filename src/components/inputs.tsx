@@ -360,9 +360,7 @@ const InputWithDate: FC<TInputWithDate> = ({ title, value, onClick }) => {
   return (
     <InputWrapper>
       <InputTitle htmlFor='base'>{title}</InputTitle>
-      <ClockIcon />
       <InputCalendar value={value} placeholder='' type='date' onChange={onClick} />
-
     </InputWrapper>
   );
 };
@@ -569,13 +567,13 @@ const Dropdown: FC<{
         <ClearArrowIcon isActive={isOpen} onClick={() => setOpen(!isOpen)} />
         {division || value}
         {isOpen
-            && (
-              <DropdownList>
-                {items.map((el) => (
-                  <DropdownListPlaceItem onClick={() => { globalSet(el); setDivision(el); }}>{el}</DropdownListPlaceItem>
-                ))}
-              </DropdownList>
-            )}
+          && (
+            <DropdownList>
+              {items.map((el) => (
+                <DropdownListPlaceItem onClick={() => { globalSet(el); setDivision(el); }}>{el}</DropdownListPlaceItem>
+              ))}
+            </DropdownList>
+          )}
       </DropdownButton>
     </DropdownBox>
   );

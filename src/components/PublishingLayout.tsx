@@ -422,8 +422,8 @@ const PublishingLayout: FC = () => {
                 </CheckBoxContainer>
               </ChecksPanel>
             </BasicCheckBoxesConatiner>
-            <TextArea onChange={(e) => setRespValue(e.target.value)} value={responsValue || currentRequestData?.responsibilities} name='responsibilities ' title='Обязанности кандидата' />
-            <TextArea onChange={(e) => setReqValue(e.target.value)} value={requrementValue || currentRequestData?.requirement} name='requirement' title='Требования к кандидату' />
+            <TextArea onChange={(e) => setRespValue(e.target.value)} value={responsValue || currentRequestData?.responsibilities} name='responsibilities' title='Обязанности кандидата' />
+            <TextArea onChange={(e) => setReqValue(e.target.value)} value={requrementValue || currentRequestData?.requirements} name='requirements' title='Требования к кандидату' />
             <TextArea onChange={(e) => setComments(e.target.value)} value={commentValue || currentRequestData?.comments} name='comments' title='Комментарии' />
 
           </Form>

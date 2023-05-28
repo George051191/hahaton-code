@@ -172,7 +172,13 @@ const LayoutForCreateVacancy: FC = () => {
 
   const gotTOPublish = () => {
     if (stage === 2) {
-      dispatch(setCurrentRequest({ ...formValues, customers: [currentUser] } as TRequestForPost))
+      dispatch(
+        setCurrentRequest({
+          ...formValues,
+          customers: addedNames,
+          positionCount: amount,
+        } as TRequestForPost),
+      )
       dispatch(postRequestsThunk())
 
       navigate('/analitics')
@@ -281,7 +287,7 @@ const LayoutForCreateVacancy: FC = () => {
                 deleteItem={deleteIteminNames} />
             </Fieldset>
             <Fieldset>
-              <Legend>Дополнительно оповещать</Legend>
+              <Legend>Заказчик</Legend>
               <InputWithSelect
                 title='Сотрудники'
                 dataArray={addedNames}
@@ -303,9 +309,9 @@ const LayoutForCreateVacancy: FC = () => {
           && (
             <Form>
               <BasicInput onChange={(e) => addToVacancy(e)} name='template' type='text' title='Шаблон заявки(не обязательно)' />
-              <BasicInput onChange={(e) => addToVacancy(e)} name='salary' salary type='number' title='Зарплата' />
-              <TextArea onChange={(e) => addToVacancy(e)} name='responsibilities ' title='Обязанности кандидата' />
-              <TextArea onChange={(e) => addToVacancy(e)} name='requirement' title='Требования к кандидату' />
+              <BasicInput onChange={(e) => addToVacancy(e)} name='salary' type='number' title='Зарплата' />
+              <TextArea onChange={(e) => addToVacancy(e)} name='responsibilities' title='Обязанности кандидата' />
+              <TextArea onChange={(e) => addToVacancy(e)} name='requirements' title='Требования к кандидату' />
               <TextArea onChange={(e) => addToVacancy(e)} name='comments' title='Комментарии' />
               <ButtonsContainer>
                 <OptionButton onClick={() => setStage(1)} disabled={stage <= 1} type='button' direction={stage <= 1 ? '' : 'Back'}>Назад</OptionButton>
